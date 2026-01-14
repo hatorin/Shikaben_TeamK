@@ -1,0 +1,367 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2TKTF90HZ0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-2TKTF90HZ0');
+</script>
+<meta name="viewport" content="width=960,user-scalable=yes">
+<link rel="alternate" media="only screen and (max-width:640px)" href="https://www.fe-siken.com/s/doujouManual.html">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+  <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+<title>過去問道場の使い方・各機能について｜基本情報技術者試験.com</title>
+<style>
+#userBtn{margin:0 5px}
+#userBtn::after{content:"ログイン・ユーザー登録"}
+</style>
+</head>
+<body>
+
+<script>
+if (typeof localStorage !== undefined) {
+const theme = localStorage.getItem('NIGHT') || localStorage.getItem('NIGHTMODE') || 0;
+if (theme == 1) document.body.className += ' night';
+if (theme == 2) document.body.className += ' beige';
+}
+</script>
+
+<!-- HEADER START -->
+<header id="headerWrap" class="centeringBox">
+<div id="header" class="centeringContent">
+<h1>基本情報技術者 試験情報＆徹底解説 -新制度に完全対応-</h1>
+<a href="/"><img src="/img/titlelogo.png" width="500" height="66" id="logo" alt="基本情報技術者試験ドットコム" title="基本情報技術者試験ドットコム トップページ"></a>
+<div id="countdown"></div>
+</div>
+
+<nav id="headerMenuWrap" class="centeringBox">
+<div id="headerMenu" class="centeringContent">
+<ul>
+<li id="fastMenuBtn"><a href="/kakomon/07_haru/" title="過去問題解説">過去問題解説</a>
+<li><a href="/feis.html" title="基本情報技術者とは">基本情報技術者とは</a>
+<li><a href="/fekakomon.php" title="Webアプリ過去問道場">過去問道場</a><ul><li><a href="/fekakomon.php">過去問道場（科目A）</a><li><a href="/fekakomon_pm.php">過去問道場（旧・午後試験）</a></ul>
+<li><a href="/febbs.php" title="基本情報技術者掲示板">掲示板</a>
+<li><a href="/keyword/" title="シラバス用語集">用語集</a>
+</ul>
+</div>
+</nav>
+</header>
+<!-- HEADER END -->
+
+<!-- CONTENT START -->
+<div id="contentWrap" class="centeringBox">
+<div id="content" class="centeringContent">
+<!-- MAINCOL START -->
+<main id="mainCol">
+<div class="pan"><a href="/">HOME</a>&raquo;<strong>過去問道場の各機能について</strong></div>
+<div class="main doujou">
+<h2>過去問道場の利用方法</h2>
+
+	<div class="wrap">
+<style>
+.roundBox dd{margin-bottom:20px}
+.roundBox dt::before{content:"-"}
+.night .roundBox img{filter:none}
+#userBtn, #register{position:static}
+#register{padding:1px 3px;margin:0 5px}
+</style>
+	<div class="roundBox sentence">
+<p>過去問道場は、情報処理技術者試験の過去問題を反復練習できるWebサービスです。科目A問題はおよそ半数が過去問の流用という傾向があるので、過去問題を繰り返し解いて、解説を理解することが科目A試験突破の近道です。科目B問題については各年度の一覧ページからアクセスしてください。</p>
+	</div>
+	
+	<h3>出題モード</h3>
+	<div class="roundBox sentence">
+<p>3つの出題モードからお好みのモードを選択して学習することができます。</p>
+<dl>
+<dt>開催回指定</dt>
+<dd>選択した試験回の中からランダムな順番で出題するモードです。</dd>
+<dt>分野指定</dt>
+<dd>IPAが公開しているシラバス内で分類されている"23"の小分類の中からお好きな分野を組み合わせて出題するモードです。異なる試験回における同題は可能な限り除外してあるので、同じ問題や類題を省いて学習することができます。選択した分野を試験回で絞り込むことも可能です。たとえば、平成21年以後のネットワーク／データベース問題といった範囲指定が可能になります。</dd>
+<dt>模擬試験</dt>
+<dd>1つの試験回を指定して問1から順番に出題するモードです。"オリジナル模擬試験"を選択すると、実際の試験の出題割合・出題順序に準じて、当サイトの全収録問題から構成された模擬試験を解くことができます。全問題の終了後には自動で成績が表示されます。"半分の問題数で実施する"にチェックを入れると問題数が半分（元の問題数が80問であれば40問）で構成された模擬試験になります。<br>※<em class="m">模擬試験モードは、過去問道場のスタート画面からのみ実施可能です</em>。</dd>
+<dt>今回の見直し</dt>
+<dd>今回（現在のセッション内）の出題中で不正解だった問題のみを出題する機能です。本日解いた問題の見直しをしたいときや、アカウントにログインしていない状態での簡便な復習機能として利用することができます。<br>※<em class="m">見直しタブは、過去問道場の1問目以降の出題設定に表示されます</em>。</dd>
+</dl>
+	</div>
+
+	<h3>出題オプション</h3>
+	<div class="roundBox sentence">
+<p>オプションを指定することで、出題される問題の制限や選択肢を並べ替えた出題が可能です。</p>
+<dl>
+<dt>選択肢をランダムに並び替える</dt>
+<dd>ア～エの選択肢の並びをシャッフルする機能です。並び替えに応じて解説文中のア～エも適切に入れ替わるようになっています。</dd>
+<dt>解説がない問題を出題しない</dt>
+<dd>解説が作成されていない問題の出題を除外する機能です。</dd>
+<dt>計算問題を出題しない(β版)</dt>
+<dd>計算問題の出題を除外する機能です。※計算問題に使われる記号などをプログラムで検出してリスト化しているため、完全に除外できる保証はありません。</dd>
+<dt>計算問題のみ出題する(β版)</dt>
+<dd>上記のオプションとは逆に、指定範囲内に含まれる計算問題だけを出題する機能です。※完全に計算問題だけという保証はありません。</dd>
+</dl>
+	</div>
+
+	<h3>学習履歴の管理機能</h3>
+	<div class="roundBox sentence">
+<p>アカウントの作成は任意となっていますが、作成（無料）していただくことにより、ログイン状態で解いた問題データが学習履歴としてサーバに自動で保存されます。この学習履歴データを利用して、次の機能を利用することができるようになります。</p>
+<div class="img_margin"><img src="/img/doujou_login.png" width="302" height="351" alt="学習履歴メニュー"></a></div>
+<dl>
+<dt>復習を開始</dt>
+<dd>学習履歴全体の中から直前1回の出題が不正解の問題のみを出題する機能です。上記の網羅度レポートで<i class="rank1"></i><i class="rank0"></i>の問題がこの機能で出題される問題になります。また色グループごとに問題を復習できます。</dd>
+<dt>未回答を出題する</dt>
+<dd>学習履歴全体の中から回答歴のない問題のみを抽出して出題します。主に重複出題を避けたい方や網羅度100%を目指す方に適した機能です。</dd>
+<dt>チェック状態</dt>
+<dd><span class="check1 checkG checked">&#10003;</span> <span class="check2 checkY checked">&#10003;</span> <span class="check3 checkP checked">&#10003;</span>の3色のチェック状態の閲覧、編集ができます。またチェックグループごとに問題を復習できます。</dd>
+<dt>学習履歴</dt>
+<dd>学習履歴データを学習回ごとに閲覧できる機能です。回ごとに加えて月ごとに集計した「月間合計」や、全データを集計した「総計」を見ることも可能です。</dd>
+<dt>達成度</dt>
+<dd>収録されている問題全体における解いた問題の数とその割合(網羅度…％)で確認できる機能です。正誤履歴の集計結果から問題ごとの理解度の目安となる<i class="rank3"></i><i class="rank2"></i><i class="rank1"></i><i class="rank0"></i>の4色のアイコンが表示されます。</dd>
+<dt>試験ごとの成績</dt>
+<dd>学習履歴を試験毎に集計した結果を見ることができます。各問題の正解率を色分けして表示します。</dd>
+<dt>アカウント管理</dt>
+<dd>パスワードの変更、メールアドレスの登録、学習履歴の初期化、自動バックアップからの復元、アカウントの削除が行えます。また本サービスのモチーフとなっている「道場」にちなみ現在の段位を確認できる画面があります。</dd>
+</dl>
+<p>また、ログイン状態でスタートページにアクセスすると、直前の履歴データに基づき [続きから再開] ボタンが表示されるようになります。これをクリックすることで、直前の学習状態を引き継いで学習を再開することができます。</p>
+	</div>
+	
+	<h3>アカウントの作成手順</h3>
+	<div class="roundBox sentence">
+<ol>
+<li>まず「○○過去問道場」という見出しの右側にある<button id="userBtn"><i class="user"></i></button>のボタンを押します。
+<li>以下の登録フォームがポップアップ表示されるので、その中の<span id="register">＋新規登録</span>というテキストリンクをクリックします。
+<div class="img_margin"><img src="/img/doujou_register.png" width="302" height="348" alt="ユーザー登録"></div>
+<li>登録フォームがモーダル表示されるので、ご希望のユーザーIDとパスワードの組を入力して登録ボタンを押します。
+<li>「ユーザー登録が完了しました」というメッセージが表示され、パネル内の表示が学習履歴メニューに切り替わったらアカウント作成の成功です。
+</ol>
+	</div>
+
+	<h3>パスワードリセットについて</h3>
+	<div class="roundBox sentence">
+<p>パスワードを失念してしまった場合、パスワードリセット機能を利用して新しいパスワードに変更できるようになっています。パスワードリセットは、ログインパネルの下隅にある「パスワードをお忘れの場合」というテキストリンクから行えるようになっています。<br>
+ただし、この機能の利用には登録済メールアドレスが必要になりますので、万が一に備えて、<u>事前にアカウント管理メニューからメールアドレスを登録しておくことをおすすめします</u>。</p>
+	</div>
+
+	<h3>解説が表示されない場合</h3>
+	<div class="roundBox sentence">
+<p>過去問道場(PC版、スマホ版)では、広告ブロックのプラグイン等を使用している場合に解説部分が広告と一緒に非表示になる仕組みを取り入れているため、それが影響している可能性があります。その場合はユーザの責任において「該当するプラグインを無効化する」、「当サイトをホワイトリストに追加する」などの措置をとっていただくことで解説が表示されるようになります。<br>
+広告が学習の妨げになってしまうことは重々承知しておりますが、民放のテレビ番組とテレビCMがセットであるように、無償で提供できるサイト運営を継続するためには広告が必要不可欠な存在です。興味のない広告の閲覧は多くのユーザにとって負担となりますが、管理人としては、この負担はユーザ間に均等に分配されるべきと考えています。<br>
+この措置は、負担の公平性を保ち、サイト運営を健全に継続していくための措置であることをご理解くださいますようお願い申し上げます。<br><br>
+※プラグインを入れていないのに解説が非表示になってしまう場合には、クッキーのブロック、セキュリティソフトによるブロック、プロキシによるブロックなどが考えられます。そちらの設定も合わせてご確認ください。</p>
+<div class="img_margin"><a href="fekakomon.php"><button>過去問道場トップに戻る</button></a></div>
+	</div>
+	
+	</div> <!-- wrap -->
+</div>
+</main>
+<!-- MAINCOL END -->
+
+<!-- 300x250 FE -->
+<ins class="adsbygoogle"
+style="display:inline-block;width:300px;height:250px"
+data-ad-client="ca-pub-5061380080248584"
+data-ad-slot="1150525782"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+</div>
+</nav>
+<!-- SIDECOL END -->
+</div>
+</div>
+<!-- CONTENT END -->
+
+<!-- FOOTER START -->
+<footer id="footerWrap" class="centeringBox">
+<div id="footer" class="centeringContent">
+<div class="displaySelect"><span>表示： <b>PC</b> ｜ <a href="/s/doujouManual.html">モバイル</a></span></div>
+<nav class="footerContent">
+<a href="/thissiteis.html">利用規約</a>
+<a href="/privacypolicy.html">プライバシーポリシー</a>
+<a href="/tokushouhou.html">特商法に基づく表記</a>
+<a href="/contact.html">お問い合わせ</a>
+<a href="/config.html">表示設定</a>
+<br>
+<a href="/sitemap.html">サイトマップ</a>
+<a href="/link.html">リンク</a>
+<a href="/ads.html">広告の掲載について</a>
+<a href="/contact_faq.html">よくある質問（FAQ）</a>
+</nav>
+<div class="minilogo" title="基本情報技術者試験ドットコム"></div>
+</div>
+
+<div id="footerBottomWrap" class="centeringBox">
+<div id="footerBottom" class="centeringContent">
+<small>&copy; 2010-<script>document.write(new Date().getFullYear());</script>　基本情報技術者試験ドットコム　All Rights Reserved.</small>
+</div>
+</div>
+</footer>
+<!-- FOOTER END -->
+
+<button id="drawer_btn"><span></span><span></span><span></span></button>
+<nav id="drawer_menu">
+
+<div class="drawer_header">学習支援ツール</div>
+<ul>
+<li><a href="/fekakomon.php" title="過去問道場(科目A)" data-tip="人気">
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M798.85-272.69 719.31-353l22.54-22.54 80.3 79.54-23.3 23.31ZM685-690.08l-22.54-21.54L742-791.15l23.31 22.53L685-690.08Zm-410 .77-79.54-80.31L218-792.15l80.31 79.53L275-689.31ZM160.38-272.69 137.85-296l79.53-78.54L240.69-353l-80.31 80.31Zm156.24 21L480-348.46l165.15 97.54-43.23-183.23 141.77-121.16-187.77-16.84L480-746.08l-75.15 173.93-187.77 16.07 142.77 121.93-43.23 182.46Zm-49 66.69 56.84-236L136-580.77l246.77-20.92L480-825l98 224.31 246.77 19.92L636.31-421l56.84 236L480-310.62 267.62-185Zm213.15-314Z"/></svg>
+過去問道場(科目A)</a></li>
+
+<li><a href="/fekakomon_pm.php" title="過去問道場(旧・午後試験)">
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="m397-428.92 31.15-103.23-82-60.16h102.47L480-696.62l31.38 104.31h102.47l-82.23 60.16 31.15 103.23L480-493l-83 64.08ZM280-101.54v-263.61q-38-37.39-59-87.54-21-50.16-21-107.31 0-117.08 81.46-198.54T480-840q117.08 0 198.54 81.46T760-560q0 57.15-21 107.31-21 50.15-59 87.54v263.61l-200-60-200 60ZM480-320q100 0 170-70t70-170q0-100-70-170t-170-70q-100 0-170 70t-70 170q0 100 70 170t170 70ZM320-158.23l160-44.85 160 44.85v-173.23q-33.46 24.61-74.35 38.04Q524.77-280 480-280t-85.65-13.42q-40.89-13.43-74.35-38.04v173.23Zm160-86.62Z"/></svg>
+過去問道場(旧・午後試験)</a></li>
+
+<li><a href="/febbs.php" title="掲示板" data-tip="質問・相談">
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M260-404h296v-32H260v32Zm0-132h440v-32H260v32Zm0-132h440v-32H260v32ZM136-172.92v-594.46q0-24.32 16.15-40.47T192.62-824h574.76q24.32 0 40.47 16.15T824-767.38v430.76q0 24.32-16.15 40.47T767.38-280h-524.3L136-172.92ZM230-312h537.38q9.24 0 16.93-7.69 7.69-7.69 7.69-16.93v-430.76q0-9.24-7.69-16.93-7.69-7.69-16.93-7.69H192.62q-9.24 0-16.93 7.69-7.69 7.69-7.69 16.93v518.15L230-312Zm-62 0v-480 480Z"/></svg>
+掲示板</a>
+</li>
+</ul>
+
+<div class="drawer_header">基本情報技術者 過去問題解説</div>
+<ul>
+<li class="drawer_accordion"><a>
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M360-160v-40h80v-80H184.62q-27.62 0-46.12-18.5Q120-317 120-344.62v-390.76q0-27.62 18.5-46.12Q157-800 184.62-800h590.76q27.62 0 46.12 18.5Q840-763 840-735.38v390.76q0 27.62-18.5 46.12Q803-280 775.38-280H520v80h80v40H360ZM184.62-320h590.76q9.24 0 16.93-7.69 7.69-7.69 7.69-16.93v-390.76q0-9.24-7.69-16.93-7.69-7.69-16.93-7.69H184.62q-9.24 0-16.93 7.69-7.69 7.69-7.69 16.93v390.76q0 9.24 7.69 16.93 7.69 7.69 16.93 7.69ZM160-320v-440 440Z"/></svg>
+CBT 公開問題</a>
+</li>
+
+<li>
+	<ul class="testMenu">
+	<li><a href="/kakomon/07_haru/" title="令和7年度">令和7年度</a>
+	<li><a href="/kakomon/06_haru/" title="令和6年度">令和6年度</a>
+	<li><a href="/kakomon/05_haru/" title="令和5年度">令和5年度</a>
+	<li><a href="/kakomon/sample/" title="サンプル問題">サンプル問題</a>
+	</ul>
+</li>
+
+<li class="drawer_accordion"><a>
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M240.62-136q-24.32 0-40.47-16.5T184-192.62v-478.76q0-23.62 16.15-40.12Q216.3-728 240.62-728h102.76v-105.23h35.08V-728h206.16v-105.23h32V-728h102.76q24.32 0 40.47 16.5T776-671.38v478.76q0 23.62-16.15 40.12Q743.7-136 719.38-136H240.62Zm0-32h478.76q9.24 0 16.93-7.69 7.69-7.69 7.69-16.93v-310.76H216v310.76q0 9.24 7.69 16.93 7.69 7.69 16.93 7.69ZM216-535.39h528v-135.99q0-9.24-7.69-16.93-7.69-7.69-16.93-7.69H240.62q-9.24 0-16.93 7.69-7.69 7.69-7.69 16.93v135.99Zm0 0V-696v160.61Zm264.21 157.54q-10.59 0-18.79-7.98-8.19-7.98-8.19-18.57 0-10.6 7.98-18.79t18.58-8.19q10.59 0 18.79 7.98 8.19 7.98 8.19 18.57 0 10.6-7.98 18.79t-18.58 8.19Zm-156 0q-10.59 0-18.79-7.98-8.19-7.98-8.19-18.57 0-10.6 7.98-18.79t18.58-8.19q10.59 0 18.79 7.98 8.19 7.98 8.19 18.57 0 10.6-7.98 18.79t-18.58 8.19Zm312 0q-10.59 0-18.79-7.98-8.19-7.98-8.19-18.57 0-10.6 7.98-18.79t18.58-8.19q10.59 0 18.79 7.98 8.19 7.98 8.19 18.57 0 10.6-7.98 18.79t-18.58 8.19ZM480.21-240q-10.59 0-18.79-7.98-8.19-7.98-8.19-18.58 0-10.59 7.98-18.79 7.98-8.19 18.58-8.19 10.59 0 18.79 7.98 8.19 7.99 8.19 18.58 0 10.6-7.98 18.79T480.21-240Zm-156 0q-10.59 0-18.79-7.98-8.19-7.98-8.19-18.58 0-10.59 7.98-18.79 7.98-8.19 18.58-8.19 10.59 0 18.79 7.98 8.19 7.99 8.19 18.58 0 10.6-7.98 18.79T324.21-240Zm312 0q-10.59 0-18.79-7.98-8.19-7.98-8.19-18.58 0-10.59 7.98-18.79 7.98-8.19 18.58-8.19 10.59 0 18.79 7.98 8.19 7.99 8.19 18.58 0 10.6-7.98 18.79T636.21-240Z"/></svg>
+旧制度 過去問題</a>
+</li>
+
+<li>
+	<ul class="testMenu">
+	<li><a href="/kakomon/04_menjo/" title="令和4年度">令和4年度</a>
+	<li><a href="/kakomon/03_menjo/" title="令和3年度">令和3年度</a>
+	<li><a href="/kakomon/02_menjo/" title="令和2年度">令和2年度</a>
+	<li><a href="/kakomon/01_aki/" title="令和元年秋期">令和元年秋期</a>
+	<li><a href="/kakomon/31_haru/" title="平成31年春期">平成31年春期</a>
+	<li><a href="/kakomon/30_aki/" title="平成30年秋期">平成30年秋期</a>
+	<li><a href="/kakomon/30_haru/" title="平成30年春期">平成30年春期</a>
+	<li><a href="/kakomon/29_aki/" title="平成29年秋期">平成29年秋期</a>
+	<li><a href="/kakomon/29_haru/" title="平成29年春期">平成29年春期</a>
+	<li><a href="/kakomon/28_aki/" title="平成28年秋期">平成28年秋期</a>
+	<li><a href="/kakomon/28_haru/" title="平成28年春期">平成28年春期</a>
+	<li><a href="/kakomon/27_aki/" title="平成27年秋期">平成27年秋期</a>
+	<li><a href="/kakomon/27_haru/" title="平成27年春期">平成27年春期</a>
+	<li><a href="/kakomon/26_aki/" title="平成26年秋期">平成26年秋期</a>
+	<li><a href="/kakomon/26_haru/" title="平成26年春期">平成26年春期</a>
+	<li><a href="/kakomon/25_aki/" title="平成25年秋期">平成25年秋期</a>
+	<li><a href="/kakomon/25_haru/" title="平成25年春期">平成25年春期</a>
+	<li><a href="/kakomon/24_aki/" title="平成24年秋期">平成24年秋期</a>
+	<li><a href="/kakomon/24_haru/" title="平成24年春期">平成24年春期</a>
+	<li><a href="/kakomon/23_aki/" title="平成23年秋期">平成23年秋期</a>
+	<li><a href="/kakomon/23_toku/" title="平成23年特別">平成23年特別</a>
+	<li><a href="/kakomon/22_aki/" title="平成22年秋期">平成22年秋期</a>
+	<li><a href="/kakomon/22_haru/" title="平成22年春期">平成22年春期</a>
+	<li><a href="/kakomon/21_aki/" title="平成21年秋期">平成21年秋期</a>
+	<li><a href="/kakomon/21_haru/" title="平成21年春期">平成21年春期</a>
+	<li><a href="/kakomon/20_aki/" title="平成20年秋期">平成20年秋期</a>
+	<li><a href="/kakomon/20_haru/" title="平成20年春期">平成20年春期</a>
+	<li><a href="/kakomon/19_aki/" title="平成19年秋期">平成19年秋期</a>
+	<li><a href="/kakomon/19_haru/" title="平成19年春期">平成19年春期</a>
+	<li><a href="/kakomon/18_aki/" title="平成18年秋期">平成18年秋期</a>
+	<li><a href="/kakomon/18_haru/" title="平成18年春期">平成18年春期</a>
+	<li><a href="/kakomon/17_aki/" title="平成17年秋期">平成17年秋期</a>
+	<li><a href="/kakomon/17_haru/" title="平成17年春期">平成17年春期</a>
+	<li><a href="/kakomon/16_aki/" title="平成16年秋期">平成16年秋期</a>
+	<li><a href="/kakomon/16_haru/" title="平成16年春期">平成16年春期</a>
+	<li><a href="/kakomon/15_aki/" title="平成15年秋期">平成15年秋期</a>
+	<li><a href="/kakomon/15_haru/" title="平成15年春期">平成15年春期</a>
+	<li><a href="/kakomon/14_aki/" title="平成14年秋期">平成14年秋期</a>
+	<li><a href="/kakomon/14_haru/" title="平成14年春期">平成14年春期</a>
+	<li><a href="/kakomon/13_aki/" title="平成13年秋期">平成13年秋期</a>
+	<li><a href="/kakomon/13_haru/" title="平成13年春期">平成13年春期</a>
+	</ul>
+</li>
+
+<li class="drawer_accordion"><a>
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M584-463.08 663.08-384v32H496v188l-16 16-16-16v-188H296.92v-32L376-463.08V-744h-48v-32h304v32h-48v280.92ZM342-384h276l-66-66v-294H408v294l-66 66Zm138 0Z"/></svg>
+分野別 過去問題</a>
+</li>
+
+<li>
+	<ul>
+	<li><a href="/index_te.html" title="テクノロジ系">テクノロジ系</a>
+	<li><a href="/index_ma.html" title="マネジメント系">マネジメント系</a>
+	<li><a href="/index_st.html" title="ストラテジ系">ストラテジ系</a>
+	<li><a href="/index_pm.html" title="午後問題">旧・午後試験</a>
+	</ul>
+</li>
+
+<li class="drawer_accordion"><a>
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M500.92-311.85 573-367.54l72.08 55.69-27.85-88.38 72.85-58.54h-88.67L573-546l-27.85 87.23h-89.23l72.85 58.54-27.85 88.38ZM192.62-232q-23.62 0-40.12-16.5Q136-265 136-288.62v-382.76q0-24.32 16.5-40.47T192.62-728h175.23l96 96h303.53q24.32 0 40.47 16.15T824-575.38v286.76q0 23.62-16.15 40.12Q791.7-232 767.38-232H192.62Zm0-32h574.76q10.77 0 17.7-6.92 6.92-6.93 6.92-17.7v-286.76q0-10.77-6.92-17.7-6.93-6.92-17.7-6.92H450.77l-96-96H192.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v382.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92ZM168-264v-432 432Z"/></svg>
+オリジナル模擬試験</a>
+</li>
+
+<li>
+	<ul>
+	<li><a href="/kakomon/01_moshi/" title="模擬試験１">模擬試験１</a>
+	<li><a href="/kakomon/02_moshi/" title="模擬試験２">模擬試験２</a>
+	</ul>
+</li>
+</ul>
+
+<div class="drawer_header">シラバス用語対策</div>
+<ul>
+	<li class="drawer_accordion"><a data-tip="シラバスver9.1対応">
+	<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M175.38-396.38h31.16l22.23-61.39h114.77L366-396.38h31.69l-92.38-245.7H267l-91.62 245.7Zm64.85-90.7 44.92-122.38h2l44.93 122.38h-91.85Zm315.15-89.23v-37.23q32.24-16.31 69.04-24.46 36.81-8.15 75.58-8.15 22.15 0 42.54 2.84 20.38 2.85 42.08 8.08v36.31q-20.93-6.7-40.81-9.27-19.89-2.58-43.81-2.58-38.77 0-75.69 8.73-36.93 8.73-68.93 25.73Zm0 218.46v-38.77q30.7-16.3 68.66-24.46 37.96-8.15 75.96-8.15 22.15 0 42.54 2.85 20.38 2.84 42.08 8.07V-382q-20.93-6.69-40.81-9.27-19.89-2.58-43.81-2.58-38.77 0-75.69 9.39-36.93 9.38-68.93 26.61Zm0-108.46v-38.77q32.24-16.3 69.04-24.46 36.81-8.15 75.58-8.15 22.15 0 42.54 2.84 20.38 2.85 42.08 8.08v36.31q-20.93-6.69-40.81-9.27-19.89-2.58-43.81-2.58-38.77 0-75.69 9.5-36.93 9.5-68.93 26.5ZM260-318.46q52.38 0 101.88 12.04 49.5 12.04 98.12 39.19v-392.46q-43.31-30.93-95.46-46.39-52.16-15.46-104.54-15.46-36 0-63.04 4.31t-60.04 16q-9.23 3.08-13.07 8.85-3.85 5.76-3.85 12.69v360.61q0 10.77 7.69 15.77t16.93 1.16q21.92-7.39 50.65-11.85 28.73-4.46 64.73-4.46Zm240 51.23q48.62-27.15 98.12-39.19 49.5-12.04 101.88-12.04 36 0 64.73 4.46 28.73 4.46 50.65 11.85 9.24 3.84 16.93-1.16 7.69-5 7.69-15.77v-360.61q0-6.93-3.85-12.31-3.84-5.38-13.07-9.23-33-11.69-60.04-16-27.04-4.31-63.04-4.31-52.38 0-104.54 15.46-52.15 15.46-95.46 46.39v392.46Zm-20 58q-48.77-33.39-104.77-51.31-56-17.92-115.23-17.92-31.23 0-61.35 5.23Q168.54-268 140-256.46q-21.77 8.69-40.88-5.23Q80-275.61 80-300.15v-386.62q0-14.85 7.81-27.54T109.69-732q35.23-15.54 73.31-22.54 38.08-7 77-7 58.77 0 114.65 16.92 55.89 16.93 105.35 49.24 49.46-32.31 105.35-49.24 55.88-16.92 114.65-16.92 38.92 0 77 7T850.31-732q14.07 5 21.88 17.69 7.81 12.69 7.81 27.54v386.62q0 24.54-20.65 37.69-20.66 13.15-43.97 4.46-27.76-10.77-56.73-15.62-28.96-4.84-58.65-4.84-59.23 0-115.23 17.92-56 17.92-104.77 51.31ZM290-494.38Z"/></svg>
+	用語集</a>
+	</li>
+
+	<li>
+		<ul>
+		<li><a href="/keyword/" title="カテゴリーから探す">カテゴリーから探す</a></li>
+		<li><a href="/keyword/#char_index" title="索引から探す">索引から探す</a></li>
+		</ul>
+	</li>
+</ul>
+
+<ul>
+<li class="drawer_accordion"><a>
+<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#555"><path d="M464-308h32v-220h-32v220Zm15.79-268.92q8.67 0 14.75-5.87t6.08-14.54q0-8.67-5.87-14.75-5.87-6.07-14.54-6.07-8.67 0-14.75 5.86-6.08 5.87-6.08 14.54 0 8.67 5.87 14.75t14.54 6.08Zm.62 440.92q-70.95 0-133.69-26.84-62.73-26.84-109.86-73.92t-73.99-109.72Q136-409.11 136-480.32q0-71.22 26.84-133.46 26.84-62.23 73.92-109.36t109.72-73.99Q409.11-824 480.32-824q71.22 0 133.46 26.84 62.23 26.84 109.36 73.92t73.99 109.48Q824-551.36 824-480.41q0 70.95-26.84 133.69-26.84 62.73-73.92 109.86t-109.48 73.99Q551.36-136 480.41-136Zm-.41-32q130 0 221-91t91-221q0-130-91-221t-221-91q-130 0-221 91t-91 221q0 130 91 221t221 91Zm0-312Z"/></svg>
+試験情報＆制度解説</a>
+</li>
+
+<li>
+	<ul>
+	<li><a href="/feis.html" title="基本情報技術者とは">基本情報技術者とは</a>
+	<li><a href="/femerit.html" title="基本情報技術者のメリット">基本情報技術者メリット</a>
+	<li><a href="/fegaiyou.html" title="試験の概要">試験の概要</a>
+	<li><a href="/fehani.html" title="出題範囲">出題範囲</a>
+	<li><a href="/fekeisiki.html" title="試験形式">試験の形式と合格基準</a>
+	<li><a href="/fenanido.html" title="基本情報技術者の難易度">基本情報技術者の難易度</a>
+	<li><a href="/femenjo.html" title="科目A試験の免除制度">科目A試験の免除制度</a>
+	<li><a href="/festudy.html" title="勉強方法">効果的な勉強方法</a>
+	<li><a href="/fetext.html" title="テキスト・参考書">おすすめテキスト問題集</a>
+	<li><a href="/fekouza.html" title="通信講座の紹介">通信講座の紹介</a>
+	<li><a href="/faq.html" title="よくある質問(FAQ)">よくある質問(FAQ)</a>
+	<li><a href="/fetoukei.html" title="統計情報">統計情報</a>
+	</ul>
+</li>
+</ul>
+
+<a href="https://twitter.com/kakomon_doujou?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-lang="ja" data-show-count="false">Follow @kakomon_doujou</a><script async src="https://platform.twitter.com/widgets.js"></script>
+
+</nav>
+<a href="#header" id="toTop"><span>&#9650;</span><br>Pagetop</a>
+
+<!-- SCRIPT START -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/fe.js"></script>
+<!-- SCRIPT END -->
+</body>
+</html>
