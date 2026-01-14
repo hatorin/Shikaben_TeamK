@@ -1,425 +1,300 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2TKTF90HZ0"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2TKTF90HZ0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2TKTF90HZ0');
+  </script>
 
-  gtag('config', 'G-2TKTF90HZ0');
-</script>
-<meta name="viewport" content="width=960,user-scalable=yes">
-<link rel="alternate" media="only screen and (max-width:640px)" href="https://www.fe-siken.com/s/fekakomon.php">
-<link rel="canonical" href="https://www.fe-siken.com/fekakomon.php">
-<meta charset="UTF-8">
-<meta name="format-detection" content="telephone=no">
-<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-<meta name="keywords" content="基本情報技術者,過去問題">
-<meta property="og:site_name" content="基本情報技術者試験ドットコム">
-<meta property="og:title" content="基本情報技術者過去問道場🥋">
-<meta property="og:type" content="article">
-<meta property="og:image" content="https://www.fe-siken.com/img/ogimage_doujou.png">
-<meta property="og:url" content="https://www.fe-siken.com/fekakomon.php">
-<link rel="stylesheet" href="static/style.css">
-<link rel="shortcut icon" href="/favicon.ico">
-<title>基本情報技術者過去問道場🥋｜基本情報技術者試験.com</title>
+  <meta name="viewport" content="width=960,user-scalable=yes">
+  <link rel="alternate" media="only screen and (max-width:640px)" href="https://www.fe-siken.com/s/fekakomon.php">
+  <link rel="canonical" href="https://www.fe-siken.com/fekakomon.php">
+  <meta charset="UTF-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="keywords" content="基本情報技術者,過去問題">
+  <meta property="og:site_name" content="基本情報技術者試験ドットコム">
+  <meta property="og:title" content="基本情報技術者過去問道場🥋">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="{% static 'core/img/ogimage_doujou.png' %}">
+  <meta property="og:url" content="https://www.fe-siken.com/fekakomon.php">
+  <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+  <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+  <title>基本情報技術者過去問道場🥋｜基本情報技術者試験.com</title>
 </head>
 <body>
 
 <script>
-if (typeof localStorage !== undefined) {
-const theme = localStorage.getItem('NIGHT') || localStorage.getItem('NIGHTMODE') || 0;
-if (theme == 1) document.body.className += ' night';
-if (theme == 2) document.body.className += ' beige';
+if (typeof localStorage !== 'undefined') {
+  const theme = localStorage.getItem('NIGHT') || localStorage.getItem('NIGHTMODE') || 0;
+  if (theme == 1) document.body.className += ' night';
+  if (theme == 2) document.body.className += ' beige';
 }
 </script>
 
 <!-- HEADER START -->
 <header id="headerWrap" class="centeringBox">
-<div id="header" class="centeringContent">
-<h1>基本情報技術者 試験情報＆徹底解説 -新制度に完全対応-</h1>
-<a href="/"><img src="/img/titlelogo.png" width="500" height="66" id="logo" alt="基本情報技術者試験ドットコム" title="基本情報技術者試験ドットコム トップページ"></a>
-<div id="countdown"></div>
-</div>
+  <div id="header" class="centeringContent">
+    <h1>基本情報技術者 試験情報＆徹底解説 -新制度に完全対応-</h1>
+    <a href="{% url 'index' %}"><img src="{% static 'core/img/titlelogo.png' %}" width="500" height="66" id="logo" alt="基本情報技術者試験ドットコム" title="基本情報技術者試験ドットコム トップページ"></a>
+    <div id="countdown"></div>
+  </div>
 
-<nav id="headerMenuWrap" class="centeringBox">
-<div id="headerMenu" class="centeringContent">
-<ul>
-<li id="fastMenuBtn"><a href="/kakomon/07_haru/" title="過去問題解説">過去問題解説</a>
-<li><a href="/feis.html" title="基本情報技術者とは">基本情報技術者とは</a>
-<li><a href="/fekakomon.php" title="Webアプリ過去問道場">過去問道場</a><ul><li><a href="/fekakomon.php">過去問道場（科目A）</a><li><a href="/fekakomon_pm.php">過去問道場（旧・午後試験）</a></ul>
-<li><a href="/febbs.php" title="基本情報技術者掲示板">掲示板</a>
-<li><a href="/keyword/" title="シラバス用語集">用語集</a>
-</ul>
-</div>
-</nav>
+  <nav id="headerMenuWrap" class="centeringBox">
+    <div id="headerMenu" class="centeringContent">
+      <ul>
+        <li id="fastMenuBtn"><a href="/kakomon/07_haru/" title="過去問題解説">過去問題解説</a>
+        <li><a href="/feis.html" title="基本情報技術者とは">基本情報技術者とは</a>
+        <li><a href="/fekakomon.php" title="Webアプリ過去問道場">過去問道場</a>
+          <ul>
+            <li><a href="/fekakomon.php">過去問道場（科目A）</a>
+            <li><a href="/fekakomon_pm.php">過去問道場（旧・午後試験）</a>
+          </ul>
+        <li><a href="/febbs.php" title="基本情報技術者掲示板">掲示板</a>
+        <li><a href="/keyword/" title="シラバス用語集">用語集</a>
+      </ul>
+    </div>
+  </nav>
 </header>
 <!-- HEADER END -->
 
 <!-- CONTENT START -->
 <div id="contentWrap" class="centeringBox">
-<div id="content" class="centeringContent">
-<a href="/membership/"><img src="/membership/img/member_banner.png?20231128" class="banner" alt="メンバーシップ制度の紹介" style="display:block;max-width:100%;margin:1em auto;aspect-ratio:32/5;border-radius:5px;filter:none;" decoding="sync" fetchpriority="high" loading="eager"></a>
-<!-- MAINCOL START -->
-<main id="mainCol">
-<div class="pan"><a href="/">HOME</a>&raquo;<b>基本情報技術者過去問道場（登録者数<b>367,000</b>人突破）</b></div>
-<style>
-.rankingGraph{position:relative}
-.rankingGraph .balloon{position:absolute;color:var(--color-444);background:var(--main-bg);border:1px solid var(--dark-border);border-radius:3px;padding:5px;box-shadow:2px 2px 5px var(--dark-border);z-index:1}
-.rankingGraph .arrow{position:absolute;z-index:2}
-.rankingGraph .arrow::before,.rankingGraph .arrow::after{content:"";width:0;height:0;position:absolute;border:solid transparent;border-width:0 7px 8px;border-bottom-color:var(--dark-border);left:0;top:-2px}
-.rankingGraph .arrow::after{border-bottom-color:var(--main-bg);top:0}
-[name="moshi_cnt"]{padding-left:0;padding-right:0;max-width:0;visibility:hidden;font-size:inherit;transition:0.25s ease-out}
-[value="moshi_harf"]:checked ~ [name="moshi_cnt"]{max-width:80px;padding-left:4px;padding-right:20px;visibility:visible}
-</style>
-<div class="main kako doujou">
-<h2>基本情報技術者過去問道場🥋
-<button id="userBtn"><i class="user"></i><span id="userid">ログイン・ユーザー登録</span></button>
-<div id="userPanel"></div>
-</h2>
-<div class="img_margin"><img src="img/doujoulogo.png" width="344" height="58" alt="過去問道場" id="doujoulogo"></div>
-<p>「基本情報技術者試験過去問道場」は、基本情報技術者試験過去問題(2,920問)の中からランダムに出題する完全解説付きのWeb問題集です。PC/スマホ/タブレットを使って、スキマ時間を活用して無料で過去問演習に取り組むことができ、学習履歴を管理することも可能です。試験対策としてご活用ください。</p>
-<div class="anslink"><i class="help"></i><a href="doujouManual.html">過去問道場の利用方法</a></div>
-<form action="/fekakomon.php" method="POST" id="configform" style="margin:0 0 30px 0">
-<div id="tabs">
-<ul><li class="active"><a href="#tab1">試験回を指定して出題</a><li><a href="#tab2">分野を指定して出題</a><li><a href="#tab3">模擬試験形式で出題</a></ul>
-<p class="error"></p>
+  <div id="content" class="centeringContent">
 
-<div id="tab1">
-<label><input type="checkbox" name="times[]" value="06_menjo" checked><span>令和6年度</span></label><label><input type="checkbox" name="times[]" value="05_menjo" checked><span>令和5年度</span></label><label><input type="checkbox" name="times[]" value="04_menjo" checked><span>令和4年度</span></label><label><input type="checkbox" name="times[]" value="03_menjo" checked><span>令和3年度</span></label><label><input type="checkbox" name="times[]" value="02_menjo" checked><span>令和2年度</span></label><label><input type="checkbox" name="times[]" value="01_aki" checked><span>令和元年秋期</span></label><label><input type="checkbox" name="times[]" value="31_haru" checked><span>平成31年春期</span></label><label><input type="checkbox" name="times[]" value="30_aki" checked><span>平成30年秋期</span></label><label><input type="checkbox" name="times[]" value="30_haru" checked><span>平成30年春期</span></label><label><input type="checkbox" name="times[]" value="29_aki" checked><span>平成29年秋期</span></label><label><input type="checkbox" name="times[]" value="29_haru" checked><span>平成29年春期</span></label><label><input type="checkbox" name="times[]" value="28_aki" checked><span>平成28年秋期</span></label><label><input type="checkbox" name="times[]" value="28_haru" checked><span>平成28年春期</span></label><label><input type="checkbox" name="times[]" value="27_aki" checked><span>平成27年秋期</span></label><label><input type="checkbox" name="times[]" value="27_haru" checked><span>平成27年春期</span></label><label><input type="checkbox" name="times[]" value="26_aki" checked><span>平成26年秋期</span></label><label><input type="checkbox" name="times[]" value="26_haru" checked><span>平成26年春期</span></label><label><input type="checkbox" name="times[]" value="25_aki" checked><span>平成25年秋期</span></label><label><input type="checkbox" name="times[]" value="25_haru" checked><span>平成25年春期</span></label><label><input type="checkbox" name="times[]" value="24_aki" checked><span>平成24年秋期</span></label><label><input type="checkbox" name="times[]" value="24_haru" checked><span>平成24年春期</span></label><label><input type="checkbox" name="times[]" value="23_aki" checked><span>平成23年秋期</span></label><label><input type="checkbox" name="times[]" value="23_toku" checked><span>平成23年特別</span></label><label><input type="checkbox" name="times[]" value="22_aki" checked><span>平成22年秋期</span></label><label><input type="checkbox" name="times[]" value="22_haru" checked><span>平成22年春期</span></label><label><input type="checkbox" name="times[]" value="21_aki" checked><span>平成21年秋期</span></label><label><input type="checkbox" name="times[]" value="21_haru" checked><span>平成21年春期</span></label><label><input type="checkbox" name="times[]" value="20_aki" checked><span>平成20年秋期</span></label><label><input type="checkbox" name="times[]" value="20_haru" checked><span>平成20年春期</span></label><label><input type="checkbox" name="times[]" value="19_aki" checked><span>平成19年秋期</span></label><label><input type="checkbox" name="times[]" value="19_haru" checked><span>平成19年春期</span></label><label><input type="checkbox" name="times[]" value="18_aki" checked><span>平成18年秋期</span></label><label><input type="checkbox" name="times[]" value="18_haru" checked><span>平成18年春期</span></label><label><input type="checkbox" name="times[]" value="17_aki" checked><span>平成17年秋期</span></label><label><input type="checkbox" name="times[]" value="17_haru" checked><span>平成17年春期</span></label><label><input type="checkbox" name="times[]" value="16_aki" checked><span>平成16年秋期</span></label><label><input type="checkbox" name="times[]" value="16_haru" checked><span>平成16年春期</span></label>
-<div class="check_all_wrap">全項目チェック<button type="button" name="check_all">ON</button><button type="button" name="check_all">OFF</button><button type="button" name="recommend" style="line-height:1.2">★おすすめ</button></div>
-</div>
+    {% comment %} メンバーシップバナー（存在するなら表示） {% endcomment %}
+    <a href="/membership/">
+      <img src="{% static 'core/img/member_banner.png' %}" class="banner" alt="メンバーシップ制度の紹介" style="display:block;max-width:100%;margin:1em auto;aspect-ratio:32/5;border-radius:5px;filter:none;" decoding="sync" fetchpriority="high" loading="eager">
+    </a>
 
-<div id="tab2">
-<div id="bunya">
-<div>
-<h4><label class="h4"><input type="checkbox" name="fields[]" value="te_all" checked><span>テクノロジ系</span></label></h4><div id="te_all"><label><input type="checkbox" name="categories[]" value="1" checked><span>基礎理論<span class="category_count">169</span></span></label><label><input type="checkbox" name="categories[]" value="2" checked><span>アルゴリズムとプログラミング<span class="category_count">134</span></span></label><label><input type="checkbox" name="categories[]" value="3" checked><span>コンピュータ構成要素<span class="category_count">142</span></span></label><label><input type="checkbox" name="categories[]" value="4" checked><span>システム構成要素<span class="category_count">118</span></span></label><label><input type="checkbox" name="categories[]" value="5" checked><span>ソフトウェア<span class="category_count">128</span></span></label><label><input type="checkbox" name="categories[]" value="6" checked><span>ハードウェア<span class="category_count">44</span></span></label><label><input type="checkbox" name="categories[]" value="7" checked><span>ユーザーインタフェース<span class="category_count">21</span></span></label><label><input type="checkbox" name="categories[]" value="8" checked><span>情報メディア<span class="category_count">30</span></span></label><label><input type="checkbox" name="categories[]" value="9" checked><span>データベース<span class="category_count">150</span></span></label><label><input type="checkbox" name="categories[]" value="10" checked><span>ネットワーク<span class="category_count">138</span></span></label><label><input type="checkbox" name="categories[]" value="11" checked><span>セキュリティ<span class="category_count">202</span></span></label><label><input type="checkbox" name="categories[]" value="12" checked><span>システム開発技術<span class="category_count">125</span></span></label><label><input type="checkbox" name="categories[]" value="13" checked><span>ソフトウェア開発管理技術<span class="category_count">39</span></span></label></div></div><div><h4><label class="h4"><input type="checkbox" name="fields[]" value="ma_all" checked><span>マネジメント系</span></label></h4><div id="ma_all"><label><input type="checkbox" name="categories[]" value="14" checked><span>プロジェクトマネジメント<span class="category_count">84</span></span></label><label><input type="checkbox" name="categories[]" value="15" checked><span>サービスマネジメント<span class="category_count">76</span></span></label><label><input type="checkbox" name="categories[]" value="16" checked><span>システム監査<span class="category_count">56</span></span></label></div><h4><label class="h4"><input type="checkbox" name="fields[]" value="st_all" checked><span>ストラテジ系</span></label></h4><div id="st_all"><label><input type="checkbox" name="categories[]" value="17" checked><span>システム戦略<span class="category_count">70</span></span></label><label><input type="checkbox" name="categories[]" value="18" checked><span>システム企画<span class="category_count">38</span></span></label><label><input type="checkbox" name="categories[]" value="19" checked><span>経営戦略マネジメント<span class="category_count">74</span></span></label><label><input type="checkbox" name="categories[]" value="20" checked><span>技術戦略マネジメント<span class="category_count">10</span></span></label><label><input type="checkbox" name="categories[]" value="21" checked><span>ビジネスインダストリ<span class="category_count">69</span></span></label><label><input type="checkbox" name="categories[]" value="22" checked><span>企業活動<span class="category_count">147</span></span></label><label><input type="checkbox" name="categories[]" value="23" checked><span>法務<span class="category_count">71</span></span></label></div>
-</div>
-<div class="check_all_wrap">全項目チェック<button type="button" name="check_all">ON</button><button type="button" name="check_all">OFF</button></div>
-</div>
-<label class="h4"><input type="checkbox" name="options[]" value="timesFilter">試験回を指定して絞り込む</label>
-<div id="fs3">
-<label><input type="checkbox" name="times[]" value="06_menjo" checked><span>令和6年度</span></label><label><input type="checkbox" name="times[]" value="05_menjo" checked><span>令和5年度</span></label><label><input type="checkbox" name="times[]" value="04_menjo" checked><span>令和4年度</span></label><label><input type="checkbox" name="times[]" value="03_menjo" checked><span>令和3年度</span></label><label><input type="checkbox" name="times[]" value="02_menjo" checked><span>令和2年度</span></label><label><input type="checkbox" name="times[]" value="01_aki" checked><span>令和元年秋期</span></label><label><input type="checkbox" name="times[]" value="31_haru" checked><span>平成31年春期</span></label><label><input type="checkbox" name="times[]" value="30_aki" checked><span>平成30年秋期</span></label><label><input type="checkbox" name="times[]" value="30_haru" checked><span>平成30年春期</span></label><label><input type="checkbox" name="times[]" value="29_aki" checked><span>平成29年秋期</span></label><label><input type="checkbox" name="times[]" value="29_haru" checked><span>平成29年春期</span></label><label><input type="checkbox" name="times[]" value="28_aki" checked><span>平成28年秋期</span></label><label><input type="checkbox" name="times[]" value="28_haru" checked><span>平成28年春期</span></label><label><input type="checkbox" name="times[]" value="27_aki" checked><span>平成27年秋期</span></label><label><input type="checkbox" name="times[]" value="27_haru" checked><span>平成27年春期</span></label><label><input type="checkbox" name="times[]" value="26_aki" checked><span>平成26年秋期</span></label><label><input type="checkbox" name="times[]" value="26_haru" checked><span>平成26年春期</span></label><label><input type="checkbox" name="times[]" value="25_aki" checked><span>平成25年秋期</span></label><label><input type="checkbox" name="times[]" value="25_haru" checked><span>平成25年春期</span></label><label><input type="checkbox" name="times[]" value="24_aki" checked><span>平成24年秋期</span></label><label><input type="checkbox" name="times[]" value="24_haru" checked><span>平成24年春期</span></label><label><input type="checkbox" name="times[]" value="23_aki" checked><span>平成23年秋期</span></label><label><input type="checkbox" name="times[]" value="23_toku" checked><span>平成23年特別</span></label><label><input type="checkbox" name="times[]" value="22_aki" checked><span>平成22年秋期</span></label><label><input type="checkbox" name="times[]" value="22_haru" checked><span>平成22年春期</span></label><label><input type="checkbox" name="times[]" value="21_aki" checked><span>平成21年秋期</span></label><label><input type="checkbox" name="times[]" value="21_haru" checked><span>平成21年春期</span></label><label><input type="checkbox" name="times[]" value="20_aki" checked><span>平成20年秋期</span></label><label><input type="checkbox" name="times[]" value="20_haru" checked><span>平成20年春期</span></label><label><input type="checkbox" name="times[]" value="19_aki" checked><span>平成19年秋期</span></label><label><input type="checkbox" name="times[]" value="19_haru" checked><span>平成19年春期</span></label><label><input type="checkbox" name="times[]" value="18_aki" checked><span>平成18年秋期</span></label><label><input type="checkbox" name="times[]" value="18_haru" checked><span>平成18年春期</span></label><label><input type="checkbox" name="times[]" value="17_aki" checked><span>平成17年秋期</span></label><label><input type="checkbox" name="times[]" value="17_haru" checked><span>平成17年春期</span></label><label><input type="checkbox" name="times[]" value="16_aki" checked><span>平成16年秋期</span></label><label><input type="checkbox" name="times[]" value="16_haru" checked><span>平成16年春期</span></label>
-<div class="check_all_wrap">全項目チェック<button type="button" name="check_all">ON</button><button type="button" name="check_all">OFF</button><button type="button" name="recommend" style="line-height:1.2">★おすすめ</button></div>
-</div>
-</div>
+    <!-- MAINCOL START -->
+    <main id="mainCol">
+      <div class="pan"><a href="{% url 'index' %}">HOME</a>&raquo;<b>基本情報技術者過去問道場（登録者数<b>{{ user_count|default:'' }}</b>人）</b></div>
 
-<div id="tab3">
-<h3 class="h4" style="margin-bottom:0">オリジナル模擬試験</h3>
-<label><input type="radio" name="moshi" value="mix_all" checked><span>全問題から作成</span></label><label><input type="radio" name="moshi" value="mix_10"><span>過去10回分から作成</span></label><label><input type="radio" name="moshi" value="mix_h21"><span>平成21年以降から作成</span></label><h3 class="h4">本試験問題</h3><label><input type="radio" name="moshi" value="06_menjo"><span>令和6年度</span></label><label><input type="radio" name="moshi" value="05_menjo"><span>令和5年度</span></label><label><input type="radio" name="moshi" value="04_menjo"><span>令和4年度</span></label><label><input type="radio" name="moshi" value="03_menjo"><span>令和3年度</span></label><label><input type="radio" name="moshi" value="02_menjo"><span>令和2年度</span></label><label><input type="radio" name="moshi" value="01_aki"><span>令和元年秋期</span></label><label><input type="radio" name="moshi" value="31_haru"><span>平成31年春期</span></label><label><input type="radio" name="moshi" value="30_aki"><span>平成30年秋期</span></label><label><input type="radio" name="moshi" value="30_haru"><span>平成30年春期</span></label><label><input type="radio" name="moshi" value="29_aki"><span>平成29年秋期</span></label><label><input type="radio" name="moshi" value="29_haru"><span>平成29年春期</span></label><label><input type="radio" name="moshi" value="28_aki"><span>平成28年秋期</span></label><label><input type="radio" name="moshi" value="28_haru"><span>平成28年春期</span></label><label><input type="radio" name="moshi" value="27_aki"><span>平成27年秋期</span></label><label><input type="radio" name="moshi" value="27_haru"><span>平成27年春期</span></label><label><input type="radio" name="moshi" value="26_aki"><span>平成26年秋期</span></label><label><input type="radio" name="moshi" value="26_haru"><span>平成26年春期</span></label><label><input type="radio" name="moshi" value="25_aki"><span>平成25年秋期</span></label><label><input type="radio" name="moshi" value="25_haru"><span>平成25年春期</span></label><label><input type="radio" name="moshi" value="24_aki"><span>平成24年秋期</span></label><label><input type="radio" name="moshi" value="24_haru"><span>平成24年春期</span></label><label><input type="radio" name="moshi" value="23_aki"><span>平成23年秋期</span></label><label><input type="radio" name="moshi" value="23_toku"><span>平成23年特別</span></label><label><input type="radio" name="moshi" value="22_aki"><span>平成22年秋期</span></label><label><input type="radio" name="moshi" value="22_haru"><span>平成22年春期</span></label><label><input type="radio" name="moshi" value="21_aki"><span>平成21年秋期</span></label><label><input type="radio" name="moshi" value="21_haru"><span>平成21年春期</span></label><h3 class="h4">旧試験制度</h3><label><input type="radio" name="moshi" value="20_aki"><span>平成20年秋期</span></label><label><input type="radio" name="moshi" value="20_haru"><span>平成20年春期</span></label><label><input type="radio" name="moshi" value="19_aki"><span>平成19年秋期</span></label><label><input type="radio" name="moshi" value="19_haru"><span>平成19年春期</span></label><label><input type="radio" name="moshi" value="18_aki"><span>平成18年秋期</span></label><label><input type="radio" name="moshi" value="18_haru"><span>平成18年春期</span></label><label><input type="radio" name="moshi" value="17_aki"><span>平成17年秋期</span></label><label><input type="radio" name="moshi" value="17_haru"><span>平成17年春期</span></label><label><input type="radio" name="moshi" value="16_aki"><span>平成16年秋期</span></label><label><input type="radio" name="moshi" value="16_haru"><span>平成16年春期</span></label>
-<!--<label class="moshi_option"><input type="checkbox" name="options[]" value="last2times">直近2回の試験問題を除外する</label>-->
-<label class="moshi_option"><input type="checkbox" name="options[]" value="moshi_harf">指定の問題数で実施する
-<select name="moshi_cnt"><option value="40" selected>40問<option value="30">30問<option value="20">20問<option value="10">10問</select>
-<small style="background:var(--brand-bright);color:var(--cta-text-color);font-size:80%;padding:1px 7px;border-radius:999px">メンバー限定</small></label>
-</div>
+      <div class="main kako doujou">
+        <h2>
+          基本情報技術者過去問道場🥋
+          <button id="userBtn"><i class="user"></i>
+            <span id="userid">{% if request.user.is_authenticated %}{{ request.user.get_username }}{% else %}ログイン・ユーザー登録{% endif %}</span>
+          </button>
+          <div id="userPanel"></div>
+        </h2>
 
-</div>
+        <div class="img_margin"><img src="{% static 'core/img/doujoulogo.png' %}" width="344" height="58" alt="過去問道場" id="doujoulogo"></div>
 
-<fieldset id="options"><legend><h4 style="font-size:14px">オプション項目</h4></legend>
-<label><input type="checkbox" name="options[]" value="random">選択肢をランダムに並べ替える</label>
-<label><input type="checkbox" name="options[]" value="showComment">最初から解説文を表示する</label>
-<label><input type="checkbox" name="options[]" value="noCalc">計算問題を出題しない(β版)</label>
-<label><input type="checkbox" name="options[]" value="noQuestion">解説がない問題を出題しない</label>
-<label><input type="checkbox" name="options[]" value="onlyCalc">計算問題のみを出題する(β版)</label>
-</fieldset>
-<input type="hidden" name="addition" value="0">
-<input type="hidden" name="mode" value="1">
-<input type="hidden" name="qno" value="0">
-<input type="hidden" name="sid" value="94dbdf1a3ecbd3d222fcc71c8215e1c1c81f01ef">
-<input type="hidden" name="_q">
-<input type="hidden" name="_r">
-<input type="hidden" name="_c">
-<input type="hidden" name="result" value="-1" id="result">
-<input type="hidden" name="startTime" value="">
-<div class="img_margin"><button type="submit" class="submit" data-text="START">出題開始</button></div>
-</form>
+        <p>「基本情報技術者試験過去問道場」は、基本情報技術者試験過去問題の中からランダムに出題する完全解説付きの Web 問題集です。PC / スマホ / タブレットを使って、スキマ時間を活用して無料で過去問演習に取り組むことができます。学習履歴を管理することも可能です。試験対策としてご活用ください。</p>
 
-<div class="ads_wrap">
-<div class="ads_content" id="p6965cf217663521255341071"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5061380080248584" crossorigin="anonymous"></script>
-<!-- Responsive FE -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-5061380080248584"
-     data-ad-slot="3746070658"
-     data-ad-format="rectangle"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script></div>
-<div class="ads_content" id="p6965cf217663521255341072"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5061380080248584" crossorigin="anonymous"></script>
-<!-- Responsive FE -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-5061380080248584"
-     data-ad-slot="3746070658"
-     data-ad-format="rectangle"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script></div>
-</div>
+        <div class="anslink"><i class="help"></i><a href="{% url 'manual' %}">過去問道場の利用方法</a></div>
 
-<h2>段級位認定者数</h2>
-<div class="img_margin rankingGraph"><img src="https://quickchart.io/chart?c={type%3A%27bar%27%2Cdata%3A%7Blabels%3A%5B%27%E5%9B%9B%E7%B4%9A%27%2C%27%E4%B8%89%E7%B4%9A%27%2C%27%E4%BA%8C%E7%B4%9A%27%2C%27%E4%B8%80%E7%B4%9A%27%2C%27%E5%88%9D%E6%AE%B5%27%2C%27%E4%BA%8C%E6%AE%B5%27%2C%27%E4%B8%89%E6%AE%B5%27%2C%27%E5%9B%9B%E6%AE%B5%27%2C%27%E4%BA%94%E6%AE%B5%27%2C%27%E5%85%AD%E6%AE%B5%27%2C%27%E4%B8%83%E6%AE%B5%27%2C%27%E5%85%AB%E6%AE%B5%27%2C%27%E4%B9%9D%E6%AE%B5%27%2C%27%E5%8D%81%E6%AE%B5%27%2C%27%E5%90%8D%E4%BA%BA%27%5D%2Cdatasets%3A%5B%7Blabel%3A%27dummy%27%2Cdata%3A%5B26966%2C22326%2C18571%2C25808%2C16983%2C11886%2C7125%2C5093%2C3158%2C2019%2C1098%2C1222%2C278%2C112%2C124%5D%2CbackgroundColor%3AgetGradientFillHelper%28%27vertical%27%2C%5B%27%2336a2eb%27%2C%27%23127ac1%27%5D%29%7D%5D%7D%2Coptions%3A%7Btitle%3A%7Bdisplay%3Atrue%2Ctext%3A%272026%E5%B9%B41%E6%9C%8813%E6%97%A5+13%E6%99%82%E6%99%82%E7%82%B9%E3%80%80%E8%A8%88142%2C769%E5%90%8D%27%7D%2Cscales%3A%7BxAxes%3A%5B%7Bticks%3A%7BfontSize%3A11%7D%2CgridLines%3A%7Bdisplay%3Afalse%7D%7D%5D%2CyAxes%3A%5B%7Bticks%3A%7BfontSize%3A11%7D%7D%5D%7D%2Clegend%3A%7Bdisplay%3Afalse%7D%7D}" style="max-width:100%;height:auto;min-height:300px" alt="段級位認定者数"></div>
-<h2>更新履歴</h2>
-<dl class="tbl2 appInfo">
-<dt>'25.9.19<dd>令和6年度分の60問（公式20問＋免除試験から40問）を組み込みました。
-<dt>'24.5.19<dd>令和5年度分の60問（公式20問＋免除試験から40問）を組み込みました。
-<dt>'24.5.4<dd>模擬試験モードの問題数について、半数以外に10問/20問などから選択できるようになりました。
-<dt>'24.1.7<dd>令和4年分の午前免除試験問題集を組み込みました。
-<dt>'23.8.11<dd>有料のメンバーシップ制度（広告非表示プラン）に対応しました。
-<dt>'23.6.16<dd>令和2年分と令和3年分の午前免除試験問題集を組み込みました。
-<dt>'21.8.23<dd>学習履歴の自動バックアップ機能＆過去10日分のバックアップから復元できる機能を追加しました。
-<dt>'20.10.10<dd>出題設定のUIをタブ形式に変更しました。
-<dt>'20.4.9<dd><s>模擬試験モードに直近2回の試験問題を除外するオプションを追加しました。</s>問題があったため機能提供を停止しています。
-<dt>'20.2.23<dd>模擬試験と見直しモードで選択肢ランダムのオプションを選択できるようにしました。
-<dt>'20.2.19<dd>試験回選択のおすすめボタン、模擬試験モードで直近5年内とH21以降の問題に絞る機能を追加しました。
-<dt>'19.10.22<dd>令和元年秋期の問題を追加しました。
-<dt>'19.10.5<dd>学習成績をSNSでシェアできる機能を追加しました。
-<dt>'19.7.19<dd>CSVファイルに学習日のデータを追加しました。
-<dt>'19.6.21<dd>一部のUIアイコンを変更しました。
-<dt>'19.6.17<dd>続きから再開する機能を変更しました。
-<dt>'19.4.22<dd>31年春期の問題を追加しました。
-<dt>'18.12.22<dd>タイトルロゴの横に登録ユーザ数を表示するようにしました。
-<dt>'18.10.23<dd>30年秋期の問題を追加しました。
-<dt>'18.9.3<dd>学習履歴にて中分類毎の分野成績を確認できるようにしました。
-<dt>'18.4.16<dd>30年春期の問題を追加しました。
-<dt>'17.12.25<dd>「今回 間違えた問題のみを出題する」オプションの機能を「今回の見直しをする」タブ内に移行しました。模擬試験モードのリファクタリングを実施しました。
-<dt>'17.10.17<dd>29年秋期の問題を追加しました。
-<dt>'17.10.11<dd>学習履歴のメニューに試験回ごとの成績を確認できる機能を追加しました。
-<dt>'17.9.25<dd>学習履歴で月間合計を参照できるようにし、棒グラフがアニメーション表示されるよう改善しました。
-<dt>'17.6.14<dd>未回答モードと復習モードに出題回で絞る機能を追加しました。またトップページにアカウント登録者の段級一覧が表示されるようにしました。
-<dt>'17.4.17<dd>29年春期の問題を追加しました。
-<dt>'16.12.22<dd>問題チェック機能、アカウント管理機能などを追加しました。
-<dt>'16.10.17<dd>28年秋期の問題を追加しました。
-<dt>'16.6.19<dd>模擬試験モードとパスワード入力のマスク表示の切替え機能を追加しました。
-<dt>'16.4.17<dd>28年春期の問題を追加しました。
-<dt>'15.10.19<dd>27年秋期の問題を追加しました。
-<dt>'15.10.11<dd>学習履歴の機能として回答歴のない問題のみを出題するオプションを追加しました。
-<dt>'15.9.19<dd>過去問道場の説明を別ページとして独立させました。
-<dt>'15.7.10<dd>今回の出題中で不正解だった問題のみを出題するオプション「今回 間違えた問題のみを出題する」を復活させました。
-<dt>'15.4.20<dd>27年春期の問題を追加しました。
-<dt>'15.1.24<dd>学習履歴機能を追加しました
-<dt>'14.10.20<dd>26年秋期の問題を追加しました。
-<dt>'14.8.23<dd>2つのオプション機能、「計算問題のみを出題する」「問1から順番に出題する」を追加しました。
-<dt>'14.8.2<dd>各機能の説明文を追加しました。
-<dt>'14.4.22<dd>26年春期の問題を追加しました。
-<dt>'14.3.30<dd>間違えた問題のみを復習できる機能を追加しました。
-<dt>'14.3.12<dd>開催回と分野の両方を指定して問題を絞り込みできるように改善しました。
-<dt>'13.10.21<dd>25年秋期の問題を追加しました。
-<dt>'13.10.13<dd>過去問道場に詳細レポートを別ウィンドウで表示する機能とレポートをCSV形式でダウンロードできる機能を追加しました。
-<dt>'13.4.22<dd>25年春期の問題を追加しました。
-<dt>'13.4.18<dd>分野別の問題データベースのうち重複してる問題(別の開催期の同題)を除外しました。
-<dt>'13.3.10<dd>選択範囲2周目以降も重複なく各問題が順に出題されるように出題アルゴリズムを改善しました。加えて2周目以後は以前の正誤履歴が表示されるようにしました。
-<dt>'13.2.9<dd>計算問題を出題しないオプション項目(β版)を追加しました。
-<dt>'13.2.5<dd>詳細レポートの画面を新デザインにしました。
-<dt>'13.2.3<dd>同じ問題が出題されないように出題選択アルゴリズムの改善を行いました。
-<dt>'12.10.27<dd>問題データベースに24年秋期を追加しました。
-<dt>'12.10.8<dd>オプション項目として「解説がない問題の出題を制御する機能」と「選択肢をランダムに並べ替える機能」を追加しました。
-<dt>'12.10.3<dd>問題データに16年春期～19年秋期(計640問)を追加しました。
-<dt>'12.9.22<dd>公開しました。
-</dl>
-</div>
-</main>
-<!-- MAINCOL END -->
+        {# 出題設定フォーム。action はプロジェクト側の URL 名に合わせて変更してください #}
+        <form action="/fekakomon.php" method="POST" id="configform" style="margin:0 0 30px 0">
+          {% csrf_token %}
+          <div id="tabs">
+            <ul>
+              <li class="active"><a href="#tab1">試験回を指定して出題</a>
+              <li><a href="#tab2">分野を指定して出題</a>
+              <li><a href="#tab3">模擬試験形式で出題</a>
+            </ul>
 
-</div>
+            <p class="error">{% if form_error %}{{ form_error }}{% endif %}</p>
+
+            {# TAB1: 年度チェックリスト。ビューで years を渡すと動的に描画されます。 #}
+            <div id="tab1">
+              {% if years %}
+                {% for y in years %}
+                  <label><input type="checkbox" name="times[]" value="{{ y.value }}" checked><span>{{ y.label }}</span></label>
+                {% endfor %}
+              {% else %}
+                {# フォールバック: 静的な一部年度を表示（必要に応じて追加） #}
+                <label><input type="checkbox" name="times[]" value="06_menjo" checked><span>令和6年度</span></label>
+                <label><input type="checkbox" name="times[]" value="05_menjo" checked><span>令和5年度</span></label>
+                <label><input type="checkbox" name="times[]" value="04_menjo" checked><span>令和4年度</span></label>
+                <!-- 必要なら続けて追加 -->
+              {% endif %}
+              <div class="check_all_wrap">
+                全項目チェック
+                <button type="button" name="check_all">ON</button>
+                <button type="button" name="check_all">OFF</button>
+                <button type="button" name="recommend" style="line-height:1.2">★おすすめ</button>
+              </div>
+            </div>
+
+            {# TAB2: 分野チェックリスト。ビューで categories_by_field を渡すと動的に描画されます。 #}
+            <div id="tab2">
+              <div id="bunya">
+                {% if categories_by_field %}
+                  {% for field in categories_by_field %}
+                    <div>
+                      <h4>
+                        <label class="h4">
+                          <input type="checkbox" name="fields[]" value="{{ field.value }}" checked>
+                          <span>{{ field.label }}</span>
+                        </label>
+                      </h4>
+                      <div id="{{ field.value }}">
+                        {% for cat in field.categories %}
+                          <label><input type="checkbox" name="categories[]" value="{{ cat.id }}" checked><span>{{ cat.name }}<span class="category_count">{{ cat.count|default:'' }}</span></span></label>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% else %}
+                  {# フォールバック：最小限の分野を表示 #}
+                  <div>
+                    <h4><label class="h4"><input type="checkbox" name="fields[]" value="te_all" checked><span>テクノロジ系</span></label></h4>
+                    <div id="te_all">
+                      <label><input type="checkbox" name="categories[]" value="1" checked><span>基礎理論<span class="category_count">169</span></span></label>
+                      <label><input type="checkbox" name="categories[]" value="2" checked><span>アルゴリズムとプログラミング<span class="category_count">134</span></span></label>
+                      <!-- 必要に応じて追加 -->
+                    </div>
+                  </div>
+                {% endif %}
+                <div class="check_all_wrap">全項目チェック<button type="button" name="check_all">ON</button><button type="button" name="check_all">OFF</button></div>
+              </div>
+
+              <label class="h4"><input type="checkbox" name="options[]" value="timesFilter">試験回を指定して絞り込む</label>
+
+              <div id="fs3">
+                {% if years %}
+                  {% for y in years %}
+                    <label><input type="checkbox" name="times[]" value="{{ y.value }}" checked><span>{{ y.label }}</span></label>
+                  {% endfor %}
+                {% else %}
+                  <!-- フォールバックの年リスト（必要なら増やす） -->
+                  <label><input type="checkbox" name="times[]" value="06_menjo" checked><span>令和6年度</span></label>
+                  <label><input type="checkbox" name="times[]" value="05_menjo" checked><span>令和5年度</span></label>
+                {% endif %}
+                <div class="check_all_wrap">全項目チェック<button type="button" name="check_all">ON</button><button type="button" name="check_all">OFF</button><button type="button" name="recommend" style="line-height:1.2">★おすすめ</button></div>
+              </div>
+            </div>
+
+            {# TAB3: 模擬試験モード #}
+            <div id="tab3">
+              <h3 class="h4" style="margin-bottom:0">オリジナル模擬試験</h3>
+              <label><input type="radio" name="moshi" value="mix_all" checked><span>全問題から作成</span></label>
+              <label><input type="radio" name="moshi" value="mix_10"><span>過去10回分から作成</span></label>
+              <label><input type="radio" name="moshi" value="mix_h21"><span>平成21年以降から作成</span></label>
+              <h3 class="h4">本試験問題</h3>
+
+              {% if years %}
+                {% for y in years %}
+                  <label><input type="radio" name="moshi" value="{{ y.value }}"><span>{{ y.label }}</span></label>
+                {% endfor %}
+              {% else %}
+                <label><input type="radio" name="moshi" value="06_menjo"><span>令和6年度</span></label>
+                <label><input type="radio" name="moshi" value="05_menjo"><span>令和5年度</span></label>
+              {% endif %}
+
+              <label class="moshi_option">
+                <input type="checkbox" name="options[]" value="moshi_harf">指定の問題数で実施する
+                <select name="moshi_cnt">
+                  <option value="40" selected>40問</option>
+                  <option value="30">30問</option>
+                  <option value="20">20問</option>
+                  <option value="10">10問</option>
+                </select>
+                <small style="background:#ffd966;color:#000;font-size:80%;padding:1px 7px;border-radius:999px">メンバー限定</small>
+              </label>
+            </div>
+          </div>
+
+          <fieldset id="options">
+            <legend><h4 style="font-size:14px">オプション項目</h4></legend>
+            <label><input type="checkbox" name="options[]" value="random">選択肢をランダムに並べ替える</label>
+            <label><input type="checkbox" name="options[]" value="showComment">最初から解説文を表示する</label>
+            <label><input type="checkbox" name="options[]" value="noCalc">計算問題を出題しない(β版)</label>
+            <label><input type="checkbox" name="options[]" value="noQuestion">解説がない問題を出題しない</label>
+            <label><input type="checkbox" name="options[]" value="onlyCalc">計算問題のみを出題する(β版)</label>
+          </fieldset>
+
+          <input type="hidden" name="addition" value="0">
+          <input type="hidden" name="mode" value="1">
+          <input type="hidden" name="qno" value="0">
+          <input type="hidden" name="sid" value="{{ sid|default:'' }}">
+          <input type="hidden" name="_q" value="">
+          <input type="hidden" name="_r" value="">
+          <input type="hidden" name="_c" value="">
+          <input type="hidden" name="result" value="-1" id="result">
+          <input type="hidden" name="startTime" value="">
+          <div class="img_margin"><button type="submit" class="submit" data-text="START">出題開始</button></div>
+        </form>
+
+        {# 広告・チャート表示部分（そのまま埋め込む / 実運用では広告コードを差し替えてください） #}
+        <div class="ads_wrap">
+          <div class="ads_content">
+            <!-- ad placeholder -->
+            <div style="background:#f7f7f7;padding:20px;text-align:center">広告スペース</div>
+          </div>
+          <div class="ads_content">
+            <div style="background:#f7f7f7;padding:20px;text-align:center">広告スペース</div>
+          </div>
+        </div>
+
+        <h2>更新履歴</h2>
+        <dl class="tbl2 appInfo">
+          {% if update_histories %}
+            {% for h in update_histories %}
+              <dt>{{ h.date|date:"y.n.j" }}<dd>{{ h.summary|linebreaksbr }}
+            {% endfor %}
+          {% else %}
+            {# フォールバックの静的履歴サンプル（必要に応じて編集） #}
+            <dt>'25.9.19<dd>令和6年度分の60問（公式20問＋免除試験から40問）を組み込みました。
+            <dt>'24.5.19<dd>令和5年度分の60問（公式20問＋免除試験から40問）を組み込みました。
+          {% endif %}
+        </dl>
+
+      </div>
+    </main>
+    <!-- MAINCOL END -->
+
+  </div>
 </div>
 <!-- CONTENT END -->
 
 <!-- FOOTER START -->
 <footer id="footerWrap" class="centeringBox">
-<div id="footer" class="centeringContent">
-<div class="displaySelect">表示： <b>PC</b> ｜ <a href="/s/fekakomon.php">モバイル</a></div>
-<nav class="footerContent">
-<a href="/thissiteis.html">利用規約</a>
-<a href="/privacypolicy.html">プライバシーポリシー</a>
-<a href="/tokushouhou.html">特商法に基づく表記</a>
-<a href="/contact.html">お問い合わせ</a>
-<a href="/config.html">表示設定</a>
-<br>
-<a href="/sitemap.html">サイトマップ</a>
-<a href="/link.html">リンク</a>
-<a href="/ads.html">広告の掲載について</a>
-<a href="/contact_faq.html">よくある質問（FAQ）</a>
-</nav>
-<div class="minilogo" title="基本情報技術者試験ドットコム"></div>
-</div>
+  <div id="footer" class="centeringContent">
+    <div class="displaySelect">表示： <b>PC</b> ｜ <a href="/s/fekakomon.php">モバイル</a></div>
+    <nav class="footerContent">
+      <a href="/thissiteis.html">利用規約</a>
+      <a href="/privacypolicy.html">プライバシーポリシー</a>
+      <a href="/tokushouhou.html">特商法に基づく表記</a>
+      <a href="/contact.html">お問い合わせ</a>
+      <a href="/config.html">表示設定</a>
+      <br>
+      <a href="/sitemap.html">サイトマップ</a>
+      <a href="/link.html">リンク</a>
+      <a href="/ads.html">広告の掲載について</a>
+      <a href="/contact_faq.html">よくある質問（FAQ）</a>
+    </nav>
+    <div class="minilogo" title="基本情報技術者試験ドットコム"></div>
+  </div>
 
-<div id="footerBottomWrap" class="centeringBox">
-<div id="footerBottom" class="centeringContent">
-<small>&copy; 2010-<script>document.write(new Date().getFullYear());</script>　基本情報技術者試験ドットコム　All Rights Reserved.</small>
-</div>
-</div>
+  <div id="footerBottomWrap" class="centeringBox">
+    <div id="footerBottom" class="centeringContent">
+      <small>&copy; 2010-<script>document.write(new Date().getFullYear());</script>　基本情報技術者試験ドットコム　All Rights Reserved.</small>
+    </div>
+  </div>
 </footer>
 <!-- FOOTER END -->
 
 <button id="drawer_btn"><span></span><span></span><span></span></button>
 <nav id="drawer_menu">
-
-<div class="drawer_header">学習支援ツール</div>
-<ul>
-<li><a href="/fekakomon.php" title="過去問道場(科目A)" data-tip="人気">
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M798.85-272.69 719.31-353l22.54-22.54 80.3 79.54-23.3 23.31ZM685-690.08l-22.54-21.54L742-791.15l23.31 22.53L685-690.08Zm-410 .77-79.54-80.31L218-792.15l80.31 79.53L275-689.31ZM160.38-272.69 137.85-296l79.53-78.54L240.69-353l-80.31 80.31Zm156.24 21L480-348.46l165.15 97.54-43.23-183.23 141.77-121.16-187.77-16.84L480-746.08l-75.15 173.93-187.77 16.07 142.77 121.93-43.23 182.46Zm-49 66.69 56.84-236L136-580.77l246.77-20.92L480-825l98 224.31 246.77 19.92L636.31-421l56.84 236L480-310.62 267.62-185Zm213.15-314Z"/></svg>
-過去問道場(科目A)</a></li>
-
-<li><a href="/fekakomon_pm.php" title="過去問道場(旧・午後試験)">
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="m397-428.92 31.15-103.23-82-60.16h102.47L480-696.62l31.38 104.31h102.47l-82.23 60.16 31.15 103.23L480-493l-83 64.08ZM280-101.54v-263.61q-38-37.39-59-87.54-21-50.16-21-107.31 0-117.08 81.46-198.54T480-840q117.08 0 198.54 81.46T760-560q0 57.15-21 107.31-21 50.15-59 87.54v263.61l-200-60-200 60ZM480-320q100 0 170-70t70-170q0-100-70-170t-170-70q-100 0-170 70t-70 170q0 100 70 170t170 70ZM320-158.23l160-44.85 160 44.85v-173.23q-33.46 24.61-74.35 38.04Q524.77-280 480-280t-85.65-13.42q-40.89-13.43-74.35-38.04v173.23Zm160-86.62Z"/></svg>
-過去問道場(旧・午後試験)</a></li>
-
-<li><a href="/febbs.php" title="掲示板" data-tip="質問・相談">
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M260-404h296v-32H260v32Zm0-132h440v-32H260v32Zm0-132h440v-32H260v32ZM136-172.92v-594.46q0-24.32 16.15-40.47T192.62-824h574.76q24.32 0 40.47 16.15T824-767.38v430.76q0 24.32-16.15 40.47T767.38-280h-524.3L136-172.92ZM230-312h537.38q9.24 0 16.93-7.69 7.69-7.69 7.69-16.93v-430.76q0-9.24-7.69-16.93-7.69-7.69-16.93-7.69H192.62q-9.24 0-16.93 7.69-7.69 7.69-7.69 16.93v518.15L230-312Zm-62 0v-480 480Z"/></svg>
-掲示板</a>
-</li>
-</ul>
-
-<div class="drawer_header">基本情報技術者 過去問題解説</div>
-<ul>
-<li class="drawer_accordion"><a>
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M360-160v-40h80v-80H184.62q-27.62 0-46.12-18.5Q120-317 120-344.62v-390.76q0-27.62 18.5-46.12Q157-800 184.62-800h590.76q27.62 0 46.12 18.5Q840-763 840-735.38v390.76q0 27.62-18.5 46.12Q803-280 775.38-280H520v80h80v40H360ZM184.62-320h590.76q9.24 0 16.93-7.69 7.69-7.69 7.69-16.93v-390.76q0-9.24-7.69-16.93-7.69-7.69-16.93-7.69H184.62q-9.24 0-16.93 7.69-7.69 7.69-7.69 16.93v390.76q0 9.24 7.69 16.93 7.69 7.69 16.93 7.69ZM160-320v-440 440Z"/></svg>
-CBT 公開問題</a>
-</li>
-
-<li>
-	<ul class="testMenu">
-	<li><a href="/kakomon/07_haru/" title="令和7年度">令和7年度</a>
-	<li><a href="/kakomon/06_haru/" title="令和6年度">令和6年度</a>
-	<li><a href="/kakomon/05_haru/" title="令和5年度">令和5年度</a>
-	<li><a href="/kakomon/sample/" title="サンプル問題">サンプル問題</a>
-	</ul>
-</li>
-
-<li class="drawer_accordion"><a>
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M240.62-136q-24.32 0-40.47-16.5T184-192.62v-478.76q0-23.62 16.15-40.12Q216.3-728 240.62-728h102.76v-105.23h35.08V-728h206.16v-105.23h32V-728h102.76q24.32 0 40.47 16.5T776-671.38v478.76q0 23.62-16.15 40.12Q743.7-136 719.38-136H240.62Zm0-32h478.76q9.24 0 16.93-7.69 7.69-7.69 7.69-16.93v-310.76H216v310.76q0 9.24 7.69 16.93 7.69 7.69 16.93 7.69ZM216-535.39h528v-135.99q0-9.24-7.69-16.93-7.69-7.69-16.93-7.69H240.62q-9.24 0-16.93 7.69-7.69 7.69-7.69 16.93v135.99Zm0 0V-696v160.61Zm264.21 157.54q-10.59 0-18.79-7.98-8.19-7.98-8.19-18.57 0-10.6 7.98-18.79t18.58-8.19q10.59 0 18.79 7.98 8.19 7.98 8.19 18.57 0 10.6-7.98 18.79t-18.58 8.19Zm-156 0q-10.59 0-18.79-7.98-8.19-7.98-8.19-18.57 0-10.6 7.98-18.79t18.58-8.19q10.59 0 18.79 7.98 8.19 7.98 8.19 18.57 0 10.6-7.98 18.79t-18.58 8.19Zm312 0q-10.59 0-18.79-7.98-8.19-7.98-8.19-18.57 0-10.6 7.98-18.79t18.58-8.19q10.59 0 18.79 7.98 8.19 7.98 8.19 18.57 0 10.6-7.98 18.79t-18.58 8.19ZM480.21-240q-10.59 0-18.79-7.98-8.19-7.98-8.19-18.58 0-10.59 7.98-18.79 7.98-8.19 18.58-8.19 10.59 0 18.79 7.98 8.19 7.99 8.19 18.58 0 10.6-7.98 18.79T480.21-240Zm-156 0q-10.59 0-18.79-7.98-8.19-7.98-8.19-18.58 0-10.59 7.98-18.79 7.98-8.19 18.58-8.19 10.59 0 18.79 7.98 8.19 7.99 8.19 18.58 0 10.6-7.98 18.79T324.21-240Zm312 0q-10.59 0-18.79-7.98-8.19-7.98-8.19-18.58 0-10.59 7.98-18.79 7.98-8.19 18.58-8.19 10.59 0 18.79 7.98 8.19 7.99 8.19 18.58 0 10.6-7.98 18.79T636.21-240Z"/></svg>
-旧制度 過去問題</a>
-</li>
-
-<li>
-	<ul class="testMenu">
-	<li><a href="/kakomon/04_menjo/" title="令和4年度">令和4年度</a>
-	<li><a href="/kakomon/03_menjo/" title="令和3年度">令和3年度</a>
-	<li><a href="/kakomon/02_menjo/" title="令和2年度">令和2年度</a>
-	<li><a href="/kakomon/01_aki/" title="令和元年秋期">令和元年秋期</a>
-	<li><a href="/kakomon/31_haru/" title="平成31年春期">平成31年春期</a>
-	<li><a href="/kakomon/30_aki/" title="平成30年秋期">平成30年秋期</a>
-	<li><a href="/kakomon/30_haru/" title="平成30年春期">平成30年春期</a>
-	<li><a href="/kakomon/29_aki/" title="平成29年秋期">平成29年秋期</a>
-	<li><a href="/kakomon/29_haru/" title="平成29年春期">平成29年春期</a>
-	<li><a href="/kakomon/28_aki/" title="平成28年秋期">平成28年秋期</a>
-	<li><a href="/kakomon/28_haru/" title="平成28年春期">平成28年春期</a>
-	<li><a href="/kakomon/27_aki/" title="平成27年秋期">平成27年秋期</a>
-	<li><a href="/kakomon/27_haru/" title="平成27年春期">平成27年春期</a>
-	<li><a href="/kakomon/26_aki/" title="平成26年秋期">平成26年秋期</a>
-	<li><a href="/kakomon/26_haru/" title="平成26年春期">平成26年春期</a>
-	<li><a href="/kakomon/25_aki/" title="平成25年秋期">平成25年秋期</a>
-	<li><a href="/kakomon/25_haru/" title="平成25年春期">平成25年春期</a>
-	<li><a href="/kakomon/24_aki/" title="平成24年秋期">平成24年秋期</a>
-	<li><a href="/kakomon/24_haru/" title="平成24年春期">平成24年春期</a>
-	<li><a href="/kakomon/23_aki/" title="平成23年秋期">平成23年秋期</a>
-	<li><a href="/kakomon/23_toku/" title="平成23年特別">平成23年特別</a>
-	<li><a href="/kakomon/22_aki/" title="平成22年秋期">平成22年秋期</a>
-	<li><a href="/kakomon/22_haru/" title="平成22年春期">平成22年春期</a>
-	<li><a href="/kakomon/21_aki/" title="平成21年秋期">平成21年秋期</a>
-	<li><a href="/kakomon/21_haru/" title="平成21年春期">平成21年春期</a>
-	<li><a href="/kakomon/20_aki/" title="平成20年秋期">平成20年秋期</a>
-	<li><a href="/kakomon/20_haru/" title="平成20年春期">平成20年春期</a>
-	<li><a href="/kakomon/19_aki/" title="平成19年秋期">平成19年秋期</a>
-	<li><a href="/kakomon/19_haru/" title="平成19年春期">平成19年春期</a>
-	<li><a href="/kakomon/18_aki/" title="平成18年秋期">平成18年秋期</a>
-	<li><a href="/kakomon/18_haru/" title="平成18年春期">平成18年春期</a>
-	<li><a href="/kakomon/17_aki/" title="平成17年秋期">平成17年秋期</a>
-	<li><a href="/kakomon/17_haru/" title="平成17年春期">平成17年春期</a>
-	<li><a href="/kakomon/16_aki/" title="平成16年秋期">平成16年秋期</a>
-	<li><a href="/kakomon/16_haru/" title="平成16年春期">平成16年春期</a>
-	<li><a href="/kakomon/15_aki/" title="平成15年秋期">平成15年秋期</a>
-	<li><a href="/kakomon/15_haru/" title="平成15年春期">平成15年春期</a>
-	<li><a href="/kakomon/14_aki/" title="平成14年秋期">平成14年秋期</a>
-	<li><a href="/kakomon/14_haru/" title="平成14年春期">平成14年春期</a>
-	<li><a href="/kakomon/13_aki/" title="平成13年秋期">平成13年秋期</a>
-	<li><a href="/kakomon/13_haru/" title="平成13年春期">平成13年春期</a>
-	</ul>
-</li>
-
-<li class="drawer_accordion"><a>
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M584-463.08 663.08-384v32H496v188l-16 16-16-16v-188H296.92v-32L376-463.08V-744h-48v-32h304v32h-48v280.92ZM342-384h276l-66-66v-294H408v294l-66 66Zm138 0Z"/></svg>
-分野別 過去問題</a>
-</li>
-
-<li>
-	<ul>
-	<li><a href="/index_te.html" title="テクノロジ系">テクノロジ系</a>
-	<li><a href="/index_ma.html" title="マネジメント系">マネジメント系</a>
-	<li><a href="/index_st.html" title="ストラテジ系">ストラテジ系</a>
-	<li><a href="/index_pm.html" title="午後問題">旧・午後試験</a>
-	</ul>
-</li>
-
-<li class="drawer_accordion"><a>
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M500.92-311.85 573-367.54l72.08 55.69-27.85-88.38 72.85-58.54h-88.67L573-546l-27.85 87.23h-89.23l72.85 58.54-27.85 88.38ZM192.62-232q-23.62 0-40.12-16.5Q136-265 136-288.62v-382.76q0-24.32 16.5-40.47T192.62-728h175.23l96 96h303.53q24.32 0 40.47 16.15T824-575.38v286.76q0 23.62-16.15 40.12Q791.7-232 767.38-232H192.62Zm0-32h574.76q10.77 0 17.7-6.92 6.92-6.93 6.92-17.7v-286.76q0-10.77-6.92-17.7-6.93-6.92-17.7-6.92H450.77l-96-96H192.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v382.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92ZM168-264v-432 432Z"/></svg>
-オリジナル模擬試験</a>
-</li>
-
-<li>
-	<ul>
-	<li><a href="/kakomon/01_moshi/" title="模擬試験１">模擬試験１</a>
-	<li><a href="/kakomon/02_moshi/" title="模擬試験２">模擬試験２</a>
-	</ul>
-</li>
-</ul>
-
-<div class="drawer_header">シラバス用語対策</div>
-<ul>
-	<li class="drawer_accordion"><a data-tip="シラバスver9.1対応">
-	<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M175.38-396.38h31.16l22.23-61.39h114.77L366-396.38h31.69l-92.38-245.7H267l-91.62 245.7Zm64.85-90.7 44.92-122.38h2l44.93 122.38h-91.85Zm315.15-89.23v-37.23q32.24-16.31 69.04-24.46 36.81-8.15 75.58-8.15 22.15 0 42.54 2.84 20.38 2.85 42.08 8.08v36.31q-20.93-6.7-40.81-9.27-19.89-2.58-43.81-2.58-38.77 0-75.69 8.73-36.93 8.73-68.93 25.73Zm0 218.46v-38.77q30.7-16.3 68.66-24.46 37.96-8.15 75.96-8.15 22.15 0 42.54 2.85 20.38 2.84 42.08 8.07V-382q-20.93-6.69-40.81-9.27-19.89-2.58-43.81-2.58-38.77 0-75.69 9.39-36.93 9.38-68.93 26.61Zm0-108.46v-38.77q32.24-16.3 69.04-24.46 36.81-8.15 75.58-8.15 22.15 0 42.54 2.84 20.38 2.85 42.08 8.08v36.31q-20.93-6.69-40.81-9.27-19.89-2.58-43.81-2.58-38.77 0-75.69 9.5-36.93 9.5-68.93 26.5ZM260-318.46q52.38 0 101.88 12.04 49.5 12.04 98.12 39.19v-392.46q-43.31-30.93-95.46-46.39-52.16-15.46-104.54-15.46-36 0-63.04 4.31t-60.04 16q-9.23 3.08-13.07 8.85-3.85 5.76-3.85 12.69v360.61q0 10.77 7.69 15.77t16.93 1.16q21.92-7.39 50.65-11.85 28.73-4.46 64.73-4.46Zm240 51.23q48.62-27.15 98.12-39.19 49.5-12.04 101.88-12.04 36 0 64.73 4.46 28.73 4.46 50.65 11.85 9.24 3.84 16.93-1.16 7.69-5 7.69-15.77v-360.61q0-6.93-3.85-12.31-3.84-5.38-13.07-9.23-33-11.69-60.04-16-27.04-4.31-63.04-4.31-52.38 0-104.54 15.46-52.15 15.46-95.46 46.39v392.46Zm-20 58q-48.77-33.39-104.77-51.31-56-17.92-115.23-17.92-31.23 0-61.35 5.23Q168.54-268 140-256.46q-21.77 8.69-40.88-5.23Q80-275.61 80-300.15v-386.62q0-14.85 7.81-27.54T109.69-732q35.23-15.54 73.31-22.54 38.08-7 77-7 58.77 0 114.65 16.92 55.89 16.93 105.35 49.24 49.46-32.31 105.35-49.24 55.88-16.92 114.65-16.92 38.92 0 77 7T850.31-732q14.07 5 21.88 17.69 7.81 12.69 7.81 27.54v386.62q0 24.54-20.65 37.69-20.66 13.15-43.97 4.46-27.76-10.77-56.73-15.62-28.96-4.84-58.65-4.84-59.23 0-115.23 17.92-56 17.92-104.77 51.31ZM290-494.38Z"/></svg>
-	用語集</a>
-	</li>
-
-	<li>
-		<ul>
-		<li><a href="/keyword/" title="カテゴリーから探す">カテゴリーから探す</a></li>
-		<li><a href="/keyword/#char_index" title="索引から探す">索引から探す</a></li>
-		</ul>
-	</li>
-</ul>
-
-<ul>
-<li class="drawer_accordion"><a>
-<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#555"><path d="M464-308h32v-220h-32v220Zm15.79-268.92q8.67 0 14.75-5.87t6.08-14.54q0-8.67-5.87-14.75-5.87-6.07-14.54-6.07-8.67 0-14.75 5.86-6.08 5.87-6.08 14.54 0 8.67 5.87 14.75t14.54 6.08Zm.62 440.92q-70.95 0-133.69-26.84-62.73-26.84-109.86-73.92t-73.99-109.72Q136-409.11 136-480.32q0-71.22 26.84-133.46 26.84-62.23 73.92-109.36t109.72-73.99Q409.11-824 480.32-824q71.22 0 133.46 26.84 62.23 26.84 109.36 73.92t73.99 109.48Q824-551.36 824-480.41q0 70.95-26.84 133.69-26.84 62.73-73.92 109.86t-109.48 73.99Q551.36-136 480.41-136Zm-.41-32q130 0 221-91t91-221q0-130-91-221t-221-91q-130 0-221 91t-91 221q0 130 91 221t221 91Zm0-312Z"/></svg>
-試験情報＆制度解説</a>
-</li>
-
-<li>
-	<ul>
-	<li><a href="/feis.html" title="基本情報技術者とは">基本情報技術者とは</a>
-	<li><a href="/femerit.html" title="基本情報技術者のメリット">基本情報技術者メリット</a>
-	<li><a href="/fegaiyou.html" title="試験の概要">試験の概要</a>
-	<li><a href="/fehani.html" title="出題範囲">出題範囲</a>
-	<li><a href="/fekeisiki.html" title="試験形式">試験の形式と合格基準</a>
-	<li><a href="/fenanido.html" title="基本情報技術者の難易度">基本情報技術者の難易度</a>
-	<li><a href="/femenjo.html" title="科目A試験の免除制度">科目A試験の免除制度</a>
-	<li><a href="/festudy.html" title="勉強方法">効果的な勉強方法</a>
-	<li><a href="/fetext.html" title="テキスト・参考書">おすすめテキスト問題集</a>
-	<li><a href="/fekouza.html" title="通信講座の紹介">通信講座の紹介</a>
-	<li><a href="/faq.html" title="よくある質問(FAQ)">よくある質問(FAQ)</a>
-	<li><a href="/fetoukei.html" title="統計情報">統計情報</a>
-	</ul>
-</li>
-</ul>
-
-<a href="https://twitter.com/kakomon_doujou?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-lang="ja" data-show-count="false">Follow @kakomon_doujou</a><script async src="https://platform.twitter.com/widgets.js"></script>
-
+  <!-- drawer content omitted for brevity; keep original or build dynamically -->
+  <div style="padding:1rem">メニュー（モバイル）</div>
 </nav>
-<a href="#header" id="toTop"><span>&#9650;</span><br>Pagetop</a>
 
-<div id="canvas_answer_back"></div>
-<canvas id="canvas_answer_front" width="200" height="260"></canvas>
+<a href="#header" id="toTop"><span>&#9650;</span><br>Pagetop</a>
 
 <!-- SCRIPT START -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="/js/fe.js?20251215"></script>
-<script src="./js/kakomonApp.js?20250919"></script>
+<script src="{% static 'core/js/fe.js' %}"></script>
+<script src="{% static 'core/js/kakomonApp.js' %}"></script>
 <!-- SCRIPT END -->
 </body>
 </html>
