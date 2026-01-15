@@ -22,6 +22,6 @@ from core import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', views.index, name='index'),
-     path('doujouManual.html', TemplateView.as_view(template_name='core/doujouManual.html'), name='manual'),
+    path("", include("core.urls")),
+    path('doujouManual.html', TemplateView.as_view(template_name='core/doujouManual.html'), name='manual'),
 ]
