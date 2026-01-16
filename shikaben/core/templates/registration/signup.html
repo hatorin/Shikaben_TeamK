@@ -1,0 +1,24 @@
+{% load static %}
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>新規登録</title>
+  <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+</head>
+<body>
+  <main style="max-width: 520px; margin: 40px auto;">
+    <h2>アカウントを作成する</h2>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">登録してログイン</button>
+    </form>
+
+    <p style="margin-top:12px;">
+      <a href="{% url 'login' %}">ログインへ戻る</a>
+    </p>
+  </main>
+</body>
+</html>

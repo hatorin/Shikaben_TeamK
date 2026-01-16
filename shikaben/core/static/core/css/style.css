@@ -701,6 +701,8 @@ i.maru{border:3px solid #54BB5A;border-radius:50%}
 #stateMessage{position:fixed;top:0;left:0;width:100%;font-size:14px;padding:5px 0;background:rgb(0 0 0 / 70%);color:rgb(255 255 255 / 80%);text-align:center;z-index:100;transform:translateY(-100%);transition:transform .2s}
 #stateMessage.show{transform:translateY(0)}
 
+#headerMenu{position:relative;}
+
 /* モーダルウィンドウ */
 body.modal .centeringBox{filter:blur(3px)}
 #grayLayer{display:none;position:fixed;top:0;left:0;height:100%;width:100%;background:#000;opacity:.7;z-index:99}

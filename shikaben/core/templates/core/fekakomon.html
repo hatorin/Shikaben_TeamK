@@ -74,6 +74,7 @@ if (typeof localStorage !== 'undefined') {
 <!-- MAINCOL START -->
 <main id="mainCol">
 <div class="pan"><a href="/">HOME</a>&raquo;<b>基本情報技術者過去問道場（登録者数<b>368,000</b>人突破）</b></div>
+
 <style>
 .rankingGraph{position:relative}
 .rankingGraph .balloon{position:absolute;color:var(--color-444);background:var(--main-bg);border:1px solid var(--dark-border);border-radius:3px;padding:5px;box-shadow:2px 2px 5px var(--dark-border);z-index:1}
@@ -84,10 +85,63 @@ if (typeof localStorage !== 'undefined') {
 [value="moshi_harf"]:checked ~ [name="moshi_cnt"]{max-width:80px;padding-left:4px;padding-right:20px;visibility:visible}
 </style>
 <div class="main kako doujou">
-<h2>基本情報技術者過去問道場🥋
-<button id="userBtn"><i class="user"></i><span id="userid">ログイン・ユーザー登録</span></button>
-<div id="userPanel"></div>
+<h2 style="position:relative;">
+  基本情報技術者過去問道場🥋
+
+  <button type="button" id="userBtn">
+    <i class="user"></i><span id="userid">
+      {% if user.is_authenticated %}{{ user.username }}さん{% else %}ログイン・ユーザー登録{% endif %}
+    </span>
+  </button>
+
+  <div id="userPanel" class="{% if user.is_authenticated %}login{% endif %}">
+    {% if user.is_authenticated %}
+      <form id="adminForm" method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">ログアウト</button>
+      </form>
+    {% else %}
+      <form id="loginForm" method="post" action="{% url 'login' %}" autocomplete="on">
+        {% csrf_token %}
+        <div class="inputWrap">
+          <i class="user"></i>
+          <input type="text" name="username" autocomplete="username" required>
+          <label>ユーザーID または メールアドレス</label>
+        </div>
+
+        <div class="inputWrap">
+          <i class="password"></i>
+          <input type="password" name="password" autocomplete="current-password" required>
+          <label>パスワード</label>
+          <i class="eye togglePassword"></i>
+        </div>
+
+        <div><button type="submit" name="login">ログイン</button></div>
+        <a href="{% url 'signup' %}" id="register">+新規登録</a>
+      </form>
+    {% endif %}
+  </div>
 </h2>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("userBtn");
+  const panel = document.getElementById("userPanel");
+  if (!btn || !panel) return;
+
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    panel.classList.toggle("show");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!panel.classList.contains("show")) return;
+    if (panel.contains(e.target) || btn.contains(e.target)) return;
+    panel.classList.remove("show");
+  });
+});
+</script>
+
 <div class="img_margin"><img src="img/doujoulogo.png" width="344" height="58" alt="過去問道場" id="doujoulogo"></div>
 <p>「基本情報技術者試験過去問道場」は、基本情報技術者試験過去問題(2,920問)の中からランダムに出題する完全解説付きのWeb問題集です。PC/スマホ/タブレットを使って、スキマ時間を活用して無料で過去問演習に取り組むことができ、学習履歴を管理することも可能です。試験対策としてご活用ください。</p>
 <div class="anslink"><i class="help"></i><a href="doujouManual.html">過去問道場の利用方法</a></div>
