@@ -591,7 +591,7 @@ $(function() {
                     dem: c
                 },
                 v.resolve(),
-                window.Worker && ((s = new Worker(__kJs("worker.js?20240806"))).onmessage = function(e) {
+                window.Worker && ((s = new Worker(__kJs("/static/core/js/worker.js?20240806"))).onmessage = function(e) {
                     k.rankDetail = JSON.parse(e.data),
                     k.rankDetail.rank = getDan(k.rankDetail),
                     $("#slider").is(":visible") && ($(".currentQCount", $("#slider>div").eq(0)).html(k.rankDetail.qCount + "問"),
@@ -2175,7 +2175,7 @@ $(function() {
             l = 70 * Math.abs(aDiff);
             aOffset = 70;
         }
-        
+
         var html =
         '<style>.kanjiFont i{background:url(' + __kanjiPng + ') no-repeat;width:70px;height:70px}.night .kanjiFont i{filter:invert(1)}</style>' +
         '<div class="img_margin kanjiFont">' +
@@ -2185,7 +2185,7 @@ $(function() {
         '</div>' +
         W("edit", __rankInfo) +
         '<div class="img_margin"><button id="account_cancel">戻る</button></div>';
-    
+
         return $("#slider>div").eq(1).html(html),
         $("#slider").animate({ left: "-=" + L }, I),
         !1;
