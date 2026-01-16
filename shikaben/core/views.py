@@ -1,19 +1,68 @@
 from django.utils import timezone
-from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
+import re
+from django.contrib.auth import get_user_model, authenticate, login
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 
 def fekakomon_php(request):
     return render(request, "core/fekakomon.html")
 
-def signup(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect("/")
-    else:
-        form = UserCreationForm()
-    return render(request, "registration/signup.html", {"form": form})
+USERID_RE = re.compile(r"^[0-9A-Za-z._-]{6,20}$")  # 0-9 a-z A-Z ._- で6～20
+
+@require_POST
+def signup_api(request):
+    # JSは action=regist を投げてくる
+    if request.POST.get("action") != "regist":
+        return JsonResponse({"status": "error", "errorcode": 1}, status=400)
+
+    userid = (request.POST.get("userid") or "").strip()
+    password = request.POST.get("password") or ""
+    auto_login = request.POST.get("autoLogin") in ("1", "true", "True", "on")
+
+    # 形式チェック（JS側と同等の最低限）
+    if not userid or not password:
+        return JsonResponse({"status": "error", "errorcode": 1, "uid": userid})
+    if not USERID_RE.match(userid):
+        return JsonResponse({"status": "error", "errorcode": 1, "uid": userid})
+    if not (8 <= len(password) <= 32):
+        return JsonResponse({"status": "error", "errorcode": 1, "uid": userid})
+
+    # JSのerrorcode=2仕様：ユーザーIDを含むパスワード禁止
+    if userid.lower() in password.lower():
+        return JsonResponse({"status": "error", "errorcode": 2, "uid": userid})
+
+    User = get_user_model()
+
+    # 既に使われている（errorcode=3）
+    if User.objects.filter(username=userid).exists():
+        return JsonResponse({"status": "error", "errorcode": 3, "uid": userid})
+
+    # Djangoのパスワードバリデータが有効ならここで弾く（errorcode=1）
+    try:
+        validate_password(password)
+    except ValidationError:
+        return JsonResponse({"status": "error", "errorcode": 1, "uid": userid})
+
+    # 作成
+    try:
+        user = User.objects.create_user(username=userid, password=password)
+    except IntegrityError:
+        return JsonResponse({"status": "error", "errorcode": 3, "uid": userid})
+    except Exception:
+        return JsonResponse({"status": "error", "errorcode": 4}, status=500)
+
+    # 登録後にログイン状態にする（モーダルの「学習履歴管理」表示のため）
+    user = authenticate(request, username=userid, password=password)
+    if user:
+        login(request, user)
+        # 1ヶ月保持（JSのautoLogin）
+        request.session.set_expiry(60 * 60 * 24 * 30 if auto_login else 0)
+
+    return JsonResponse({"status": "success", "uid": userid})
+
 

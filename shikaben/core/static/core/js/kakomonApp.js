@@ -57,7 +57,7 @@ function __kJs(file)  { return __kStatic("js/"  + file); }
 
 $(function() {
     var s = testID + "kakomon.php"
-      , g = "./php/userManagement.php"
+      , g = "/signup/"
       , a = "/membership/"
       , B = ["-", "○", "×"]
       , V = -1 === $.inArray(testID, ["ip", "sg", "fe", "ap"])
@@ -2452,3 +2452,20 @@ $(function() {
         return _0x41b9();
     }
 })
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
+  return "";
+}
+
+const csrftoken = getCookie("csrftoken");
+
+$.ajaxSetup({
+  beforeSend: function (xhr, settings) {
+    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+      xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    }
+  }
+});
