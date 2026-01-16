@@ -23,9 +23,7 @@ from core import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("core.urls")),
-    # Django標準ログイン/ログアウト/パスワード変更等
+    path("signup/", views.signup_api, name="signup"),
     path("accounts/", include("django.contrib.auth.urls")),
-    # 新規登録
-    path("accounts/", include("core.accounts_urls")),
     path('doujouManual.html', TemplateView.as_view(template_name='core/doujouManual.html'), name='manual'),
 ]
