@@ -472,25 +472,88 @@ CBT 公開問題</a>
 <script src="{% static 'core/js/kakomonApp.js' %}"></script>
 <!-- SCRIPT END -->
 
+<!-- ログイン用フォーム -->
+<form id="djangoLoginForm" method="post" action="{% url 'login' %}?next=/fekakomon.php" style="display:none;">
+  {% csrf_token %}
+  <input type="hidden" name="username">
+  <input type="hidden" name="password">
+</form>
+
 <!-- ログアウト用フォーム -->
-<form id="logoutForm" method="post" action="{% url 'logout' %}" style="display:none;">
+<form id="djangoLogoutForm" method="post" action="{% url 'logout' %}?next=/fekakomon.php" style="display:none;">
   {% csrf_token %}
 </form>
 
 <script>
-document.addEventListener("click", function (e) {
+function getCookie(name) {
+  const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+  return m ? decodeURIComponent(m.pop()) : '';
+}
+
+document.addEventListener("submit", function(e) {
+  const src = e.target;
+  if (!src || src.id !== "loginForm") return;   // kakomonApp.js側のフォームだけ対象
+
+  // kakomonApp.js の submit/AJAX を止める
+  e.preventDefault();
+  e.stopPropagation();
+  e.stopImmediatePropagation();
+
+  // 入力値を取得（kakomonApp.jsは userid）
+  const userid = src.querySelector('[name="userid"]')?.value || "";
+  const pass   = src.querySelector('[name="password"]')?.value || "";
+
+  // Django 標準ログインへ流し込む（Djangoは username）
+  const f = document.getElementById("djangoLoginForm");
+  f.querySelector('[name="username"]').value = userid;
+  f.querySelector('[name="password"]').value = pass;
+
+  // CSRFトークンは cookie の最新値に合わせる（ログイン前後で変わることがあるため）
+  const token = getCookie("csrftoken");
+  const csrfInput = f.querySelector('input[name="csrfmiddlewaretoken"]');
+  if (csrfInput && token) csrfInput.value = token;
+
+  f.submit();
+}, true); // ← capture が重要
+</script>
+
+<script>
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+document.addEventListener("click", function(e) {
   const logoutLink = e.target.closest("#logout");
   if (!logoutLink) return;
 
-  // 元のkakomonApp.jsのlogout処理を潰す
+  // kakomonApp.js を止める
   e.preventDefault();
+  e.stopPropagation();
   e.stopImmediatePropagation();
 
-  // DjangoのPOSTログアウトへ
-  const f = document.getElementById("logoutForm");
-  if (f) f.submit();
-}, true); // ← capture=true が重要
+  const csrftoken = getCookie("csrftoken");
+
+  fetch("{% url 'logout' %}", {   // ここが /accounts/logout/ でもOK
+    method: "POST",
+    headers: { "X-CSRFToken": csrftoken },
+    mode: "same-origin",
+    credentials: "same-origin",
+  }).then(() => {
+    // ログアウト後の見た目更新
+    window.location.reload();
+  });
+}, true);
 </script>
 
-</body>
-</html>
+</body></html>
