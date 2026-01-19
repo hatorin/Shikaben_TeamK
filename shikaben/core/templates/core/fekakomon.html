@@ -471,5 +471,26 @@ CBT 公開問題</a>
 <script src="{% static 'core/js/fe.js' %}"></script>
 <script src="{% static 'core/js/kakomonApp.js' %}"></script>
 <!-- SCRIPT END -->
+
+<!-- ログアウト用フォーム -->
+<form id="logoutForm" method="post" action="{% url 'logout' %}" style="display:none;">
+  {% csrf_token %}
+</form>
+
+<script>
+document.addEventListener("click", function (e) {
+  const logoutLink = e.target.closest("#logout");
+  if (!logoutLink) return;
+
+  // 元のkakomonApp.jsのlogout処理を潰す
+  e.preventDefault();
+  e.stopImmediatePropagation();
+
+  // DjangoのPOSTログアウトへ
+  const f = document.getElementById("logoutForm");
+  if (f) f.submit();
+}, true); // ← capture=true が重要
+</script>
+
 </body>
 </html>
