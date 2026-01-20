@@ -354,6 +354,7 @@ $(function() {
                 $("#formTitle").html("学習履歴管理"),
                 $("#userBtn").addClass("login"),
                 $("#userid").html(p + "さん")
+                window.location.reload();
             } else if ("error" == e.status)
                 switch (t.prop("disabled", !1).removeClass("disabled"),
                 e.errorcode) {
