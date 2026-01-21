@@ -8,7 +8,6 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-2TKTF90HZ0');
 </script>
 <meta name="viewport" content="width=960,user-scalable=yes">
@@ -67,6 +66,8 @@ if (typeof localStorage !== 'undefined') {
 </header>
 <!-- HEADER END -->
 
+<div id="stateMessage"></div>
+
 <!-- CONTENT START -->
 <div id="contentWrap" class="centeringBox">
 <div id="content" class="centeringContent">
@@ -94,33 +95,35 @@ if (typeof localStorage !== 'undefined') {
     </span>
   </button>
 
-  <div id="userPanel" class="{% if user.is_authenticated %}login{% endif %}">
-    {% if user.is_authenticated %}
-      <form id="adminForm" method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">ログアウト</button>
-      </form>
-    {% else %}
-      <form id="loginForm" method="post" action="{% url 'login' %}" autocomplete="on">
-        {% csrf_token %}
-        <div class="inputWrap">
-          <i class="user"></i>
-          <input type="text" name="username" autocomplete="username" required>
-          <label>ユーザーID または メールアドレス</label>
-        </div>
+<div id="userPanel" class="{% if user.is_authenticated %}login{% endif %}{% if messages %} show{% endif %}">
+  {% if user.is_authenticated %}
+    <form id="adminForm" method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit">ログアウト</button>
+    </form>
+  {% else %}
+    <form id="loginForm" method="post" action="{% url 'login' %}" autocomplete="on">
+      {% csrf_token %}
 
-        <div class="inputWrap">
-          <i class="password"></i>
-          <input type="password" name="password" autocomplete="current-password" required>
-          <label>パスワード</label>
-          <i class="eye togglePassword"></i>
-        </div>
+      <div class="inputWrap">
+        <i class="user"></i>
+        <input type="text" name="username" autocomplete="username" required
+               value="{{ last_login_username|default:'' }}">
+        <label>ユーザーID</label>
+      </div>
 
-        <div><button type="submit" name="login">ログイン</button></div>
-        <a href="{% url 'signup' %}" id="register">+新規登録</a>
-      </form>
-    {% endif %}
-  </div>
+      <div class="inputWrap">
+        <i class="password"></i>
+        <input type="password" name="password" autocomplete="current-password" required>
+        <label>パスワード</label>
+        <i class="eye togglePassword"></i>
+      </div>
+
+      <div><button type="submit" name="login">ログイン</button></div>
+      <a href="{% url 'signup' %}" id="register">+新規登録</a>
+    </form>
+  {% endif %}
+</div>
 </h2>
 
 <script>
@@ -472,6 +475,27 @@ CBT 公開問題</a>
 <script src="{% static 'core/js/kakomonApp.js' %}"></script>
 <!-- SCRIPT END -->
 
+{% if messages %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const el = document.getElementById('stateMessage');
+  if (!el) return;
+
+  let msg = "";
+  {% for message in messages %}
+    {% if forloop.first %}
+      msg = "{{ message|escapejs }}";
+    {% endif %}
+  {% endfor %}
+
+  if (!msg) return;
+  el.innerHTML = '<i class="caution"></i> ' + msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3000);
+});
+</script>
+{% endif %}
+
 <!-- ログイン用フォーム -->
 <form id="djangoLoginForm" method="post" action="{% url 'login' %}?next=/fekakomon.php" style="display:none;">
   {% csrf_token %}
@@ -500,7 +524,10 @@ document.addEventListener("submit", function(e) {
   e.stopImmediatePropagation();
 
   // 入力値を取得（kakomonApp.jsは userid）
-  const userid = src.querySelector('[name="userid"]')?.value || "";
+  const userid =
+  src.querySelector('[name="userid"]')?.value ||
+  src.querySelector('[name="username"]')?.value ||
+  "";
   const pass   = src.querySelector('[name="password"]')?.value || "";
 
   // Django 標準ログインへ流し込む（Djangoは username）
@@ -554,6 +581,18 @@ document.addEventListener("click", function(e) {
     window.location.reload();
   });
 }, true);
+</script>
+
+<script>
+  // 公式っぽい通知関数の代替（グローバル）
+  window.b = function(html, timeout=5000){
+    const box = document.getElementById("stateMessage");
+    if(!box) return;
+    box.innerHTML = html;
+    box.classList.add("show");
+    clearTimeout(window.__bTimer);
+    window.__bTimer = setTimeout(()=>box.classList.remove("show"), timeout);
+  };
 </script>
 
 </body></html>
