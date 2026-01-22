@@ -89,13 +89,14 @@ if (typeof localStorage !== 'undefined') {
 <h2 style="position:relative;">
   基本情報技術者過去問道場🥋
 
-  <button type="button" id="userBtn">
-    <i class="user"></i><span id="userid">
+  <button type="button" id="userBtn" class="{% if user.is_authenticated %}login{% endif %}">
+    <i class="user"></i>
+    <span id="userid"  data-userid="{% if user.is_authenticated %}{{ user.username }}{% endif %}">
       {% if user.is_authenticated %}{{ user.username }}さん{% else %}ログイン・ユーザー登録{% endif %}
     </span>
   </button>
 
-<div id="userPanel" class="{% if user.is_authenticated %}login{% endif %}{% if messages %} show{% endif %}">
+<div id="userPanel" class="{% if messages %} show{% endif %}">
   {% if user.is_authenticated %}
     <form id="adminForm" method="post" action="{% url 'logout' %}">
       {% csrf_token %}
@@ -472,7 +473,7 @@ CBT 公開問題</a>
 <!-- SCRIPT START -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="{% static 'core/js/fe.js' %}"></script>
-<script src="{% static 'core/js/kakomonApp.js' %}"></script>
+<script src="{% static 'core/js/kakomonApp.js' %}?v=20260122"></script>
 <!-- SCRIPT END -->
 
 {% if messages %}
