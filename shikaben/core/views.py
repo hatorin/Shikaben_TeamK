@@ -8,9 +8,32 @@ from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
+from django.contrib import messages
+
+
+def kakomon_login(request):
+    # GETで /accounts/login/ に来ても、ログインページは作らない方針なので戻す
+    if request.method != "POST":
+        return redirect("/fekakomon.php")
+
+    username = request.POST.get("username") or request.POST.get("userid") or ""
+    password = request.POST.get("password") or ""
+
+    user = authenticate(request, username=username, password=password)
+    if user is None:
+        request.session["last_login_username"] = username
+        # 失敗理由を fekakomon.php へ持ち帰る（表示はテンプレ側で b() を使う）
+        messages.error(request, "ユーザーIDまたはパスワードが正しくありません。")
+        return redirect("/fekakomon.php?panel=login")
+
+    login(request, user)
+    return redirect("/fekakomon.php")
 
 def fekakomon_php(request):
-    return render(request, "core/fekakomon.html")
+    context = {
+        "last_login_username": request.session.pop("last_login_username", ""),
+    }
+    return render(request, "core/fekakomon.html", context)
 
 USERID_RE = re.compile(r"^[0-9A-Za-z._-]{6,20}$")  # 0-9 a-z A-Z ._- で6～20
 
