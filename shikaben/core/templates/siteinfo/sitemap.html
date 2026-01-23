@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=960,user-scalable=yes" />
+    <title>このサイトの利用について</title>
+
+    <!-- 共通CSS（core/static/core/css/style.css） -->
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+</head>
+
+<body id="top">
+    <style>
+        /* ここにページ固有のCSSを記述してください */
+        #drawer_btn {
+            top: 6px;/* 下へ */
+            right: 25px;/* 数値を増すと左へ */
+        }
+    </style>
+
+    <!-- =======================
+        HEADER
+  ======================= -->
+    <header id="headerWrap" class="centeringBox">
+        <div id="header" class="centeringContent">
+            <h1>基本情報技術者 試験情報＆徹底解説 -新制度に完全対応-</h1>
+
+            <a href="/">
+                <img src="/img/titlelogo.png" width="500" height="66" id="logo" alt="基本情報技術者試験ドットコム"
+                    title="基本情報技術者試験ドットコム トップページ">
+            </a>
+
+            <div id="countdown"></div>
+        </div>
+
+        <nav id="headerMenuWrap" class="centeringBox">
+            <div id="headerMenu" class="centeringContent">
+                <ul>
+                    <li id="fastMenuBtn"><a href="/kakomon/07_haru/" title="過去問題解説">過去問題解説</a></li>
+                    <li><a href="/feis.html" title="基本情報技術者とは">基本情報技術者とは</a></li>
+
+                    <li>
+                        <a href="/fekakomon.php" title="Webアプリ過去問道場">過去問道場</a>
+                        <ul>
+                            <li><a href="/fekakomon.php">過去問道場（科目A）</a></li>
+                            <li><a href="/fekakomon_pm.php">過去問道場（旧・午後試験）</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="/febbs.php" title="基本情報技術者掲示板">掲示板</a></li>
+                    <li><a href="/keyword/" title="シラバス用語集">用語集</a></li>
+
+                    <li class="search_button">
+                        <a href="#" title="サイト内検索" onclick="return false;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="20px" height="20px"
+                                fill="#fff">
+                                <path
+                                    d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- 検索パネル -->
+        <div class="search_panel" aria-hidden="true">
+            <div class="search_panel_inner centeringContent">
+                <script async src="https://cse.google.com/cse.js?cx=partner-pub-5061380080248584:2167693166"></script>
+                <div class="gcse-search"></div>
+                <div class="search_close_button" role="button" tabindex="0">閉じる</div>
+            </div>
+        </div>
+
+        <button id="drawer_btn" type="button" aria-label="メニュー"><span></span><span></span><span></span></button>
+        <nav id="drawer_menu" aria-label="ドロワーメニュー"></nav>
+
+        <a href="#header" id="toTop"><span>&#9650;</span><br>Pagetop</a>
+    </header>
+
+    <!-- =======================
+        MAIN
+  ======================= -->
+    <main id="contentWrap" class="centeringBox">
+        <div id="content" class="centeringContent">
+            <div id="mainCol" class="main">
+
+                <!-- パンくず（CSSは .pan を想定） -->
+                <div class="pan">
+                    <a href="/">HOME</a><b>»</b><span>このサイトの利用について</span>
+                </div>
+
+                <h2>このサイトの利用について</h2>
+
+                <p>ここに本文を入れてください。</p>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- =======================
+        FOOTER
+    ======================= -->
+    <div id="footerWrap" class="centeringBox">
+        <footer id="footer" class="centeringContent">
+
+            <!-- リンク群（CSSは .footerContent a を想定：width:140px のinline-block） -->
+            <div class="footerContent">
+                <a href="/thissiteis.html">利用規約</a>
+                <a href="/privacypolicy.html">プライバシーポリシー</a>
+                <a href="/tokushouhou.html">特商法に基づく表記</a>
+                <a href="/contact.html">お問い合わせ</a>
+                <a href="/config.html">表示設定</a>
+                <br>
+                <a href="/sitemap.html">サイトマップ</a>
+                <a href="/link.html">リンク</a>
+                <a href="/ads.html">広告の掲載について</a>
+                <a href="/contact_faq.html">よくある質問（FAQ）</a>
+            </div>
+
+            <!-- 右側のミニロゴ（CSSは .minilogo を想定：絶対配置） -->
+            <i class="minilogo" aria-hidden="true"></i>
+        </footer>
+    </div>
+
+    <div id="footerBottomWrap" class="centeringBox">
+        <div id="footerBottom" class="centeringContent">
+            <small>© 2010-2026　基本情報技術者試験ドットコム　All Rights Reserved.</small>
+        </div>
+    </div>
+
+    <!-- Pagetop（CSSは #toTop を想定：右下の丸ボタン） -->
+    <a id="toTop" href="#top">Pagetop</a>
+
+    <!-- =======================
+        JS（最小）
+        ※CSSに合わせて body.menu_open を付け外し
+        ※toTop の表示制御
+  ======================= -->
+    <script>
+        // ドロワー開閉
+        (function () {
+            const btn = document.getElementById('drawer_btn');
+            const body = document.body;
+            if (btn) {
+                btn.addEventListener('click', function () {
+                    body.classList.toggle('menu_open');
+                });
+            }
+        })();
+
+        // Pagetop 表示
+        (function () {
+            const toTop = document.getElementById('toTop');
+            if (!toTop) return;
+
+            function onScroll() {
+                if (window.scrollY > 200) toTop.classList.add('show');
+                else toTop.classList.remove('show');
+            }
+            window.addEventListener('scroll', onScroll);
+            onScroll();
+        })();
+        // ★最初から #headerWrap が付いていたら消す
+        if (location.hash === '#headerWrap') {
+            history.replaceState(null, '', location.pathname + location.search);
+        }
+    </script>
+
+</body>
+
+</html>
