@@ -106,3 +106,31 @@ def signup_api(request):
 
     # その他 action
     return JsonResponse({"status": "error", "errorcode": 1})
+
+#以下齋藤変更内容
+#メンバーシップ画面
+def membership(request):
+    return render(request, "core/membership.html")
+#メンバーシップ登録支払画面
+def membership_month(request):
+    return render(request, "core/membership_month.html")  # 未作成なら後で
+def membership_year(request):
+    return render(request, "core/membership_year.html")  # 未作成なら後で
+
+#Fotterの各種リンク先
+def thissiteis(request):
+    return render(request, "siteinfo/thissiteis.html")
+def privacypolicy(request):
+    return render(request, "siteinfo/privacypolicy.html")
+def tokushouhou(request):
+    return render(request, "siteinfo/tokushouhou.html")
+def contact(request):
+    return render(request, "siteinfo/contact.html")
+def sitemap(request):
+    return render(request, "siteinfo/sitemap.html")
+def link(request):
+    return render(request, "siteinfo/link.html")
+def ads(request):
+    return render(request, "siteinfo/ads.html")
+def contact_faq(request):
+    return render(request, "siteinfo/contact_faq.html")
