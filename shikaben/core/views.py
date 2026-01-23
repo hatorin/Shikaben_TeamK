@@ -39,53 +39,70 @@ USERID_RE = re.compile(r"^[0-9A-Za-z._-]{6,20}$")  # 0-9 a-z A-Z ._- で6～20
 
 @require_POST
 def signup_api(request):
-    # JSは action=regist を投げてくる
-    if request.POST.get("action") != "regist":
-        return JsonResponse({"status": "error", "errorcode": 1}, status=400)
+    action = request.POST.get("action")
 
-    userid = (request.POST.get("userid") or "").strip()
-    password = request.POST.get("password") or ""
-    auto_login = request.POST.get("autoLogin") in ("1", "true", "True", "on")
+    # 1) 登録（今まで通り）
+    if action == "regist":
+        userid = (request.POST.get("userid") or "").strip()
+        password = request.POST.get("password") or ""
+        auto_login = request.POST.get("autoLogin") in ("1", "true", "True", "on")
 
-    # 形式チェック（JS側と同等の最低限）
-    if not userid or not password:
-        return JsonResponse({"status": "error", "errorcode": 1, "uid": userid})
-    if not USERID_RE.match(userid):
-        return JsonResponse({"status": "error", "errorcode": 1, "uid": userid})
-    if not (8 <= len(password) <= 32):
-        return JsonResponse({"status": "error", "errorcode": 1, "uid": userid})
+        # --- ここから下はあなたの既存ロジックをそのまま ---
+        if not userid or not password:
+            return JsonResponse({"status": "error", "errorcode": 1, "uid": userid})
+        if not USERID_RE.match(userid):
+            return JsonResponse({"status": "error", "errorcode": 1, "uid": userid})
+        if not (8 <= len(password) <= 32):
+            return JsonResponse({"status": "error", "errorcode": 1, "uid": userid})
+        if userid.lower() in password.lower():
+            return JsonResponse({"status": "error", "errorcode": 2, "uid": userid})
 
-    # JSのerrorcode=2仕様：ユーザーIDを含むパスワード禁止
-    if userid.lower() in password.lower():
-        return JsonResponse({"status": "error", "errorcode": 2, "uid": userid})
+        User = get_user_model()
+        if User.objects.filter(username=userid).exists():
+            return JsonResponse({"status": "error", "errorcode": 3, "uid": userid})
 
-    User = get_user_model()
+        try:
+            validate_password(password)
+        except ValidationError:
+            return JsonResponse({"status": "error", "errorcode": 1, "uid": userid})
 
-    # 既に使われている（errorcode=3）
-    if User.objects.filter(username=userid).exists():
-        return JsonResponse({"status": "error", "errorcode": 3, "uid": userid})
+        try:
+            user = User.objects.create_user(username=userid, password=password)
+        except IntegrityError:
+            return JsonResponse({"status": "error", "errorcode": 3, "uid": userid})
+        except Exception:
+            return JsonResponse({"status": "error", "errorcode": 4})
 
-    # Djangoのパスワードバリデータが有効ならここで弾く（errorcode=1）
-    try:
-        validate_password(password)
-    except ValidationError:
-        return JsonResponse({"status": "error", "errorcode": 1, "uid": userid})
+        user = authenticate(request, username=userid, password=password)
+        if user:
+            login(request, user)
+            request.session.set_expiry(60 * 60 * 24 * 30 if auto_login else 0)
 
-    # 作成
-    try:
-        user = User.objects.create_user(username=userid, password=password)
-    except IntegrityError:
-        return JsonResponse({"status": "error", "errorcode": 3, "uid": userid})
-    except Exception:
-        return JsonResponse({"status": "error", "errorcode": 4}, status=500)
+        return JsonResponse({"status": "success", "uid": userid})
 
-    # 登録後にログイン状態にする（モーダルの「学習履歴管理」表示のため）
-    user = authenticate(request, username=userid, password=password)
-    if user:
-        login(request, user)
-        # 1ヶ月保持（JSのautoLogin）
-        request.session.set_expiry(60 * 60 * 24 * 30 if auto_login else 0)
+    # 2) アカウント情報取得（←これが今必要）
+    if action == "getAccountInfo":
+        if not request.user.is_authenticated:
+            # ※HTTP 400にしない（done側でerrorcode処理させるため）
+            return JsonResponse({"status": "error", "errorcode": 1})
 
-    return JsonResponse({"status": "success", "uid": userid})
+        # 公式JSが期待してるキーを返す
+        email = request.user.email or ""  # 未登録なら空文字でOK
+        plan = 0  # ひとまず未登録扱い（0:未登録）
+        # backupStatus を返すと「取得状況」ボタンが活きるので、未実装なら返さないのが安全
+        return JsonResponse({
+            "status": "success",
+            "email": email,
+            "plan": plan,
+            # "backupStatus": {},  # 実装したら入れる
+        })
 
+    # 3) setRank（これも公式JSが叩きがちなので、最低限スタブ）
+    if action == "setRank":
+        if not request.user.is_authenticated:
+            return JsonResponse({"status": "error", "errorcode": 1})
+        rank = request.POST.get("rank")
+        return JsonResponse({"status": "success", "rank": rank})
 
+    # その他 action
+    return JsonResponse({"status": "error", "errorcode": 1})

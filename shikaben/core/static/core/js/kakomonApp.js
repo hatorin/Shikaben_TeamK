@@ -204,7 +204,7 @@ $(function() {
             console.error(e.message)
         }
     });
-    var l, o, Z = {}, k = {}, p = $("#userPanel").text();
+    var l, o, Z = {}, k = {}, p = ($("#userid").data("userid") || "").trim();
     function c() {
         $("#doujoulogo")[0] && $.ajax({
             type: "POST",
