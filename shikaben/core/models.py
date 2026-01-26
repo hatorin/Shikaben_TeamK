@@ -1,16 +1,17 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
+from datetime import timedelta
 
-class User(models.Model):
-    # 利用者（Django の auth.User を使わない前提の簡易モデル）
-    user_id = models.CharField("ユーザーID", max_length=20, unique=True)
-    password = models.CharField("パスワード", max_length=128)
-    display_name = models.CharField("表示名", max_length=100, blank=True)
-    email = models.EmailField("メールアドレス", blank=True, null=True)
-    created_at = models.DateTimeField("登録日", auto_now_add=True)
+class EmailChangeToken(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    new_email = models.EmailField()
+    token_hash = models.CharField(max_length=64, unique=True)  # sha256 hex
+    created_at = models.DateTimeField(auto_now_add=True)
+    used_at = models.DateTimeField(null=True, blank=True)
 
-    def __str__(self):
-        return self.display_name or self.user_id
+    def is_expired(self):
+        return self.created_at < (timezone.now() - timedelta(hours=24))
 
 class MembershipType(models.Model):
     name = models.CharField(max_length=50)
@@ -20,7 +21,7 @@ class MembershipState(models.Model):
     name = models.CharField(max_length=50)
 
 class Membership(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     membership_type = models.ForeignKey(MembershipType, on_delete=models.PROTECT)
     membership_state = models.ForeignKey(MembershipState, on_delete=models.PROTECT)
     started_at = models.DateField()
@@ -46,7 +47,7 @@ class Choice(models.Model):
     is_correct = models.BooleanField(default=False)
 
 class PracticeSession(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     session_type = models.ForeignKey('SessionType', on_delete=models.PROTECT)
     session_state = models.ForeignKey('SessionState', on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -66,7 +67,7 @@ class SessionState(models.Model):
     name = models.CharField(max_length=100)
 
 class LearningHistory(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answered_at = models.DateTimeField(auto_now_add=True)
     answer_text = models.TextField(blank=True)
@@ -75,13 +76,13 @@ class LearningHistory(models.Model):
     exam_round = models.CharField(max_length=100, blank=True)
 
 class UserChecklist(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     color = models.CharField(max_length=20)
     updated_at = models.DateTimeField(auto_now=True)
 
 class CoverageReport(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     generated_at = models.DateTimeField(auto_now_add=True)
     summary = models.TextField(blank=True)
 
@@ -95,7 +96,7 @@ class Term(models.Model):
     description = models.TextField()
 
 class Inquiry(models.Model):
-    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=200)
     email = models.EmailField()
     body = models.TextField()

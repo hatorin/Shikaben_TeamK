@@ -1,0 +1,274 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2TKTF90HZ0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2TKTF90HZ0');
+</script>
+
+<meta name="viewport" content="width=960,user-scalable=yes">
+<meta charset="UTF-8">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+<meta name="keywords" content="基本情報技術者,お問い合わせ">
+<meta property="og:site_name" content="基本情報技術者試験ドットコム">
+<meta property="og:title" content="お問い合わせの送信結果">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://www.fe-siken.com/img/ogimage_doujou.png">
+<meta property="og:url" content="https://www.fe-siken.com/contact.html">
+
+<link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+<link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+
+<title>お問い合わせの送信結果｜基本情報技術者試験.com</title>
+
+<style>
+/* 結果表示だけ軽く整える（全体の見た目は style.css に合わせる） */
+.resultWrap{
+  max-width:760px;
+  margin:0 auto;
+  text-align:center;
+}
+.resultWrap #mes{
+  font-size:150%;
+  font-weight:bold;
+  margin:0 0 .4em 0;
+}
+.resultWrap #submes{
+  margin:0.5em 0 0 0;
+  color:var(--color-555);
+}
+.resultWrap #statusImage{
+  display:block;
+  margin:1em auto;
+  max-height:220px;
+  filter:none;
+}
+.resultWrap .resultBtn{
+  width:280px;
+  font-size:16px;
+  padding:10px 0;
+  color:var(--cta-text-color);
+  font-weight:bold;
+  text-align:center;
+  border-radius:2px;
+  background:var(--cta-color);
+  box-shadow:1px 1px 4px rgb(0 0 0 / 15%);
+  border:1px solid transparent;
+  transition:transform .15s;
+}
+.resultWrap .resultBtn:hover{ transform:scale(1.02); }
+.resultWrap .resultBtn:active{ border-color:var(--input-border); }
+</style>
+</head>
+
+<body>
+
+<script>
+if (typeof localStorage !== 'undefined') {
+  const theme = localStorage.getItem('NIGHT') || localStorage.getItem('NIGHTMODE') || 0;
+  if (theme == 1) document.body.className += ' night';
+  if (theme == 2) document.body.className += ' beige';
+}
+</script>
+
+<!-- HEADER START -->
+<header id="headerWrap" class="centeringBox">
+<div id="header" class="centeringContent">
+<h1>基本情報技術者 試験情報＆徹底解説 -新制度に完全対応-</h1>
+<a href="/"><img src="/img/titlelogo.png" width="500" height="66" id="logo" alt="基本情報技術者試験ドットコム" title="基本情報技術者試験ドットコム トップページ"></a>
+<div id="countdown"></div>
+</div>
+
+<nav id="headerMenuWrap" class="centeringBox">
+<div id="headerMenu" class="centeringContent">
+<ul>
+<li id="fastMenuBtn"><a href="/kakomon/07_haru/" title="過去問題解説">過去問題解説</a>
+<li><a href="/feis.html" title="基本情報技術者とは">基本情報技術者とは</a>
+<li><a href="/fekakomon.php" title="Webアプリ過去問道場">過去問道場</a>
+  <ul>
+    <li><a href="/fekakomon.php">過去問道場（科目A）</a>
+    <li><a href="/fekakomon_pm.php">過去問道場（旧・午後試験）</a>
+  </ul>
+<li><a href="/febbs.php" title="基本情報技術者掲示板">掲示板</a>
+<li><a href="/keyword/" title="シラバス用語集">用語集</a>
+<li class="search_button"><a href="#" title="サイト内検索" onclick="return false;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="20px" height="20px" fill="#fff"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"></path></svg>
+</a>
+</ul>
+</div>
+</nav>
+
+<div class="search_panel">
+<div class="search_panel_inner centeringContent">
+<script async src="https://cse.google.com/cse.js?cx=partner-pub-5061380080248584:2167693166"></script>
+<div class="gcse-search"></div>
+<div class="search_close_button">閉じる</div>
+</div>
+</div>
+</header>
+<!-- HEADER END -->
+
+<div id="stateMessage"></div>
+
+<!-- CONTENT START -->
+<div id="contentWrap" class="centeringBox">
+<div id="content" class="centeringContent">
+
+<main id="mainCol">
+  <div class="pan">
+    <a href="/">HOME</a>&raquo;<b>お問い合わせの送信結果</b>
+  </div>
+
+  <div class="main">
+    <h2>お問い合わせの送信結果</h2>
+
+    <div class="logMain resultWrap">
+      <p id="mes"></p>
+      <img id="statusImage" alt="">
+      <p id="submes"></p>
+
+      <div class="img_margin">
+        <button type="button" id="backBtn" class="resultBtn">戻る</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+</div>
+</div>
+<!-- CONTENT END -->
+
+<!-- FOOTER START -->
+<footer id="footerWrap" class="centeringBox">
+<div id="footer" class="centeringContent">
+<div class="displaySelect">表示： <b>PC</b> ｜ <a href="/s/contact.html">モバイル</a></div>
+<nav class="footerContent">
+<a href="/thissiteis.html">利用規約</a>
+<a href="/privacypolicy.html">プライバシーポリシー</a>
+<a href="/tokushouhou.html">特商法に基づく表記</a>
+<a href="/contact.html">お問い合わせ</a>
+<a href="/config.html">表示設定</a>
+<br>
+<a href="/sitemap.html">サイトマップ</a>
+<a href="/link.html">リンク</a>
+<a href="/ads.html">広告の掲載について</a>
+<a href="/contact_faq.html">よくある質問（FAQ）</a>
+</nav>
+<div class="minilogo" title="基本情報技術者試験ドットコム"></div>
+</div>
+
+<div id="footerBottomWrap" class="centeringBox">
+<div id="footerBottom" class="centeringContent">
+<small>&copy; 2010-<script>document.write(new Date().getFullYear());</script>　基本情報技術者試験ドットコム　All Rights Reserved.</small>
+</div>
+</div>
+</footer>
+<!-- FOOTER END -->
+
+<!-- （fekakomon.html に合わせて配置） -->
+<button id="drawer_btn"><span></span><span></span><span></span></button>
+<nav id="drawer_menu">
+  <div class="drawer_header">メニュー</div>
+  <ul>
+    <li><a href="/fekakomon.php" title="過去問道場(科目A)"><i class="doujou membership"></i>過去問道場(科目A)</a></li>
+    <li><a href="/fekakomon_pm.php" title="過去問道場(旧・午後試験)"><i class="doujou review"></i>過去問道場(旧・午後試験)</a></li>
+    <li><a href="/febbs.php" title="掲示板"><i class="doujou history"></i>掲示板</a></li>
+    <li><a href="/keyword/" title="用語集"><i class="doujou checklist"></i>用語集</a></li>
+    <li><a href="/contact.html" title="お問い合わせ"><i class="doujou account"></i>お問い合わせ</a></li>
+  </ul>
+
+  <div class="drawer_header">試験情報</div>
+  <ul>
+    <li><a href="/feis.html">基本情報技術者とは</a></li>
+    <li><a href="/faq.html">よくある質問(FAQ)</a></li>
+  </ul>
+</nav>
+
+<a href="#header" id="toTop"><span>&#9650;</span><br>Pagetop</a>
+
+<div id="canvas_answer_back"></div>
+<canvas id="canvas_answer_front" width="200" height="260"></canvas>
+
+<!-- SCRIPT START -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="{% static 'core/js/fe.js' %}"></script>
+<script src="{% static 'core/js/kakomonApp.js' %}?v=20260123"></script>
+<!-- SCRIPT END -->
+
+<script>
+(function(){
+  // status は URL も Django コンテキストもどちらでも拾えるようにする
+  const qs = new URLSearchParams(location.search);
+  const status = qs.get("status") || "{{ status|default:''|escapejs }}";
+
+  const mes = document.getElementById("mes");
+  const sub = document.getElementById("submes");
+  const img = document.getElementById("statusImage");
+
+  const successImage = "/img/ext/22.png";
+  const errorImage   = "/img/ext/error.png";
+  const mailImage    = "/img/ext/mail.png";
+
+  // デフォルト（不正/未指定）
+  let m = "認証に失敗しました。";
+  let s = "トークンが不正、または既に使用済みです。最初からやり直してください。";
+  let im = errorImage;
+  let alt = "error";
+
+  // 送信結果ステータス（必要に応じて増やしてください）
+  if (status === "1") {
+    m = "お問い合わせを承りました。";
+    s = "お問合せいただいた内容を確認次第、対応いたします。";
+    im = mailImage;
+    alt = "mail";
+  } else if (status === "2") {
+    m = "メールの送信に失敗しました。";
+    s = "送信途中に不具合が発生しました。時間をおいて再度お試しください。";
+    im = errorImage;
+    alt = "error";
+  } else if (status === "3") {
+    m = "メールアドレスの登録が完了しました。";
+    s = "今後、重要なお知らせは登録いただいたメールアドレスへ送信されます。";
+    im = successImage;
+    alt = "success";
+  } else if (status === "5") {
+    m = "認証の有効期限が切れています。";
+    s = "仮登録から24時間以内に認証が必要です。最初からやり直してください。";
+    im = errorImage;
+    alt = "expired";
+  }
+
+  mes.textContent = m;
+  sub.textContent = s;
+  img.src = im;
+  img.alt = alt;
+
+  document.getElementById("backBtn").addEventListener("click", function(){
+    // 公式っぽく履歴を優先し、無い場合はお問い合わせへ
+    if (history.length >= 3) history.go(-2);
+    else location.href = "/fekakomon.php";
+  });
+})();
+</script>
+
+<script>
+  // 公式っぽい通知関数の代替（必要なら他ページと共通化）
+  window.b = function(html, timeout=5000){
+    const box = document.getElementById("stateMessage");
+    if(!box) return;
+    box.innerHTML = html;
+    box.classList.add("show");
+    clearTimeout(window.__bTimer);
+    window.__bTimer = setTimeout(()=>box.classList.remove("show"), timeout);
+  };
+</script>
+
+</body>
+</html>

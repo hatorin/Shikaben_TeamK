@@ -1620,7 +1620,7 @@ $(function() {
         return void 0 !== k.backupStatus && (c = new Date(k.backupStatusDate).getDate(),
         (new Date).getDate() != c && (r = !0,
         $("#showBackupStatus").prop("disabled", !0))),
-        void 0 !== k.email && void 0 !== k.backupStatus && void 0 !== k.plan && !r || $.ajax({
+        $.ajax({
             type: "POST",
             url: g,
             cache: !1,
@@ -1659,6 +1659,7 @@ $(function() {
         }).fail(function(e, a) {
             b('<i class="ng"></i>[' + a + "]サーバとの通信に失敗しました。")
         }),
+                
         void 0 === k.rankDetail && (3 == a ? ($(".currentQCount", $("#slider>div").eq(0)).html("0問"),
         $(".currentRank", $("#slider>div").eq(0)).html("なし"),
         k.rankDetail = !1) : v(!0).done(function() {
