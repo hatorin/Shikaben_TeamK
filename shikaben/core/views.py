@@ -110,7 +110,6 @@ def signup_api(request):
         if not request.user.is_authenticated:
             return JsonResponse({"status":"error","errorcode":1}, status=403)
 
-<<<<<<< HEAD
         email = (request.POST.get("email") or "").strip()
 
         try:
@@ -201,7 +200,6 @@ def confirm_email(request):
 def contact_result(request):
     # 公式はJSでstatusを見て文言を差し替えてるので、同じやり方にするならテンプレでstatusを使う
     return render(request, "core/contact_result.html", {"status": request.GET.get("status", "")})
-=======
     # その他 action
     return JsonResponse({"status": "error", "errorcode": 1})
 
@@ -232,4 +230,3 @@ def ads(request):
     return render(request, "siteinfo/ads.html")
 def contact_faq(request):
     return render(request, "siteinfo/contact_faq.html")
->>>>>>> fab43272a7eb69bae3f8a6ac525d08922bfe8c7c
