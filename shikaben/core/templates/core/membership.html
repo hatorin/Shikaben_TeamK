@@ -1,0 +1,902 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=960,user-scalable=yes" />
+    <title>プレミアムメンバーシップ制度の紹介</title>
+
+    <!-- 共通CSS（あなたのプロジェクト側） -->
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- =======================
+       HEADER START
+  ======================= -->
+    <header id="headerWrap" class="centeringBox">
+        <div id="header" class="centeringContent">
+            <h1>基本情報技術者 試験情報＆徹底解説 -新制度に完全対応-</h1>
+
+            <a href="/">
+                <img src="/img/titlelogo.png" width="500" height="66" id="logo" alt="基本情報技術者試験ドットコム"
+                    title="基本情報技術者試験ドットコム トップページ">
+            </a>
+
+            <div id="countdown"></div>
+        </div>
+
+        <nav id="headerMenuWrap" class="centeringBox">
+            <div id="headerMenu" class="centeringContent">
+                <ul>
+                    <li id="fastMenuBtn"><a href="/kakomon/07_haru/" title="過去問題解説">過去問題解説</a></li>
+                    <li><a href="/feis.html" title="基本情報技術者とは">基本情報技術者とは</a></li>
+
+                    <li>
+                        <a href="/fekakomon.php" title="Webアプリ過去問道場">過去問道場</a>
+                        <ul>
+                            <li><a href="/fekakomon.php">過去問道場（科目A）</a></li>
+                            <li><a href="/fekakomon_pm.php">過去問道場（旧・午後試験）</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="/febbs.php" title="基本情報技術者掲示板">掲示板</a></li>
+                    <li><a href="/keyword/" title="シラバス用語集">用語集</a></li>
+
+                    <li class="search_button">
+                        <a href="#" title="サイト内検索" onclick="return false;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="20px" height="20px"
+                                fill="#fff">
+                                <path
+                                    d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- 検索パネル -->
+        <div class="search_panel" aria-hidden="true">
+            <div class="search_panel_inner centeringContent">
+                <script async src="https://cse.google.com/cse.js?cx=partner-pub-5061380080248584:2167693166"></script>
+                <div class="gcse-search"></div>
+                <div class="search_close_button" role="button" tabindex="0">閉じる</div>
+            </div>
+        </div>
+
+        <button id="drawer_btn" type="button" aria-label="メニュー"><span></span><span></span><span></span></button>
+        <nav id="drawer_menu" aria-label="ドロワーメニュー"></nav>
+
+        <a href="#header" id="toTop"><span>&#9650;</span><br>Pagetop</a>
+    </header>
+    <!-- HEADER END -->
+
+
+    <!-- =========================================================
+       このページ独自CSS（本家サイズ感に寄せた“完全版”）
+       ※共通CSSより後に置く（上書きのため）
+  ========================================================== -->
+    <style>
+        /* ===== このページ内テーマ色（あなたのページ用） ===== */
+        :root {
+            --member-orange: #ee8c37;
+            --free-gray: #bfb7ae;
+            --soft-gray: #f2f2f2;
+            --danger-red: #d64848;
+        }
+
+        /* 背景（本家：body は左右にグラデーション） */
+        html {
+            height: 100%
+        }
+
+        body {
+            height: 100%;
+            color: var(--body-color, #090909);
+            background: linear-gradient(to right,
+                    var(--body-bg, #f0f1f1),
+                    var(--main-bg, #ffffff),
+                    var(--body-bg, #f0f1f1));
+            font: 14px "Helvetica Neue", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            text-size-adjust: 100%;
+            text-autospace: normal;
+        }
+
+        /* 中央寄せ枠（本家：min-width 1000 / centeringContent 1000） */
+        .centeringBox {
+            width: 100%;
+            min-width: 1000px;
+        }
+
+        .centeringContent {
+            width: 1000px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            max-width: none;
+        }
+
+        /* 本文領域（本家：#contentWrap margin 10px 0） */
+        #contentWrap {
+            width: 100%;
+            padding: 0;
+            margin: 10px 0;
+            background: transparent;
+            min-height: calc(100% - 105px - 175px);
+        }
+
+        /* あなたの白カード = 本家の「#content(780) + #mainCol」相当 */
+        .contentCard {
+            width: 780px;
+            margin: 0 auto;
+            background: var(--main-bg, #fff);
+            border-radius: 0;
+            box-shadow: none;
+            padding: 20px 30px;
+            line-height: 1.8;
+            letter-spacing: 0.07em;
+            overflow-wrap: break-word;
+            word-break: break-all;
+            text-align: justify;
+            box-sizing: border-box;
+        }
+
+        /* パンくず */
+        .pan {
+            margin: 0 0 1em 0;
+            font-size: 90%;
+            color: inherit;
+        }
+
+        .pan a {
+            position: relative;
+            margin-right: .5em;
+            color: var(--link-color, #0f8702);
+            text-decoration: none;
+            transition: .2s ease;
+        }
+
+        .pan *:nth-child(n+2) {
+            margin-left: .5em
+        }
+
+        .pan a::before {
+            content: "";
+            display: block;
+            position: absolute;
+            inset: 0;
+            background: rgb(128 128 128 / 10%);
+            border-radius: 5px;
+            transform: scale(0);
+            transition: transform .2s ease;
+        }
+
+        .pan a:hover::before {
+            transform: scale(1.05, 1.2)
+        }
+
+        .pan b {
+            font-weight: normal
+        }
+
+        /* 見出し */
+        .pageTitle {
+            position: relative;
+            font-size: 145%;
+            border-bottom: 4px solid var(--color-eee, #eee);
+            margin: 1em 0;
+            padding-left: .5em;
+            letter-spacing: .03em;
+            font-weight: 900;
+            display: block;
+        }
+
+        .pageTitle::before {
+            content: "";
+            width: 0;
+            height: 0;
+            position: absolute;
+            border: 6px solid;
+            border-color: var(--link-color, #0f8702) transparent transparent var(--link-color, #0f8702);
+            left: 0;
+            top: 0;
+        }
+
+        /* titleRuleは本家にはないので非表示 */
+        .titleRule {
+            display: none;
+        }
+
+        .heroImg {
+            width: 100%;
+            display: block;
+            border: 0;
+            margin: 0 0 1em 0;
+        }
+
+        .leadH {
+            position: relative;
+            font-size: 160%;
+            margin: 0 0 .5em 0;
+            font-weight: 900;
+        }
+
+        .leadP {
+            margin: 0 0 1em 0;
+            color: inherit;
+            line-height: 2;
+        }
+
+        /* CTA（本家submitのサイズ感） */
+        .membership_cta {
+            text-align: center;
+            margin: 20px 0 10px;
+        }
+
+        .cta-btn {
+            width: 300px;
+            display: block;
+            margin: 14px auto;
+            padding: .6em 0;
+            font-size: 15px;
+            color: var(--cta-text-color, #f9f9f9) !important;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 2px;
+            background: var(--cta-color, rgb(255 168 55));
+            box-shadow: 1px 1px 4px rgb(0 0 0 / 15%);
+            text-decoration: none;
+            position: relative;
+            transition: transform .15s, opacity .15s;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.02);
+            opacity: .95;
+            text-decoration: none;
+        }
+
+        .cta-btn:active {
+            transform: scale(.99);
+        }
+
+        .cta-btn span {
+            position: absolute;
+            right: 5px;
+            bottom: 2px;
+            font-size: 12px;
+            font-weight: normal;
+            color: rgb(255 255 255 / 40%);
+            letter-spacing: .08em;
+        }
+
+        .login-required {
+            background: #d64848;
+            color: #f0f0f0;
+            text-align: left;
+            margin: 15px 0;
+            line-height: 2.5;
+            padding: 5px 10px;
+            font-weight: bold;
+            font-size: 96%;
+        }
+
+        .sectionTitle {
+            font-size: 145%;
+            border-bottom: 4px solid var(--color-eee, #eee);
+            margin: 3em 0 1em;
+            padding-left: .5em;
+            letter-spacing: .03em;
+            font-weight: 900;
+            position: relative;
+        }
+
+        .sectionTitle::before {
+            content: none !important;
+            width: 0;
+            height: 0;
+            position: absolute;
+            border: 6px solid;
+            border-color: var(--link-color, #0f8702) transparent transparent var(--link-color, #0f8702);
+            left: 0;
+            top: 0;
+        }
+
+        .h2like::before {
+            content: none !important;
+        }
+
+        .meritList {
+            list-style: none;
+            margin: 0;
+            padding: 0
+        }
+
+        .meritItem {
+            display: grid;
+            grid-template-columns: 86px 1fr;
+            gap: 16px;
+            padding: 14px 0;
+        }
+
+        .meritIcon {
+            position: relative;
+        }
+
+        .meritIcon img {
+            position: relative;
+            width: 73px;
+            top: 14px;
+            left: 21px;
+            height: auto;
+            display: block
+        }
+
+        .meritBody h3 {
+            position: relative;
+            font-size: 120%;
+            margin: 0 0 .5em 0;
+            font-weight: 900;
+        }
+
+        .meritBody p {
+            margin: 0 0 .8em 0;
+            line-height: 2;
+        }
+
+        .meritNote {
+            margin: .2em 0 0;
+            font-weight: bold;
+            line-height: 2
+        }
+
+        .meritNote .yl {
+            text-decoration: underline;
+            text-decoration-color: rgb(255 210 81 / 80%);
+            text-decoration-thickness: 4px;
+        }
+
+        /* プラン比較 */
+        .plan-compare-wrap {
+            width: 100%;
+            max-width: 780px;
+        }
+
+        .plan-headers {
+            display: grid;
+            grid-template-columns: 42% 29% 29%;
+            align-items: stretch;
+        }
+
+        .plan-head {
+            position: relative;
+            padding: 16px 10px 75px;
+            text-align: center;
+            color: #fff;
+            font-weight: 900;
+        }
+
+        .plan-head.free {
+            background: var(--free-gray);
+            transform: translateX(-60px);
+            margin-right: -25px;
+        }
+
+        .plan-head.member {
+            background: var(--member-orange);
+            margin-left: -30px;
+        }
+
+        .plan-name {
+            margin-top: -5px;
+            font-size: 28px;
+            line-height: 1.1;
+            letter-spacing: .02em
+        }
+
+        .plan-name small {
+            font-size: 18px;
+            font-weight: 900;
+            opacity: .95
+        }
+
+        .plan-price {
+            position: absolute;
+            left: 50%;
+            bottom: 11px;
+            transform: translateX(-50%);
+            width: 180px;
+            background: #fff;
+            color: #222;
+            border-radius: 4px;
+            padding: 4px 12px;
+            font-size: 18px;
+            font-weight: 900;
+            line-height: 1.35;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, .12);
+        }
+
+        .plan-head.free .plan-price {
+            top: auto;
+            bottom: 35px;
+        }
+
+        .plan-compare {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 4px;
+        }
+
+        /* 行の上下余白（＝色枠の上下の幅）を減らす */
+        .plan-compare td {
+            padding-top: 10px;
+            padding-bottom: 6px;
+            line-height: 1.25;
+        }
+
+        .plan-compare tbody tr:nth-child(odd) td {
+            background: var(--soft-gray)
+        }
+
+        .plan-compare tbody tr:nth-child(even) td {
+            background: #fff
+        }
+
+        /* 特典名（例：学習履歴の管理 など） */
+        .plan-compare td.feature {
+            text-align: left;
+            font-weight: 900;
+            padding-left: 10px;
+        }
+
+        /* チェック列も一緒に縦を詰めたい場合（任意） */
+        .plan-compare td.center {
+            padding-top: 4px;
+            padding-bottom: 6px;
+            text-align: center;
+        }
+
+        /* =========================================================
+           ★ここから追記（SVGで「円＋✓」）
+           - 円：circle の fill を free/member で切替
+           - ✓：path の stroke を常に白で固定
+        ========================================================= */
+        .checkSvg {
+            display: inline-flex;
+            width: 18px;
+            height: 18px;
+            vertical-align: middle;
+            transform: translate(0, 0);
+            /*チェックマーク両方をセットで調整可能 */
+        }
+
+        .checkSvg.free {
+            transform: translate(-193px, 2px);
+            /*Free(灰色)専用調整 */
+        }
+
+        .checkSvg.member {
+            transform: translate(-64px, 2px);
+        }
+
+        .checkSvg svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .checkSvg.member circle {
+            fill: var(--member-orange);
+        }
+
+        .checkSvg.free circle {
+            fill: var(--free-gray);
+        }
+
+        .checkSvg path {
+            stroke: #fff;
+            /* ✓を真っ白固定 */
+        }
+
+        /* ===== 追記ここまで ===== */
+
+        .h2like {
+            position: relative;
+            font-size: 160%;
+            border-bottom: 4px solid var(--color-eee, #eee);
+            padding-left: .5em;
+            letter-spacing: .03em;
+            font-weight: 900;
+            margin-left: -11px;
+            margin-top: 3.4em;
+        }
+
+        .h2like::before {
+            content: "";
+            width: 0;
+            height: 0;
+            position: absolute;
+            border: 6px solid;
+            border-color: var(--link-color, #0f8702) transparent transparent var(--link-color, #0f8702);
+            left: 0;
+            top: 0;
+        }
+
+        .para {
+            margin: 0 0 1em 0;
+            line-height: 2;
+        }
+
+        .notesTitle {
+            position: relative;
+            font-size: 160%;
+            margin: 1.8em 0 .6em 0;
+            font-weight: 900;
+        }
+
+        .notesList {
+            margin: .7em 0;
+            padding-left: 1.5em;
+            line-height: 2;
+        }
+
+        @media (max-width:1024px) {
+            body {
+                background: var(--main-bg, #fff)
+            }
+        }
+
+        /* ▼灰色の下線（border-bottom）を消す：指定の3つだけ */
+        .pageTitle,
+        .sectionTitle,
+        .h2like {
+            border-bottom: none !important;
+        }
+
+        /* ▼「プレミアムメンバーシップ制度の紹介」だけは緑三角を残す（念のため明示） */
+        .pageTitle::before {
+            content: "";
+        }
+
+        .sectionTitle {
+            margin-top: 3em;
+            /* 3em に統一 */
+            margin-bottom: .9em;
+            /* 見出し下も少しだけ詰める */
+        }
+
+        /* 1つ目のメリット（広告が非表示になる）の先頭をさらに詰めたい場合 */
+        .meritList {
+            margin-top: 0;
+            padding-top: 0;
+        }
+
+        .meritList .meritItem:first-child {
+            padding-top: 6px;
+        }
+
+        /* 「広告が非表示になる」h3の上の余白を詰める */
+        .meritBody h3 {
+            margin-top: 0;
+        }
+
+        .meritBody {
+            padding-left: 10px;
+            /* 好みで 6〜24px くらい */
+        }
+
+        /* もし「1個目だけ」右へ寄せたいなら */
+        .meritList .meritItem:first-child .meritBody {
+            padding-left: 18px;
+        }
+    </style>
+
+
+    <!-- =======================
+       MAIN CONTENT
+  ======================= -->
+    <div id="contentWrap" class="centeringBox">
+        <div class="centeringContent">
+            <div class="contentCard">
+
+                <div class="pan">
+                    <a href="/">HOME</a> &gt; <a href="#">過去問道場</a> &gt; <b>メンバーシップ制度</b>
+                </div>
+
+                <div class="pageTitle">プレミアムメンバーシップ制度の紹介</div>
+
+                <img class="heroImg" src="{% static 'core/img/membership/main.webp' %}" alt="MEMBERSHIP">
+
+                <div class="leadH">より速く、より快適に、あなたの過去問学習が加速します！</div>
+                <p class="leadP">
+                    当サイトでは無料でも十分に学習できるように工夫しておりますが、さらに効率よく過去問学習を進めたい人のために
+                    メンバーシップ制度を用意しております。メンバーシップに登録して当サイトを最大限に活用し、試験合格を目指してください。
+                </p>
+                <p class="leadP">
+                    「月額払い 490円」と「年額払い 2,900円」の2つのサブスクリプション型プラン（自動更新）からお選びいただけます。
+                    長期的に使用する予定なら年額払いの方が割安です。
+                </p>
+
+                {% if user.is_authenticated %}
+                <div class="membership_cta">
+                    <a class="cta-btn" href="javascript:void(0)">
+                        月額払いでメンバーになる
+                        <span>MONTH PLAN</span>
+                    </a>
+                    <a class="cta-btn" href="javascript:void(0)">
+                        年額払いでメンバーになる
+                        <span>YEAR PLAN</span>
+                    </a>
+                </div>
+                {% else %}
+                <div class="login-required">
+                    メンバーシップに登録するには、アカウントにログインした状態でこのページにアクセスしてください。
+                </div>
+                {% endif %}
+
+                <div class="sectionTitle">メンバーになる6つのメリット</div>
+
+                <ul class="meritList">
+                    <li class="meritItem">
+                        <div class="meritIcon">
+                            <img src="{% static 'core/img/membership/01.png' %}" alt="">
+                        </div>
+                        <div class="meritBody">
+                            <h3>広告が非表示になる</h3>
+                            <p>
+                                当サイト内の過去問道場（PC・モバイル）を広告表示なしで利用できるようになりま<br>す。
+                                広告のない環境によって視認性や操作性が向上し、学習に集中することができま<br>す。
+                                また、操作ミスで意図しない広告が表示される煩わしさから解放されます。
+                            </p>
+                            <p class="meritNote">
+                                ※<span class="yl">サイトの仕様上、上記のページ以外のページ（例：掲示板、分野別過去問ページ、試<br>験回別過去問ページ）は対象外です。</span>
+                            </p>
+                        </div>
+                    </li>
+
+                    <li class="meritItem">
+                        <div class="meritIcon"><img src="{% static 'core/img/membership/02.png' %}" alt=""></div>
+                        <div class="meritBody">
+                            <h3>ページ表示速度の向上</h3>
+                            <p>広告の読み込みと描画にかかる時間がゼロになってページの表示速度が爆速化するので、ストレスの軽減や時間の節約につながります。</p>
+                        </div>
+                    </li>
+
+                    <li class="meritItem">
+                        <div class="meritIcon"><img src="{% static 'core/img/membership/03.png' %}" alt=""></div>
+                        <div class="meritBody">
+                            <h3>通信量等の節約</h3>
+                            <p>広告表示のための通信がなくなることによりギガ（通信量）を節約できます。また、バッテリー消費も抑えられます。</p>
+                        </div>
+                    </li>
+
+                    <li class="meritItem">
+                        <div class="meritIcon"><img src="{% static 'core/img/membership/04.png' %}" alt=""></div>
+                        <div class="meritBody">
+                            <h3>メンバーシップ特典</h3>
+                            <p>平成21年から最新回までの過去問題の解説（科目A・科目B、旧試験制度は午前・午後）をまとめたPDFをダウンロードして利用することができます。</p>
+                        </div>
+                    </li>
+
+                    <li class="meritItem">
+                        <div class="meritIcon"><img src="{% static 'core/img/membership/05.png' %}" alt=""></div>
+                        <div class="meritBody">
+                            <h3>機能追加</h3>
+                            <p>
+                                PC利用時にキーボード操作で学習を進めることができる機能、過去問道場の模擬試験モードで「半分の問題数で実施する」オプション機能を利用できるようになります。
+                                また、過去問ページに掛かっているコンテンツのコピー制限が解除されるので文章をコピーすることができるようになります。
+                            </p>
+                        </div>
+                    </li>
+
+                    <li class="meritItem">
+                        <div class="meritIcon"><img src="{% static 'core/img/membership/06.png' %}" alt=""></div>
+                        <div class="meritBody">
+                            <h3>過去問道場の活動をサポートできる</h3>
+                            <p>過去問道場のコンテンツ更新や新サイト作成を支援することができます。</p>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="plan-compare-wrap">
+                    <div class="plan-headers" aria-hidden="true">
+                        <div class="spacer"></div>
+
+                        <div class="plan-head free">
+                            <p class="plan-name">Free <small>プラン</small></p>
+                            <div class="plan-price">無料</div>
+                        </div>
+
+                        <div class="plan-head member">
+                            <p class="plan-name">メンバー <small>プラン</small></p>
+                            <div class="plan-price">
+                                <div>490円(月払)</div>
+                                <div>2,900円(年払)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="plan-compare" aria-label="プラン比較">
+                        <tbody>
+                            <tr>
+                                <td class="feature">学習履歴の管理</td>
+
+                                <!-- Free: あり（SVG円＋✓） -->
+                                <td class="center">
+                                    <span class="checkSvg free" aria-label="Free: あり">
+                                        <svg viewBox="0 0 20 20" role="img" aria-hidden="true">
+                                            <circle cx="10" cy="10" r="10"></circle>
+                                            <path d="M5.5 10.5 L8.5 13.5 L14.8 7.6" fill="none" stroke-width="2.2"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </span>
+                                </td>
+
+                                <!-- Member: あり（SVG円＋✓） -->
+                                <td class="center">
+                                    <span class="checkSvg member" aria-label="Member: あり">
+                                        <svg viewBox="0 0 20 20" role="img" aria-hidden="true">
+                                            <circle cx="10" cy="10" r="10"></circle>
+                                            <path d="M5.5 10.5 L8.5 13.5 L14.8 7.6" fill="none" stroke-width="2.2"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="feature">過去問道場／広告なし</td>
+                                <td class="center"></td>
+                                <td class="center">
+                                    <span class="checkSvg member" aria-label="Member: あり">
+                                        <svg viewBox="0 0 20 20" role="img" aria-hidden="true">
+                                            <circle cx="10" cy="10" r="10"></circle>
+                                            <path d="M5.5 10.5 L8.5 13.5 L14.8 7.6" fill="none" stroke-width="2.2"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="feature">半数の模擬試験</td>
+                                <td class="center"></td>
+                                <td class="center">
+                                    <span class="checkSvg member" aria-label="Member: あり">
+                                        <svg viewBox="0 0 20 20" role="img" aria-hidden="true">
+                                            <circle cx="10" cy="10" r="10"></circle>
+                                            <path d="M5.5 10.5 L8.5 13.5 L14.8 7.6" fill="none" stroke-width="2.2"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="feature">科目A解説PDF</td>
+                                <td class="center"></td>
+                                <td class="center">
+                                    <span class="checkSvg member" aria-label="Member: あり">
+                                        <svg viewBox="0 0 20 20" role="img" aria-hidden="true">
+                                            <circle cx="10" cy="10" r="10"></circle>
+                                            <path d="M5.5 10.5 L8.5 13.5 L14.8 7.6" fill="none" stroke-width="2.2"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="feature">科目B解説PDF</td>
+                                <td class="center"></td>
+                                <td class="center">
+                                    <span class="checkSvg member" aria-label="Member: あり">
+                                        <svg viewBox="0 0 20 20" role="img" aria-hidden="true">
+                                            <circle cx="10" cy="10" r="10"></circle>
+                                            <path d="M5.5 10.5 L8.5 13.5 L14.8 7.6" fill="none" stroke-width="2.2"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="feature">キーボード操作</td>
+                                <td class="center"></td>
+                                <td class="center">
+                                    <span class="checkSvg member" aria-label="Member: あり">
+                                        <svg viewBox="0 0 20 20" role="img" aria-hidden="true">
+                                            <circle cx="10" cy="10" r="10"></circle>
+                                            <path d="M5.5 10.5 L8.5 13.5 L14.8 7.6" fill="none" stroke-width="2.2"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="feature">コピー制限の解除</td>
+                                <td class="center"></td>
+                                <td class="center">
+                                    <span class="checkSvg member" aria-label="Member: あり">
+                                        <svg viewBox="0 0 20 20" role="img" aria-hidden="true">
+                                            <circle cx="10" cy="10" r="10"></circle>
+                                            <path d="M5.5 10.5 L8.5 13.5 L14.8 7.6" fill="none" stroke-width="2.2"
+                                                stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="h2like">安心の7日間返金保証！</div>
+                <p class="para">
+                    試してみたいけど、決断できない…そんな方のために7日間の無条件返金保証をつけました。
+                    もしサービス内容にご満足いただけなかった場合、初回の申込みから7日間は、理由を問わず全額返金を承ります。
+                </p>
+
+                <!-- 注意点  説明書き-->
+                <div class="notesTitle">注意点</div>
+                <ul class="notesList">
+                    <li>過去問道場では資格試験ごと別サイトで運営しているため、メンバーシップ登録や解約もサイトごとに行ってください。</li>
+                    <li>クレジットカード、Apple Pay、Google Pay でのお支払いになります。</li>
+                    <li>お申込み完了後、すぐにご利用いただけます。</li>
+                    <li>お申込み日が請求日となります。また、お支払いは毎月または毎年自動的に更新されます。例えば、9/6に月額プランの申込みをした場合、9/6、10/6、11/6というように毎月の応当日に請求が行われます。
+                    </li>
+                    <li>返金保証期間内の解約について返金を希望される場合、恐れ入りますがお問い合わせフォーム等からご一報ください。</li>
+                    <li>サービスの性質上、上記の返金保証期間を除き、お客様の都合によるキャンセルや返金はお受けできません。</li>
+                    <li>クレジットカードの有効期限切れやご利用限度額超過などによりお支払いに失敗した場合、自動的にメンバーシップ登録が解除されます。</li>
+                    <li>解約は、ログイン後メニューの「アカウント」→「メンバーシップ管理」からいつでもすることができます。ただし、解約した場合その時点で広告非表示その他のメンバーシップサービスの提供は終了します。解約の際に請求対象期間が残っていても、その部分についての払戻しはいたしません。
+                    </li>
+                    <li>メンバーシップの特典の内容が変更され、または提供を終了した場合でも、請求対象期間の残りの部分についての払戻しはいたしません。</li>
+                    <li>ご入力いただいたクレジットカード情報は、PCI
+                        DSS（クレジットカード業界のセキュリティ基準）に基づき、当サイトでは保持せず、クレジットカード情報管理先のストライプジャパン株式会社によって管理されるため安全です。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--FOOTER START-->
+    <footer id="footerWrap" class="centeringBox">
+        <div id="footer" class="centeringContent">
+            <div class="displaySelect">表示： <b>PC</b> ｜ <a href="/s/fekakomon.php">モバイル</a></div>
+
+            <nav class="footerContent">
+                <a href="/thissiteis.html">利用規約</a>
+                <a href="/privacypolicy.html">プライバシーポリシー</a>
+                <a href="/tokushouhou.html">特商法に基づく表記</a>
+                <a href="/contact.html">お問い合わせ</a>
+                <a href="/config.html">表示設定</a>
+                <br>
+                <a href="/sitemap.html">サイトマップ</a>
+                <a href="/link.html">リンク</a>
+                <a href="/ads.html">広告の掲載について</a>
+                <a href="/contact_faq.html">よくある質問（FAQ）</a>
+            </nav>
+
+            <div class="minilogo" title="基本情報技術者試験ドットコム"></div>
+        </div>
+
+        <div id="footerBottomWrap" class="centeringBox">
+            <div id="footerBottom" class="centeringContent">
+                <small>
+                    &copy; 2010-
+                    <script>document.write(new Date().getFullYear());</script>
+                    　基本情報技術者試験ドットコム　All Rights Reserved.
+                </small>
+            </div>
+        </div>
+    </footer>
+    <!-- FOOTER END -->
+
+    <script src="{% static 'core/js/membership.js' %}" defer></script>
+
+</body>
+
+</html>
