@@ -18,6 +18,7 @@ from django.urls import reverse
 from django.db import transaction
 from .models import EmailChangeToken
 from django.conf import settings
+from django.contrib.auth import update_session_auth_hash
 
 def kakomon_login(request):
     # GETで /accounts/login/ に来ても、ログインページは作らない方針なので戻す
@@ -44,6 +45,7 @@ def fekakomon_php(request):
     return render(request, "core/fekakomon.html", context)
 
 USERID_RE = re.compile(r"^[0-9A-Za-z._-]{6,20}$")  # 0-9 a-z A-Z ._- で6～20
+PASS_RE = re.compile(r"^[0-9A-Za-z`~!@#$%^&*_\+\-=\{\}\[\]\|:;\"'<>\.,\?/]{8,32}$")
 
 TOKEN_SALT = "email-change"
 TOKEN_MAX_AGE = 60 * 60 * 24  # 24h
@@ -104,6 +106,55 @@ def signup_api(request):
             "plan": 0,
             "backupStatus": {},
         })
+
+    # ★追加：changePassword
+    if action == "changePassword":
+        # セッション/ログイン必須（JSの errorcode=6 相当）
+        if not request.user.is_authenticated:
+            return JsonResponse({"status": "error", "errorcode": 6}, status=403)
+
+        current = request.POST.get("password") or ""
+        new = request.POST.get("password_new") or ""
+        confirm = request.POST.get("password_confirm") or ""
+
+        # 必須チェック（JSの errorcode=1 相当）
+        if not current or not new or not confirm:
+            return JsonResponse({"status": "error", "errorcode": 1})
+
+        # 形式チェック（8〜32、許可文字のみ）
+        if not PASS_RE.match(new) or not PASS_RE.match(confirm):
+            return JsonResponse({"status": "error", "errorcode": 1})
+
+        userid = request.user.username  # 送られてきたuseridは信用しない
+
+        # ユーザーIDを含むパスワード禁止（errorcode=2）
+        if userid.lower() in new.lower():
+            return JsonResponse({"status": "error", "errorcode": 2})
+
+        # 現在パスワードと同じは禁止（errorcode=3）
+        if current == new:
+            return JsonResponse({"status": "error", "errorcode": 3})
+
+        # confirm 不一致（errorcode=4）
+        if new != confirm:
+            return JsonResponse({"status": "error", "errorcode": 4})
+
+        # 現在パスワードが正しいか（errorcode=5）
+        if not request.user.check_password(current):
+            return JsonResponse({"status": "error", "errorcode": 5})
+
+        # 更新（失敗したら errorcode=7）
+        try:
+            request.user.set_password(new)
+            request.user.save()
+
+            # これが超重要：変更後もログイン状態を維持する
+            update_session_auth_hash(request, request.user)
+
+        except Exception:
+            return JsonResponse({"status": "error", "errorcode": 7}, status=500)
+
+        return JsonResponse({"status": "success"})
 
     # ★追加：changeEmail
     if action == "changeEmail":
