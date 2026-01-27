@@ -19,6 +19,9 @@ from django.db import transaction
 from .models import EmailChangeToken
 from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
+import string
+from django.core.cache import cache
+from django.db.utils import OperationalError
 
 def kakomon_login(request):
     # GETで /accounts/login/ に来ても、ログインページは作らない方針なので戻す
@@ -52,6 +55,20 @@ TOKEN_MAX_AGE = 60 * 60 * 24  # 24h
 
 def _hash_token(token: str) -> str:
     return hashlib.sha256(token.encode("utf-8")).hexdigest()
+
+def _make_temp_password(userid: str, length: int = 12) -> str:
+    # JSの案内に合わせて「半角英数字・記号」で作る（8〜32）
+    # 記号は安全寄りに厳選（メールで崩れやすいクォート系は避ける）
+    symbols = "`~!@#$%^&*_+-={}[]|:;<>.,?/"
+    alphabet = string.ascii_letters + string.digits + symbols
+
+    for _ in range(10):
+        pw = "".join(secrets.choice(alphabet) for _ in range(length))
+        # 公式仕様っぽく「ユーザーIDを含むパスワード禁止」
+        if userid.lower() not in pw.lower():
+            return pw
+    # まれに当たるので最後の保険
+    return "".join(secrets.choice(string.ascii_letters + string.digits) for _ in range(length))
 
 @require_POST
 def signup_api(request):
@@ -184,7 +201,7 @@ def signup_api(request):
 
         confirm_url = settings.SITE_URL + reverse("confirm_email") + f"?token={raw_token}"
 
-        subject = "【基本情報技術者試験ドットコム】仮登録完了メール"
+        subject = "【シカベン】仮登録完了メール"
         body = f"""{request.user.get_full_name() or request.user.username} 様
 
 メールアドレスの登録／変更を承りました。
@@ -207,6 +224,86 @@ def signup_api(request):
         )
 
         return JsonResponse({"status":"success"})
+    
+    if action == "resetPassword":
+        userid = (request.POST.get("userid") or "").strip()
+        email = (request.POST.get("email") or "").strip()
+
+        # 必須 & 形式
+        if not userid or not email:
+            return JsonResponse({"status": "error", "errorcode": 1})
+        if not USERID_RE.match(userid):
+            return JsonResponse({"status": "error", "errorcode": 1})
+        try:
+            validate_email(email)
+        except ValidationError:
+            return JsonResponse({"status": "error", "errorcode": 1})
+
+        # 簡易ロックアウト（10分で5回以上失敗したら）
+        ip = request.META.get("REMOTE_ADDR", "")
+        lock_key = f"pwreset:{userid}:{ip}"
+        tries = cache.get(lock_key, 0)
+        if tries >= 5:
+            return JsonResponse({"status": "error", "errorcode": 3})
+
+        User = get_user_model()
+
+        try:
+            user = User.objects.get(username=userid)
+        except User.DoesNotExist:
+            cache.set(lock_key, tries + 1, 60 * 10)
+            return JsonResponse({"status": "error", "errorcode": 1})
+        except OperationalError:
+            return JsonResponse({"status": "error", "errorcode": 6})
+
+        # email一致（登録済みと同じか）
+        if (user.email or "").lower() != email.lower():
+            cache.set(lock_key, tries + 1, 60 * 10)
+            return JsonResponse({"status": "error", "errorcode": 2})
+
+        # 仮パスワード発行 → 送信失敗時に戻せるよう元のhashを保持
+        old_hash = user.password
+        temp_pw = _make_temp_password(userid, length=12)
+
+        try:
+            user.set_password(temp_pw)
+            user.save(update_fields=["password"])
+        except Exception:
+            return JsonResponse({"status": "error", "errorcode": 4})
+
+        login_url = request.build_absolute_uri("/fekakomon.php")
+        subject = "【シカベン】仮パスワードの発行"
+        body = f"""{user.get_full_name() or user.username} 様
+
+パスワードリセットを承りました。
+
+以下の仮パスワードを発行いたしましたので、
+これを使用してアカウントにログイン後、パスワードの変更を行ってください。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+仮パスワード:
+{temp_pw}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"""
+
+        try:
+            send_mail(
+                subject=subject,
+                message=body,
+                from_email=None,          # DEFAULT_FROM_EMAIL を使う
+                recipient_list=[email],
+                fail_silently=False,
+            )
+        except Exception:
+            # メール送信に失敗したらパスワードも元に戻す（重要）
+            user.password = old_hash
+            user.save(update_fields=["password"])
+            return JsonResponse({"status": "error", "errorcode": 5})
+
+        # 成功したらロックアウト回数リセット（任意）
+        cache.delete(lock_key)
+
+        return JsonResponse({"status": "success"})
 
     return JsonResponse({"status":"error","errorcode":1}, status=400)
 
