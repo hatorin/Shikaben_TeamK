@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基本情報技術者試験ドットコム</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; }
+    </style>
+</head>
+<body class="bg-white text-[#30313d]">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        
+        <div class="w-full md:w-1/2 flex justify-end bg-white p-8 md:p-16 border-r border-gray-100">
+            <div class="w-full max-w-[440px]">
+                <div class="flex items-center gap-2 mb-12">
+                    <div class="bg-[#4CAF50] text-white font-bold p-1 rounded text-xs uppercase">Fe</div>
+                    <span class="text-sm font-bold text-gray-700">基本情報技術者試験ドットコム</span>
+                </div>
+
+                <p class="text-gray-500 text-sm mb-2">メンバーシップ登録（広告非表示プラン + α）を定期購入</p>
+                <h1 class="text-[40px] font-bold mb-10 flex items-baseline">
+                    ¥ 490 <span class="text-lg font-normal text-gray-400 ml-2">/ 月</span>
+                </h1>
+
+                <div class="border rounded-xl p-5 mb-6 relative bg-white shadow-sm border-gray-200">
+                    <div class="flex gap-4 mb-4">
+                        <div class="w-12 h-12 flex-shrink-0 bg-[#fdf2e9] border border-[#f5d9bc] rounded flex items-center justify-center p-1">
+                            <span class="text-[10px] text-[#e67e22] font-bold text-center leading-tight">過去問道場</span>
+                        </div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start">
+                                <h3 class="text-[14px] font-bold leading-snug">メンバーシップ登録（広告非表示プラン + α）</h3>
+                                <span class="font-bold text-sm">¥ 490</span>
+                            </div>
+
+                            <div class="flex items-start gap-2">
+                                <p id="membership-text" 
+                                    style="display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; overflow: hidden;"    
+                                    class="text-xs text-gray-400 mt-1 leading-relaxed cursor-pointer flex-grow">
+                                    【自動更新】当サイト内の過去問道場(PC・モバイル)を広告なしで利用できるようになるのみ加え、メンバー限定機能の利用や、解説PDFなどの限定コンテンツをダウンロードできるプレミアムなプランです。解約は当ウェブサイト内のマイページの[アカウント]⇒[メンバーシップ管理]からいつでも行うことができます。解約した場合その時点で広告非表示その他のメンバーシップサービスの提供は終了します。
+                                    契約は請求期間ごとに自動更新されます。
+                                </p>
+                            
+                                <button id="toggle-arrow" class="mt-1 p-1 hover:bg-gray-100 rounded transition-colors outline-none">
+                                    <svg id="arrow-icon" class="w-4 h-4 text-gray-500 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <script>
+                                //詳細表示関連
+                                const membershipText = document.getElementById('membership-text');
+                                const toggleArrow = document.getElementById('toggle-arrow');
+                                const arrowIcon = document.getElementById('arrow-icon');
+
+                                function toggleDetails() {
+                                    // 現在の状態を確認
+                                    if (membershipText.style.webkitLineClamp === '1') {
+                                        // 開く：制限をなくす
+                                        membershipText.style.webkitLineClamp = 'unset';
+                                        arrowIcon.style.transform = 'rotate(180deg)';
+                                    } else {
+                                        // 閉じる：1行制限に戻す
+                                        membershipText.style.webkitLineClamp = '1';
+                                        arrowIcon.style.transform = 'rotate(0deg)';
+                                    }
+                                
+                                }
+
+                                toggleArrow.addEventListener('click', toggleDetails);
+                                membershipText.addEventListener('click', toggleDetails);
+                                
+                            </script>
+
+                            <p class="text-[11px] text-gray-400 mt-2">1ヶ月ごとに請求</p>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                
+
+                <div class="space-y-4 pt-4">
+                    <div class="flex justify-between text-sm text-gray-600">
+                        <span>小計</span>
+                        <span>¥ 490</span>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-600">
+                        <span class="flex items-center gap-1">消費税 <span class="w-3 h-3 border border-gray-300 rounded-full text-[8px] flex items-center justify-center">i</span></span>
+                        <span>¥ 45</span>
+                    </div>
+                    <div class="flex justify-between font-bold text-[15px] pt-4 border-t border-gray-100">
+                        <span>今日期日の合計額</span>
+                        <span>¥ 490</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full md:w-1/2 bg-white p-8 md:p-16 flex justify-start">
+            <div class="w-full max-w-[440px]">
+                <h2 class="text-[17px] font-bold mb-4">連絡先情報</h2>
+                <div class="mb-8">
+                    <label class="block text-xs font-bold text-gray-600 mb-1.5">メールアドレス <span class="text-[#df1b41] float-right">必須</span></label>
+                    <input type="email" placeholder="email@example.com" class="w-full p-[11px] border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all shadow-sm">
+                </div>
+
+                <h2 class="text-[17px] font-bold mb-4">支払い方法</h2>
+                <!-- カードの情報関連 -->
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-gray-600 mb-1.5">カード情報</label>
+                    <div class="border border-gray-300 rounded-lg overflow-hidden shadow-sm focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+                        <div class="relative">
+                            <input type="text" 
+                                id="card-number"
+                                name="card_number"
+                                placeholder="1234 1234 1234 1234"
+                                maxlength="19"
+                                inputmode="numeric"
+                                class="w-full p-[11px] text-sm outline-none border-b border-gray-200">
+
+
+                            <div class="absolute right-3 top-3 flex gap-1 opacity-70">
+                                <div class="w-6 h-4 bg-blue-800 rounded-sm text-[8px] text-white flex items-center justify-center">VISA</div>
+                                <div class="w-6 h-4 bg-red-500 rounded-sm text-[8px] text-white flex items-center justify-center">MC</div>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <input type="text" id="expiry" placeholder="MM (月) / YY (年)" maxlength="7" inputmode="numeric" class="w-1/2 p-[11px] text-sm outline-none border-r border-gray-200">
+                            <input type="text" placeholder="CVC" maxlength="4" inputmode="numeric" class="w-1/2 p-[11px] text-sm outline-none">
+                        </div>
+                        <!-- カード情報関連 -->
+                        <script>
+                            // --- カード番号 (4桁ごとのスペース) の処理 ---
+                            const cardInput = document.getElementById('card-number');
+                            cardInput.addEventListener('input', (e) => {
+                                let value = e.target.value.replace(/\D/g, '');
+                                let parts = value.match(/.{1,4}/g);
+                                e.target.value = parts ? parts.join(' ') : '';
+                            });
+
+                            const expiryInput = document.getElementById('expiry');
+                            expiryInput.addEventListener('input', (e) => {
+                                let value = e.target.value.replace(/\D/g, '');
+                                if (value.length >= 2) {
+                                    // 2桁入力されたら自動で " / " を追加
+                                    e.target.value = value.substring(0, 2) + ' / ' + value.substring(2, 4);
+                                } else {
+                                    e.target.value = value;
+                                }
+                            });
+
+                            // 消すときの挙動調整
+                            expiryInput.addEventListener('keydown', (e) => {
+                                if (e.key === 'Backspace' && expiryInput.value.length === 5) {
+                                    expiryInput.value = expiryInput.value.substring(0, 2);
+                                }
+                            });
+                        </script>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-xs font-bold text-gray-600 mb-1.5">カード名義 (ローマ字)</label>
+                    <input type="text" 
+                            id="card-holder-name"
+                            placeholder="氏名" 
+                            style="text-transform: uppercase;"
+                            class="w-full p-[11px] border border-gray-300 rounded-lg text-sm outline-none shadow-sm">
+                </div>
+
+                <!-- カード名義関連 -->
+                <script>
+                    // --- カード名義 (英字とスペースのみ許可・大文字強制) ---
+                    const nameInput = document.getElementById('card-holder-name');
+
+                    nameInput.addEventListener('input', (e) => {
+                        // 1. 全て大文字に変換
+                        let value = e.target.value.toUpperCase();
+                        
+                        //英語以外入力不可
+                        value = value.replace(/[^A-Z\s]/g, '');
+                    
+                        e.target.value = value;
+                    });
+                </script>
+
+
+                <div class="mb-8">
+                    <label class="block text-xs font-bold text-gray-600 mb-1.5">国または地域</label>
+                    <div class="relative">
+                        <select class="w-full p-[11px] border border-gray-300 rounded-lg text-sm outline-none bg-white shadow-sm appearance-none">
+                            <option value="JP">日本</option>
+                            <option value="US">アメリカ合衆国</option>
+                            <option value="GB">イギリス</option>
+                            <option value="CN">中国</option>
+                            <option value="KR">韓国</option>
+                            <option value="CA">カナダ</option>
+                            <option value="AU">オーストラリア</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="flex items-start gap-3 cursor-pointer group">
+                        <input type="checkbox" class="mt-1 w-4 h-4 border-gray-300 rounded">
+                        <span class="text-[13px] text-gray-500 leading-snug">
+                            基本情報技術者試験ドットコムの <a href="{% url 'thissiteis_html' %}" class="text-gray-700 underline">利用規約</a> と <a href="{% url 'privacypolicy_html' %}" class="text-gray-700 underline">プライバシーポリシー</a> に同意します
+                        </span>
+                    </label>
+                </div>
+
+                <div id="checkout-form">
+                    <button id="submit-button" class="w-full bg-[#0073e6] text-white font-bold py-[12px] rounded-lg hover:bg-[#0061c2] transition-colors shadow-md text-[16px]">
+                        申し込む
+                    </button>
+                </div>
+
+                <div id="membership-complete" class="hidden">
+                    <div class="w-full max-w-[440px] text-center animate-fadeIn">
+                        <h2 class="text-[56px] font-black text-[#e67e22] ...">THANK YOU</h2>
+                        </div>
+                </div>
+                
+                <p class="text-[11px] text-gray-400 mt-6 text-center leading-relaxed">
+                    解約されるまで、利用規約に基づき基本情報技術者試験ドットコムが請求を行うことに同意した上で、申し込んでください。
+                </p>
+
+                <div class="mt-10 pt-6 border-t border-gray-50 flex flex-col items-center gap-4">
+                    <p class="text-[11px] text-gray-400">Powered by <span class="font-bold text-gray-500">stripe</span></p>
+                    <div class="flex gap-4 text-[10px] text-gray-400">
+                        <a href="{% url 'tokushouhou_html' %}">特定商取引法に基づく表記</a>
+                        <a href="{% url 'thissiteis_html' %}">利用規約</a>
+                        <a href="{% url 'privacypolicy_html' %}">プライバシー</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

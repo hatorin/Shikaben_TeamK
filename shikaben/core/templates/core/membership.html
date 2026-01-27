@@ -103,7 +103,6 @@
                     var(--body-bg, #f0f1f1));
             font: 14px "Helvetica Neue", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
             text-size-adjust: 100%;
-            text-autospace: normal;
         }
 
         /* 中央寄せ枠（本家：min-width 1000 / centeringContent 1000） */
@@ -623,11 +622,11 @@
 
                 {% if user.is_authenticated %}
                 <div class="membership_cta">
-                    <a class="cta-btn" href="javascript:void(0)">
+                    <a class="cta-btn" href="{% url 'membership_month' %}">
                         月額払いでメンバーになる
                         <span>MONTH PLAN</span>
                     </a>
-                    <a class="cta-btn" href="javascript:void(0)">
+                    <a class="cta-btn" href="{% url 'membership_year' %}">
                         年額払いでメンバーになる
                         <span>YEAR PLAN</span>
                     </a>
