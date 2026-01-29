@@ -2,7 +2,7 @@ from django.utils import timezone
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 import re
-from django.contrib.auth import get_user_model, authenticate, login
+from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
@@ -22,6 +22,8 @@ from django.contrib.auth import update_session_auth_hash
 import string
 from django.core.cache import cache
 from django.db.utils import OperationalError
+from django.db.models.deletion import ProtectedError
+from django.views.decorators.http import require_http_methods
 
 def kakomon_login(request):
     # GETで /accounts/login/ に来ても、ログインページは作らない方針なので戻す
@@ -69,6 +71,9 @@ def _make_temp_password(userid: str, length: int = 12) -> str:
             return pw
     # まれに当たるので最後の保険
     return "".join(secrets.choice(string.ascii_letters + string.digits) for _ in range(length))
+
+# 重要操作の「直前確認」有効期限
+SENSITIVE_OK_SECONDS = 5 * 60  # 5分
 
 @require_POST
 def signup_api(request):
@@ -225,6 +230,7 @@ def signup_api(request):
 
         return JsonResponse({"status":"success"})
     
+    # ★追加：resetPassword
     if action == "resetPassword":
         userid = (request.POST.get("userid") or "").strip()
         email = (request.POST.get("email") or "").strip()
@@ -304,6 +310,78 @@ def signup_api(request):
         cache.delete(lock_key)
 
         return JsonResponse({"status": "success"})
+    
+    # ★追加：load (重要操作の直前確認用nonce発行)
+    if action == "load":
+        # 公式の挙動に寄せるなら「ログイン必須」でOK
+        if not request.user.is_authenticated:
+            # errorcodeはフロントの想定に寄せる（例: 4=ユーザーID/セッション不正）
+            return JsonResponse({"status": "error", "errorcode": 4}, status=403)
+
+        # ワンタイムnonceを発行してセッションへ
+        nonce = secrets.token_urlsafe(16)
+        request.session["sensitive_nonce"] = nonce
+        request.session["sensitive_nonce_at"] = timezone.now().timestamp()
+
+        # どんな場合も JSON を返す（parsererror回避）
+        return JsonResponse({"status": "success", "nonce": nonce})
+    
+    # ★追加：continue (重要操作の直前確認パスワードチェック)
+    if action == "continue":
+        if not request.user.is_authenticated:
+            return JsonResponse({"status": "error", "errorcode": 4}, status=403)
+
+        # T() が nonce を送ってくる場合に備えて受ける（無くても動くようにしておく）
+        nonce_req = (request.POST.get("nonce") or "").strip()
+        nonce_sess = request.session.get("sensitive_nonce")
+
+        # nonceが送られてきた時だけ厳密チェック（送られない実装でも落ちない）
+        if nonce_req:
+            if (not nonce_sess) or (nonce_req != nonce_sess):
+                return JsonResponse({"status": "error", "errorcode": 4}, status=400)
+
+        password = request.POST.get("password") or request.POST.get("pass") or ""
+        if not password:
+            return JsonResponse({"status": "error", "errorcode": 1}, status=400)
+
+        # パスワード確認（Django auth）
+        user = authenticate(request, username=request.user.username, password=password)
+        if user is None:
+            # フロントの想定: 1/2 が「ID or パスワード不正」系で使われがち
+            return JsonResponse({"status": "error", "errorcode": 1}, status=200)
+
+        # 「確認済み」状態をセッションに保存
+        request.session["sensitive_ok_at"] = timezone.now().timestamp()
+        return JsonResponse({"status": "success"})
+    
+    # ★追加：deleteAccount
+    if action == "deleteAccount":
+        if not request.user.is_authenticated:
+            return JsonResponse({"status": "error", "errorcode": 4}, status=403)
+
+        # 直前確認が済んでいるか（T()を通したか）をチェック
+        ok_at = request.session.get("sensitive_ok_at")
+        if not ok_at:
+            return JsonResponse({"status": "error", "errorcode": 4}, status=200)
+
+        if timezone.now().timestamp() - float(ok_at) > SENSITIVE_OK_SECONDS:
+            return JsonResponse({"status": "error", "errorcode": 4}, status=200)
+
+        # 念のためdeleteAccountでもパスワードを最終確認（公式もだいたい二重）
+        password = request.POST.get("password") or ""
+        user = authenticate(request, username=request.user.username, password=password)
+        if user is None:
+            return JsonResponse({"status": "error", "errorcode": 1}, status=200)
+
+        # 削除（関連FKは on_delete に従って消える/残る）
+        try:
+            user_obj = request.user
+            logout(request)               # セッション破棄
+            user_obj.delete()             # ユーザー削除
+        except Exception:
+            return JsonResponse({"status": "error", "errorcode": 3}, status=200)
+
+        return JsonResponse({"status": "success"})
 
     return JsonResponse({"status":"error","errorcode":1}, status=400)
 
@@ -351,10 +429,49 @@ def contact_result(request):
     # その他 action
     return JsonResponse({"status": "error", "errorcode": 1})
 
-#以下齋藤変更内容
 #メンバーシップ画面
+@require_http_methods(["GET", "POST"])
 def membership(request):
-    return render(request, "core/membership.html")
+    # 画面表示（従来どおり）
+    if request.method == "GET":
+        return render(request, "core/membership.html")
+
+    # ここから API（T() が叩く）
+    action = request.POST.get("action")
+
+    # action不正（JS側で 12/13 を出してるので寄せる）
+    if action != "cancel_membership":
+        return JsonResponse({"status": "error", "errorcode": 12})
+
+    # ログイン切れ
+    if not request.user.is_authenticated:
+        # T() は errorcode=11 を「ログイン切れ」として扱っている
+        return JsonResponse({"status": "error", "errorcode": 11}, status=403)
+
+    password = request.POST.get("password") or ""
+    if not password:
+        # ここはJSに該当メッセージが無いので、2(パスワード不正)寄せでも可
+        return JsonResponse({"status": "error", "errorcode": 2})
+
+    # パスワード確認（現在ログイン中ユーザーで検証）
+    user = authenticate(request, username=request.user.username, password=password)
+    if user is None:
+        return JsonResponse({"status": "error", "errorcode": 2})
+
+    # ここで「メンバーシップ解約処理」を行う
+    # まだ決済連携/DBが無いなら、まずは「成功で返す」だけでOK（deleteAccountを先に完成させる）
+    # TODO: membershipモデル/決済連携が入ったらここを本実装
+    try:
+        # 例：セッションやユーザー属性の plan を落とす等（あなたの実装方針に合わせる）
+        # request.user.plan = 0; request.user.save(update_fields=["plan"])
+        pass
+    except Exception:
+        return JsonResponse({"status": "error", "errorcode": 7})
+    
+    request.session["sensitive_ok_at"] = timezone.now().timestamp()
+
+    return JsonResponse({"status": "success"})
+
 #メンバーシップ登録支払画面
 def membership_month(request):
     return render(request, "core/membership_month.html")  # 未作成なら後で
