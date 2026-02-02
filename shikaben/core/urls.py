@@ -3,11 +3,12 @@ from . import views
 from django.shortcuts import redirect
 
 def root(request):
-    return redirect("/fekakomon.php")
+    return redirect("/fekakomon.html")
 
 urlpatterns = [
     path("", root, name="root"),
-    path("fekakomon.php", views.fekakomon_php, name="fekakomon_php"),
+    path("fekakomon.html", views.fekakomon, name="fekakomon"),
+    path("fekakomon_q.php", views.fekakomon_question, name="fekakomon_question"),
     path("membership/", views.membership, name="membership"),
     path("membership/month/", views.membership_month, name="membership_month"),
     path("membership/year/", views.membership_year, name="membership_year"),

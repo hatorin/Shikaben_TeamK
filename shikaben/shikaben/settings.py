@@ -52,8 +52,8 @@ MIDDLEWARE = [
 ]
 
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/fekakomon.php'
-LOGOUT_REDIRECT_URL = '/fekakomon.php'
+LOGIN_REDIRECT_URL = '/fekakomon.html'
+LOGOUT_REDIRECT_URL = '/fekakomon.html'
 
 ROOT_URLCONF = "shikaben.urls"
 

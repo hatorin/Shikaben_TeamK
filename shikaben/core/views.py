@@ -28,7 +28,7 @@ from django.views.decorators.http import require_http_methods
 def kakomon_login(request):
     # GETで /accounts/login/ に来ても、ログインページは作らない方針なので戻す
     if request.method != "POST":
-        return redirect("/fekakomon.php")
+        return redirect("/fekakomon.html")
 
     username = request.POST.get("username") or request.POST.get("userid") or ""
     password = request.POST.get("password") or ""
@@ -36,14 +36,14 @@ def kakomon_login(request):
     user = authenticate(request, username=username, password=password)
     if user is None:
         request.session["last_login_username"] = username
-        # 失敗理由を fekakomon.php へ持ち帰る（表示はテンプレ側で b() を使う）
+        # 失敗理由を fekakomon.html へ持ち帰る（表示はテンプレ側で b() を使う）
         messages.error(request, "ユーザーIDまたはパスワードが正しくありません。")
-        return redirect("/fekakomon.php?panel=login")
+        return redirect("/fekakomon.html?panel=login")
 
     login(request, user)
-    return redirect("/fekakomon.php")
+    return redirect("/fekakomon.html")
 
-def fekakomon_php(request):
+def fekakomon(request):
     context = {
         "last_login_username": request.session.pop("last_login_username", ""),
     }
@@ -277,7 +277,7 @@ def signup_api(request):
         except Exception:
             return JsonResponse({"status": "error", "errorcode": 4})
 
-        login_url = request.build_absolute_uri("/fekakomon.php")
+        login_url = request.build_absolute_uri("/fekakomon.html")
         subject = "【シカベン】仮パスワードの発行"
         body = f"""{user.get_full_name() or user.username} 様
 
@@ -388,7 +388,7 @@ def signup_api(request):
 
 def confirm_email(request):
     """
-    /confirm.php?token=... を開いたとき：
+    /confirm_email.html?token=... を開いたとき：
       成功 => contact_result.html?status=3
       トークン不正/再利用 => status=4
       期限切れ => status=5
