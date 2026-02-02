@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from datetime import timedelta
+from django.db.models import Q
 
 class EmailChangeToken(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -31,6 +32,9 @@ class Category(models.Model):
     name = models.CharField(max_length=200)
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL)
 
+    def __str__(self):
+        return self.name
+
 class Question(models.Model):
     year = models.CharField(max_length=50)
     source = models.CharField(max_length=200, blank=True)
@@ -40,11 +44,36 @@ class Question(models.Model):
     is_calculation = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"{self.year} {self.source}".strip()
+
+LABELS = ["ア", "イ", "ウ", "エ"]
+
 class Choice(models.Model):
     question = models.ForeignKey(Question, related_name='choices', on_delete=models.CASCADE)
-    label = models.CharField(max_length=3)
+    label = models.CharField(max_length=1)  # まずはそのままでもOK（後でchoices化しても良い）
     text = models.TextField()
     is_correct = models.BooleanField(default=False)
+
+    class Meta:
+        constraints = [
+            # 各Questionで同じlabelを重複させない（ア/イ/ウ/エを1つずつ）
+            models.UniqueConstraint(
+                fields=["question", "label"],
+                name="uniq_choice_label_per_question",
+            ),
+            # 各Questionで正解は最大1つ
+            models.UniqueConstraint(
+                fields=["question"],
+                condition=Q(is_correct=True),
+                name="uniq_correct_choice_per_question",
+            ),
+            # labelは許可されたものだけ（SQLiteでもOK）
+            models.CheckConstraint(
+                condition=Q(label__in=LABELS),
+                name="chk_choice_label_valid",
+            ),
+        ]
 
 class PracticeSession(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
