@@ -8,7 +8,10 @@ def root(request):
 urlpatterns = [
     path("", root, name="root"),
     path("fekakomon.html", views.fekakomon, name="fekakomon"),
-    path("fekakomon_q.php", views.fekakomon_question, name="fekakomon_question"),
+    path("fekakomon_question.html", views.fekakomon_question, name="fekakomon_question"),
+    # AJAX用
+    path("api/doujou/answer/", views.api_doujou_answer, name="api_doujou_answer"),
+    path("api/doujou/next/", views.api_doujou_next, name="api_doujou_next"),
     path("membership/", views.membership, name="membership"),
     path("membership/month/", views.membership_month, name="membership_month"),
     path("membership/year/", views.membership_year, name="membership_year"),

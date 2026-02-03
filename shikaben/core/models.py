@@ -50,7 +50,7 @@ class Question(models.Model):
 LABELS = ["ア", "イ", "ウ", "エ"]
 
 class Choice(models.Model):
-    question = models.ForeignKey(Question, related_name='choices', on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, related_name='choice_set', on_delete=models.CASCADE)
     label = models.CharField(max_length=1)  # まずはそのままでもOK（後でchoices化しても良い）
     text = models.TextField()
     is_correct = models.BooleanField(default=False)

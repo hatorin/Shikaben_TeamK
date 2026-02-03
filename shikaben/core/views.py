@@ -1,6 +1,5 @@
 from django.utils import timezone
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect
 import re
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.password_validation import validate_password
@@ -23,7 +22,215 @@ import string
 from django.core.cache import cache
 from django.db.utils import OperationalError
 from django.db.models.deletion import ProtectedError
+import random
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
+from .models import Question
+import json
+from django.utils.html import escape
+
+SESSION_IDS = "dojo_question_ids"
+SESSION_IDX = "dojo_index"
+SESSION_ANS = "dojo_answers"  # {question_id: {"selected": "ア", "correct": True}}
+
+def _get_state(request):
+    """
+    セッションから (ids, idx, current_qid) を安全に取り出す。
+    """
+    ids = request.session.get(SESSION_IDS)
+    if not ids:
+        return None, None, None
+
+    idx = int(request.session.get(SESSION_IDX, 0))
+    idx = max(0, min(idx, len(ids) - 1))
+    current_qid = int(ids[idx])
+    return ids, idx, current_qid
+
+
+def _get_explanation_html(q: Question) -> str:
+    """
+    Question.explanation を HTML表示用に整形して返す。
+    （DBはプレーンテキスト前提 → escapeして改行だけ<br>に）
+    """
+    txt = q.explanation or ""
+    return escape(txt).replace("\n", "<br>")
+
+
+def _serialize_question(q: Question, idx: int, total: int) -> dict:
+    """
+    次問APIで返す「問題データ」。
+    ※ 正解情報は絶対に入れない（答えが覗けるため）
+    """
+    choices = list(q.choice_set.order_by("label").values("label", "text"))
+    return {
+        "qid": q.id,
+        "qno": idx + 1,
+        "total": total,
+        "body": q.body,
+        "choices": choices,
+        "is_calculation": bool(q.is_calculation),
+    }
+
+@require_http_methods(["GET", "POST"])
+def fekakomon(request):
+    """
+    GET : ホーム（出題設定）
+    POST: 出題開始（条件をセッションに保存して演習ページへ）
+    """
+    if request.method == "GET":
+        context = {
+        "last_login_username": request.session.pop("last_login_username", ""),
+        }
+
+        return render(request, "core/fekakomon.html", context)
+
+    # ---- ここから POST（出題開始） ----
+    times = request.POST.getlist("times[]")          # 例: ["06_menjo", "05_menjo", ...]
+    categories = request.POST.getlist("categories[]")# 例: ["1", "2", ...]
+    options = set(request.POST.getlist("options[]")) # 例: ["random", "noCalc", ...]
+
+    qs = Question.objects.all()
+
+    # source（試験回）で絞り込み（あなたのQuestion.sourceが "06_menjo" 等を持つ想定）
+    if times:
+        qs = qs.filter(source__in=times)
+
+    # category で絞り込み（categories[] がCategoryのid想定）
+    if categories:
+        qs = qs.filter(category_id__in=categories)
+
+    # 何もヒットしない場合はホームに戻す（メッセージ表示したいならmessages利用）
+    ids = list(qs.values_list("id", flat=True))
+    if not ids:
+        return render(request, "core/fekakomon.html", {"error": "条件に合う問題がありません。"})
+
+    # 出題順：randomオプションがあればシャッフル
+    if "random" in options:
+        random.shuffle(ids)
+
+    request.session[SESSION_IDS] = ids
+    request.session[SESSION_IDX] = 0
+    request.session[SESSION_ANS] = {}
+    request.session.modified = True
+
+    return redirect("fekakomon_question")
+
+@require_POST
+def api_doujou_answer(request):
+    """
+    選択肢クリック直後に呼ばれる採点API（ページ遷移なし）
+    JSから JSON: {qid: 123, selected: "ア"} を受け取る
+    """
+    ids, idx, current_qid = _get_state(request)
+    if not ids:
+        return JsonResponse({"ok": False, "error": "no_session"}, status=400)
+
+    # JSONボディを読む
+    try:
+        data = json.loads(request.body.decode("utf-8"))
+    except Exception:
+        return JsonResponse({"ok": False, "error": "bad_json"}, status=400)
+
+    qid = int(data.get("qid") or 0)
+    selected = (data.get("selected") or "").strip()
+
+    # 「今表示中の問題」以外の採点を拒否（別タブ/戻る等の事故防止）
+    if qid != current_qid:
+        return JsonResponse({"ok": False, "error": "qid_mismatch"}, status=400)
+
+    # ラベル妥当性
+    if selected not in ("ア", "イ", "ウ", "エ"):
+        return JsonResponse({"ok": False, "error": "bad_selected"}, status=400)
+
+    # 既に回答済みなら、同じ結果を返す（連打対策・挙動安定）
+    answers = request.session.get(SESSION_ANS, {})
+    qid_str = str(qid)
+    if qid_str in answers:
+        q = get_object_or_404(Question, id=qid)
+        correct_choice = q.choice_set.filter(is_correct=True).first()
+        correct_label = correct_choice.label if correct_choice else None
+        return JsonResponse({
+            "ok": True,
+            "already_answered": True,
+            "correct": bool(answers[qid_str]["correct"]),
+            "selected": answers[qid_str]["selected"],
+            "correct_label": correct_label,
+            "explanation_html": _get_explanation_html(q),
+            "qno": idx + 1,
+            "total": len(ids),
+        })
+
+    q = get_object_or_404(Question, id=qid)
+
+    # 正解ラベル取得
+    correct_choice = q.choice_set.filter(is_correct=True).first()
+    correct_label = correct_choice.label if correct_choice else None
+    is_correct = (selected == correct_label)
+
+    # セッションに保存（復元用）
+    answers[qid_str] = {"selected": selected, "correct": bool(is_correct)}
+    request.session[SESSION_ANS] = answers
+    request.session.modified = True
+
+    return JsonResponse({
+        "ok": True,
+        "already_answered": False,
+        "correct": bool(is_correct),
+        "selected": selected,
+        "correct_label": correct_label,            # ←回答後なので返してOK
+        "explanation_html": _get_explanation_html(q),
+        "qno": idx + 1,
+        "total": len(ids),
+    })
+
+@require_POST
+def api_doujou_next(request):
+    """
+    「次へ」を押した時に呼ばれるAPI
+    idxを進め、次の問題データを返す（正解は返さない）
+    """
+    ids, idx, _ = _get_state(request)
+    if not ids:
+        return JsonResponse({"ok": False, "error": "no_session"}, status=400)
+
+    nxt = idx + 1
+    if nxt >= len(ids):
+        return JsonResponse({"ok": True, "finished": True})
+
+    request.session[SESSION_IDX] = nxt
+    request.session.modified = True
+
+    q = get_object_or_404(Question, id=int(ids[nxt]))
+    return JsonResponse({
+        "ok": True,
+        "finished": False,
+        "question": _serialize_question(q, nxt, len(ids)),
+    })
+
+@require_http_methods(["GET"])
+def fekakomon_question(request):
+    """
+    演習ページ：GETで「1問を表示するだけ」
+    採点・次へはAJAX(API)で行う
+    """
+    ids = request.session.get(SESSION_IDS)
+    if not ids:
+        return redirect("fekakomon")
+
+    idx = int(request.session.get(SESSION_IDX, 0))
+    idx = max(0, min(idx, len(ids) - 1))
+
+    q = get_object_or_404(Question, id=int(ids[idx]))
+    choices = list(q.choice_set.order_by("label"))
+
+    context = {
+        "qno": idx + 1,
+        "total": len(ids),
+        "question": q,
+        "choices": choices,
+        "qid": q.id,  # JSがAPIに投げる用
+    }
+    return render(request, "core/fekakomon_question.html", context)
 
 def kakomon_login(request):
     # GETで /accounts/login/ に来ても、ログインページは作らない方針なので戻す
@@ -42,12 +249,6 @@ def kakomon_login(request):
 
     login(request, user)
     return redirect("/fekakomon.html")
-
-def fekakomon(request):
-    context = {
-        "last_login_username": request.session.pop("last_login_username", ""),
-    }
-    return render(request, "core/fekakomon.html", context)
 
 USERID_RE = re.compile(r"^[0-9A-Za-z._-]{6,20}$")  # 0-9 a-z A-Z ._- で6～20
 PASS_RE = re.compile(r"^[0-9A-Za-z`~!@#$%^&*_\+\-=\{\}\[\]\|:;\"'<>\.,\?/]{8,32}$")
