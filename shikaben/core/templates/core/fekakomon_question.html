@@ -1,0 +1,381 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2TKTF90HZ0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2TKTF90HZ0');
+</script>
+
+<meta name="viewport" content="width=1000,user-scalable=yes">
+
+<link rel="alternate" media="only screen and (max-width:640px)" href="https://www.fe-siken.com/s/fekakomon.html">
+<link rel="canonical" href="https://www.fe-siken.com/fekakomon.html">
+
+<meta charset="UTF-8">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="keywords" content="基本情報技術者,過去問題">
+
+<meta property="og:site_name" content="基本情報技術者試験ドットコム">
+<meta property="og:title" content="基本情報技術者試験過去問道場　第{{ qno }}問">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://www.fe-siken.com/img/ogimage_doujou.png">
+<meta property="og:url" content="https://www.fe-siken.com/fekakomon.html">
+
+{# 公式は /style.css?20260202 ですが、Django静的に合わせて提供 #}
+<link rel="stylesheet" href="{% static 'core/css/style.css' %}?20260202">
+<link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+
+<title>基本情報技術者試験過去問道場　第{{ qno }}問｜基本情報技術者試験.com</title>
+</head>
+
+<body>
+
+<script>
+if (typeof localStorage !== undefined) {
+  const theme = localStorage.getItem('NIGHT') || localStorage.getItem('NIGHTMODE') || 0;
+  if (theme == 1) document.body.className += ' night';
+  if (theme == 2) document.body.className += ' beige';
+}
+</script>
+
+<!-- HEADER START -->
+<header id="headerWrap" class="centeringBox">
+  <div id="header" class="centeringContent">
+    <h1>基本情報技術者 試験情報＆徹底解説 -新制度に完全対応-</h1>
+    <a href="/"><img src="/img/titlelogo.png" width="500" height="66" id="logo" alt="基本情報技術者試験ドットコム" title="基本情報技術者試験ドットコム トップページ"></a>
+    <div id="countdown"></div>
+  </div>
+
+  <nav id="headerMenuWrap" class="centeringBox">
+    <div id="headerMenu" class="centeringContent">
+      <ul>
+        <li id="fastMenuBtn"><a href="/kakomon/07_haru/" title="過去問題解説">過去問題解説</a>
+        <li><a href="/feis.html" title="基本情報技術者とは">基本情報技術者とは</a>
+        <li><a href="/fekakomon.html" title="Webアプリ過去問道場">過去問道場</a>
+          <ul>
+            <li><a href="/fekakomon.html">過去問道場（科目A）</a>
+            <li><a href="/fekakomon_pm.php">過去問道場（旧・午後試験）</a>
+          </ul>
+        <li><a href="/febbs.php" title="基本情報技術者掲示板">掲示板</a>
+        <li><a href="/keyword/" title="シラバス用語集">用語集</a>
+        <li class="search_button"><a href="#" title="サイト内検索" onclick="return false;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="20px" height="20px" fill="#fff"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"></path></svg></a>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="search_panel">
+    <div class="search_panel_inner centeringContent">
+      <script async src="https://cse.google.com/cse.js?cx=partner-pub-5061380080248584:2167693166"></script>
+      <div class="gcse-search"></div>
+      <div class="search_close_button">閉じる</div>
+    </div>
+  </div>
+</header>
+<!-- HEADER END -->
+
+{# Djangoメッセージ/トースト表示領域（公式には無いが必要） #}
+<div id="stateMessage"></div>
+
+<!-- CONTENT START -->
+<div id="contentWrap" class="centeringBox">
+  <div id="content" class="centeringContent">
+
+    {# 公式の上部バナー（必要なければあなたのmembershipバナーに戻してOK） #}
+    <a rel="sponsored"
+       href="https://www.seplus.jp/dokushuzemi/ec/fe/?utm_source=fecom&utm_medium=banner&utm_campaign=pc0215-pt2"
+       onClick="gtag('event','pc_banner',{'event_category':'seplus.jp','labelName':'pc0215-pt2'});">
+      <img class="top_ban" src="/img/assets/view-desktop2.png" width="640" height="100"
+           alt="午前試験免除制度対応！基本情報技術者試験のeラーニング【独習ゼミ】"
+           style="display:block;margin:15px auto;aspect-ratio:32/5">
+    </a>
+
+    <!-- MAINCOL START -->
+    <main id="mainCol">
+
+      <div class="pan">
+        <a href="/">HOME</a>&raquo;
+        <a href="/fekakomon.html">基本情報技術者過去問道場</a>&raquo;
+        <b>{{ qno }}問目</b>
+      </div>
+
+      <div class="main kako doujou">
+        <h2>
+          基本情報技術者試験 過去問道場
+
+          <button type="button" id="userBtn" class="{% if user.is_authenticated %}login{% endif %}">
+            <i class="user"></i>
+            <span id="userid" data-userid="{% if user.is_authenticated %}{{ user.username }}{% endif %}">
+              {% if user.is_authenticated %}{{ user.username }}さん{% else %}ログイン・ユーザー登録{% endif %}
+            </span>
+          </button>
+
+          <div id="userPanel" class="{% if messages %} show{% endif %}">
+            {% if user.is_authenticated %}
+              <form id="adminForm" method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">ログアウト</button>
+              </form>
+            {% else %}
+              <form id="loginForm" method="post" action="{% url 'login' %}" autocomplete="on">
+                {% csrf_token %}
+
+                <div class="inputWrap">
+                  <i class="user"></i>
+                  <input type="text" name="username" autocomplete="username" required
+                         value="{{ last_login_username|default:'' }}">
+                  <label>ユーザーID</label>
+                </div>
+
+                <div class="inputWrap">
+                  <i class="password"></i>
+                  <input type="password" name="password" autocomplete="current-password" required>
+                  <label>パスワード</label>
+                  <i class="eye togglePassword"></i>
+                </div>
+
+                <div><button type="submit" name="login">ログイン</button></div>
+                <a href="{% url 'signup' %}" id="register">+新規登録</a>
+              </form>
+            {% endif %}
+          </div>
+        </h2>
+
+        <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const btn = document.getElementById("userBtn");
+          const panel = document.getElementById("userPanel");
+          if (!btn || !panel) return;
+
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            panel.classList.toggle("show");
+          });
+
+          document.addEventListener("click", (e) => {
+            if (!panel.classList.contains("show")) return;
+            if (panel.contains(e.target) || btn.contains(e.target)) return;
+            panel.classList.remove("show");
+          });
+        });
+        </script>
+
+        <h3 class="qno">
+          第{{ qno }}問
+          <div id="calcBtn"></div>
+        </h3>
+
+        {# 公式は div直置き。JSが差し替えやすいよう id を維持 #}
+        <div id="questionBody">{{ question.body|safe }}</div>
+
+        <div class="anslink" style="color:#999">
+          {{ question.year }}　{{ question.source }}<br>
+          {{ qno }}問目／選択中の問題{{ total }}問
+        </div>
+
+        <div class="ansbg" style="margin:30px 0 50px">
+          <ul class="selectList col1"
+              id="selectList"
+              data-qid="{{ question.id }}"
+              data-judge-url="{% url 'api_doujou_answer' %}"
+              data-next-url="{% url 'api_doujou_next' %}">
+            {% for c in choices %}
+              <li>
+                <button class="selectBtn" type="button" data-selected="{{ c.label }}">{{ c.label }}</button>
+
+                {# 公式に寄せて select_a / select_i / select_u / select_e を付ける #}
+                {% if c.label == "ア" %}
+                  <span id="select_a">{{ c.text }}</span>
+                {% elif c.label == "イ" %}
+                  <span id="select_i">{{ c.text }}</span>
+                {% elif c.label == "ウ" %}
+                  <span id="select_u">{{ c.text }}</span>
+                {% elif c.label == "エ" %}
+                  <span id="select_e">{{ c.text }}</span>
+                {% else %}
+                  <span>{{ c.text }}</span>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        {# 公式は <div id="ans"></div> だけだが、あなたのJSが参照する要素を中に保持 #}
+        <div id="ans" style="display:none;">
+          <div id="judgeText"><strong></strong></div>
+          <div id="answerMeta"></div>
+        </div>
+
+        {# 公式の広告枠（構造だけ残す。不要なら削除OK） #}
+        <div class="ads_wrap">
+          <div class="ads_content" id="n6981489ab701c20350431931"></div>
+          <div class="ads_content" id="n6981489ab701c20350431932"></div>
+        </div>
+
+        {# 公式に合わせて「解説」ブロック。採点後に doujouAnswer.js がここへHTMLを流し込み #}
+        <h3 id="kaisetsuTitle" style="display:none;">解説 :</h3>
+        <div id="kaisetsu" class="displayNone"></div>
+
+        {# 次の問題（公式はフォームsubmitだが、あなたはAJAXなので button のまま） #}
+        <button type="button"
+                id="nextBtn"
+                class="submit"
+                data-text="NEXT"
+                data-next-url="{% url 'api_doujou_next' %}"
+                style="margin-top:20px; display:none;">
+          次の問題
+        </button>
+
+      </div>
+
+    </main>
+    <!-- MAINCOL END -->
+  </div>
+</div>
+<!-- CONTENT END -->
+
+<!-- FOOTER START -->
+<footer id="footerWrap" class="centeringBox">
+  <div id="footer" class="centeringContent">
+    <div class="displaySelect">表示： <b>PC</b> ｜ <a href="/s/fekakomon.html">モバイル</a></div>
+    <nav class="footerContent">
+      <a href="/thissiteis.html">利用規約</a>
+      <a href="/privacypolicy.html">プライバシーポリシー</a>
+      <a href="/tokushouhou.html">特商法に基づく表記</a>
+      <a href="/contact.html">お問い合わせ</a>
+      <a href="/config.html">表示設定</a>
+      <br>
+      <a href="/sitemap.html">サイトマップ</a>
+      <a href="/link.html">リンク</a>
+      <a href="/ads.html">広告の掲載について</a>
+      <a href="/contact_faq.html">よくある質問（FAQ）</a>
+    </nav>
+    <div class="minilogo" title="基本情報技術者試験ドットコム"></div>
+  </div>
+
+  <div id="footerBottomWrap" class="centeringBox">
+    <div id="footerBottom" class="centeringContent">
+      <small>&copy; 2010-<script>document.write(new Date().getFullYear());</script>　基本情報技術者試験ドットコム　All Rights Reserved.</small>
+    </div>
+  </div>
+</footer>
+<!-- FOOTER END -->
+
+{# drawer / menu / canvas は、あなたの既存テンプレのまま（公式とほぼ同一なので省略せず残す） #}
+<button id="drawer_btn"><span></span><span></span><span></span></button>
+<nav id="drawer_menu">
+
+  <div class="drawer_header">学習支援ツール</div>
+  <ul>
+    <li><a href="/fekakomon.html" title="過去問道場(科目A)" data-tip="人気">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M798.85-272.69 719.31-353l22.54-22.54 80.3 79.54-23.3 23.31ZM685-690.08l-22.54-21.54L742-791.15l23.31 22.53L685-690.08Zm-410 .77-79.54-80.31L218-792.15l80.31 79.53L275-689.31ZM160.38-272.69 137.85-296l79.53-78.54L240.69-353l-80.31 80.31Zm156.24 21L480-348.46l165.15 97.54-43.23-183.23 141.77-121.16-187.77-16.84L480-746.08l-75.15 173.93-187.77 16.07 142.77 121.93-43.23 182.46Zm-49 66.69 56.84-236L136-580.77l246.77-20.92L480-825l98 224.31 246.77 19.92L636.31-421l56.84 236L480-310.62 267.62-185Zm213.15-314Z"/></svg>
+      過去問道場(科目A)</a></li>
+
+    <li><a href="/fekakomon_pm.php" title="過去問道場(旧・午後試験)">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="m397-428.92 31.15-103.23-82-60.16h102.47L480-696.62l31.38 104.31h102.47l-82.23 60.16 31.15 103.23L480-493l-83 64.08ZM280-101.54v-263.61q-38-37.39-59-87.54-21-50.16-21-107.31 0-117.08 81.46-198.54T480-840q117.08 0 198.54 81.46T760-560q0 57.15-21 107.31-21 50.15-59 87.54v263.61l-200-60-200 60ZM480-320q100 0 170-70t70-170q0-100-70-170t-170-70q-100 0-170 70t-70 170q0 100 70 170t170 70ZM320-158.23l160-44.85 160 44.85v-173.23q-33.46 24.61-74.35 38.04Q524.77-280 480-280t-85.65-13.42q-40.89-13.43-74.35-38.04v173.23Zm160-86.62Z"/></svg>
+      過去問道場(旧・午後試験)</a></li>
+
+    <li><a href="/febbs.php" title="掲示板" data-tip="質問・相談">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M260-404h296v-32H260v32Zm0-132h440v-32H260v32Zm0-132h440v-32H260v32ZM136-172.92v-594.46q0-24.32 16.15-40.47T192.62-824h574.76q24.32 0 40.47 16.15T824-767.38v430.76q0 24.32-16.15 40.47T767.38-280h-524.3L136-172.92ZM230-312h537.38q9.24 0 16.93-7.69 7.69-7.69 7.69-16.93v-430.76q0-9.24-7.69-16.93-7.69-7.69-16.93-7.69H192.62q-9.24 0-16.93 7.69-7.69 7.69-7.69 16.93v518.15L230-312Zm-62 0v-480 480Z"/></svg>
+      掲示板</a></li>
+  </ul>
+
+  {# 以降の drawer メニューは、あなたが貼ってくれた既存のものをそのまま置いてOK #}
+
+  <a href="#header" id="toTop"><span>&#9650;</span><br>Pagetop</a>
+</nav>
+
+<div id="canvas_answer_back"></div>
+<canvas id="canvas_answer_front" width="200" height="260"></canvas>
+
+<!-- SCRIPT START -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="{% static 'core/js/fe.js' %}"></script>
+<script src="{% static 'core/js/kakomonApp.js' %}"></script>
+<script src="{% static 'core/js/doujouAnswer.js' %}"></script>
+<!-- SCRIPT END -->
+
+{% if messages %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const el = document.getElementById('stateMessage');
+  if (!el) return;
+
+  let msg = "";
+  {% for message in messages %}
+    {% if forloop.first %}
+      msg = "{{ message|escapejs }}";
+    {% endif %}
+  {% endfor %}
+
+  if (!msg) return;
+  el.innerHTML = '<i class="caution"></i> ' + msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3000);
+});
+</script>
+{% endif %}
+
+<!-- ログイン用フォーム（kakomonApp.jsのAJAXを止めてDjango標準へ流す） -->
+<form id="djangoLoginForm" method="post" action="{% url 'login' %}?next=/fekakomon.html" style="display:none;">
+  {% csrf_token %}
+  <input type="hidden" name="username">
+  <input type="hidden" name="password">
+</form>
+
+<!-- ログアウト用フォーム（必要なら使う） -->
+<form id="djangoLogoutForm" method="post" action="{% url 'logout' %}?next=/fekakomon.html" style="display:none;">
+  {% csrf_token %}
+</form>
+
+<script>
+function getCookie(name) {
+  const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+  return m ? decodeURIComponent(m.pop()) : '';
+}
+
+document.addEventListener("submit", function(e) {
+  const src = e.target;
+  if (!src || src.id !== "loginForm") return;
+
+  e.preventDefault();
+  e.stopPropagation();
+  e.stopImmediatePropagation();
+
+  const userid =
+    src.querySelector('[name="userid"]')?.value ||
+    src.querySelector('[name="username"]')?.value ||
+    "";
+  const pass = src.querySelector('[name="password"]')?.value || "";
+
+  const f = document.getElementById("djangoLoginForm");
+  f.querySelector('[name="username"]').value = userid;
+  f.querySelector('[name="password"]').value = pass;
+
+  const token = getCookie("csrftoken");
+  const csrfInput = f.querySelector('input[name="csrfmiddlewaretoken"]');
+  if (csrfInput && token) csrfInput.value = token;
+
+  f.submit();
+}, true);
+</script>
+
+<script>
+  // 公式っぽい通知関数の代替（グローバル）
+  window.b = function(html, timeout=5000){
+    const box = document.getElementById("stateMessage");
+    if(!box) return;
+    box.innerHTML = html;
+    box.classList.add("show");
+    clearTimeout(window.__bTimer);
+    window.__bTimer = setTimeout(()=>box.classList.remove("show"), timeout);
+  };
+</script>
+
+</body>
+</html>
