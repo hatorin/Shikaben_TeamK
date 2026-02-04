@@ -12,6 +12,7 @@ urlpatterns = [
     # AJAX用
     path("api/doujou/answer/", views.api_doujou_answer, name="api_doujou_answer"),
     path("api/doujou/next/", views.api_doujou_next, name="api_doujou_next"),
+    path("api/doujou/reveal/", views.api_doujou_reveal, name="api_doujou_reveal"),
     path("membership/", views.membership, name="membership"),
     path("membership/month/", views.membership_month, name="membership_month"),
     path("membership/year/", views.membership_year, name="membership_year"),

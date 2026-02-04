@@ -166,7 +166,7 @@ if (typeof localStorage !== undefined) {
         </script>
 
         <h3 class="qno">
-          第{{ qno }}問
+          <span id="qnoText">第{{ qno }}問</span>
           <div id="calcBtn"></div>
         </h3>
 
@@ -183,7 +183,8 @@ if (typeof localStorage !== undefined) {
               id="selectList"
               data-qid="{{ question.id }}"
               data-judge-url="{% url 'api_doujou_answer' %}"
-              data-next-url="{% url 'api_doujou_next' %}">
+              data-next-url="{% url 'api_doujou_next' %}"
+              data-reveal-url="{% url 'api_doujou_reveal' %}">
             {% for c in choices %}
               <li>
                 <button class="selectBtn" type="button" data-selected="{{ c.label }}">{{ c.label }}</button>
@@ -205,15 +206,34 @@ if (typeof localStorage !== undefined) {
           </ul>
         </div>
 
-        {# 公式は <div id="ans"></div> だけだが、あなたのJSが参照する要素を中に保持 #}
-        <div id="ans" style="display:none;">
-          <div id="judgeText"><strong></strong></div>
-          <div id="answerMeta"></div>
+        {# --- 分類（公式風） --- #}
+        {% if category_path %}
+          <h3 id="categoryTitle">分類 :</h3>
+          <div id="categoryLine">
+            {% for node in category_path %}
+              {% if not forloop.first %} &raquo; {% endif %}
+              {{ node }}
+            {% endfor %}
+          </div>
+        {% else %}
+          {# JSで次問表示時に出せるように要素だけ置いておく（最初は非表示） #}
+          <h3 id="categoryTitle" style="display:none;">分類 :</h3>
+          <div id="categoryLine"></div>
+        {% endif %}
+        {# --- 分類ここまで --- #}
+        
+        {# --- 正解（公式風） --- #}
+        <h3>正解 :</h3>
+        <div class="answerBox">
+          <button type="button" id="showAnswerBtn">正解を表示する</button>
+          <span id="answerChar" style="display:none;"></span>
+          <div id="popup"></div>
         </div>
 
-        {# 公式に合わせて「解説」ブロック。採点後に doujouAnswer.js がここへHTMLを流し込み #}
         <h3 id="kaisetsuTitle" style="display:none;">解説 :</h3>
         <div id="kaisetsu" class="displayNone"></div>
+        {# --- 正解ここまで --- #}
+
 
         {# 次の問題（公式はフォームsubmitだが、あなたはAJAXなので button のまま） #}
         <button type="button"
@@ -290,7 +310,7 @@ if (typeof localStorage !== undefined) {
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="{% static 'core/js/fe.js' %}"></script>
 <script src="{% static 'core/js/kakomonApp.js' %}"></script>
-<script src="{% static 'core/js/doujouAnswer.js' %}"></script>
+<script src="{% static 'core/js/doujouAnswer.js' %}?v=20260203"></script>
 <!-- SCRIPT END -->
 
 {% if messages %}

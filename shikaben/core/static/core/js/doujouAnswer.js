@@ -143,10 +143,13 @@
     setChoicesDisabled(false);
     clearSelectedMark();
 
+    // ★正解Boxを初期化
+    resetAnswerBoxUI();
+
     // 解説系を隠す
     $ans().hide();
     $kaisetsuTitle().hide();
-    $kaisetsu().hide().empty();
+    $kaisetsu().hide().empty().addClass("displayNone");
     $nextBtn().hide();
 
     // canvasクリア
@@ -156,6 +159,15 @@
       c.clearRect(0, 0, canvas.width(), canvas.height());
       canvas.removeClass("fadeout");
     }
+  }
+
+  const $showAnswerBtn = () => $("#showAnswerBtn");
+  const $answerChar = () => $("#answerChar");
+
+  function resetAnswerBoxUI() {
+    $showAnswerBtn().show().prop("disabled", false);
+    $answerChar().hide().text("");
+    $("#popup").empty(); // 使ってないなら不要
   }
 
   // ここが「上の animateResult()」：連続正解演出まで統合版
@@ -354,28 +366,66 @@
   // judged: bool, selected: "ア", correct_label:"イ", explanation_html:"..."
   // =========================
   function showExplainUI(data) {
+    // views.py は correct を返すので judgedが無いとき補完
+    if (data.judged == null && data.correct != null) data.judged = !!data.correct;
+
     $ans().show();
     $judgeText().text(data.judged ? "〇 正解！" : "✕ 残念…");
     $answerMeta().text(`あなたの解答：${data.selected} ／ 正解：${data.correct_label}`);
 
+    // ★採点したら、正解ボタンは不要なので隠して正解文字を出す
+    $showAnswerBtn().hide();
+    if (data.correct_label) {
+      $answerChar().text(data.correct_label).show();
+    } else {
+      $answerChar().hide().text("");
+    }
+
     $kaisetsuTitle().show();
-    $kaisetsu().show().html(data.explanation_html || "解説は未登録です。");
+    $kaisetsu().removeClass("displayNone").show().html(data.explanation_html || "解説は未登録です。");
 
     $nextBtn().show();
     scrollToAns();
+  }
+
+  function renderCategory(path) {
+    const title = document.getElementById("categoryTitle");
+    const line = document.getElementById("categoryLine");
+    if (!title || !line) return;
+
+    path = Array.isArray(path) ? path : [];
+    if (!path.length) {
+      title.style.display = "none";
+      line.textContent = "";
+      return;
+    }
+
+    title.style.display = "";
+    line.textContent = ""; // まずクリア
+
+    path.forEach((name, i) => {
+      if (i > 0) line.append(" » "); // 見た目は &raquo; 相当
+      const span = document.createElement("span");
+      span.textContent = name;
+      line.appendChild(span);
+    });
   }
 
   // =========================
   // 次問のDOM差し替え
   // =========================
   function renderQuestion(q) {
-    // q.id
-    $selectList().attr("data-qid", q.id);
+    // qid（qid / id のどちらでも受けられるように）
+    const qid = (q.qid != null) ? q.qid : q.id;
+    $selectList().attr("data-qid", qid).data("qid", qid);
 
-    // 見出し
-    if (q.qno != null) $qno().text(`第${q.qno}問`);
+    const $qnoText = () => $("#qnoText");
 
-    // 問題文（HTMLの場合は body_html を優先）
+    // renderQuestion内
+    if (q.qno != null) $qnoText().text(`第${q.qno}問`);
+
+
+    // 問題文
     const bodyHtml = (q.body_html != null) ? q.body_html : q.body;
     $questionBody().html(bodyHtml || "");
 
@@ -385,6 +435,9 @@
     const qno = q.qno ?? (q.idx != null ? (q.idx + 1) : "");
     const total = q.total ?? "";
     $anslink().html(`${year}　${source}<br>${qno}問目／選択中の問題${total}問`);
+
+    // ★分類（公式風）
+    renderCategory(q.category_path);
 
     // 選択肢
     const choices = Array.isArray(q.choices) ? q.choices : [];
@@ -408,22 +461,81 @@
     }
   }
 
+  function scrollToKaisetsu() {
+    const el = document.getElementById("kaisetsuTitle") || document.getElementById("kaisetsu");
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  document.addEventListener("click", async function (e) {
+    const b = e.target.closest("#showAnswerBtn");
+    if (!b) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+
+    const qid = $selectList().data("qid");
+    const revealUrl = $selectList().data("reveal-url");
+
+    if (!qid || !revealUrl) {
+      toast('<i class="caution"></i> reveal-url / qid が見つかりません', 4000);
+      return;
+    }
+
+    b.prop ? b.prop("disabled", true) : (b.disabled = true);
+
+    try {
+      const data = await postJson(revealUrl, { qid: Number(qid) });
+      if (data.ok === false) throw new Error(data.error || "reveal failed");
+
+      // 公式っぽく：正解を見たら、もう選択肢は触れない
+      window.doujouFirst = false;
+      setChoicesDisabled(true);
+
+      // 〇✕領域は出さない（公式っぽく）
+      $ans().hide();
+
+      // 正解文字表示＆ボタン非表示
+      $showAnswerBtn().hide();
+      if (data.correct_label) {
+        $answerChar().text(data.correct_label).show();
+      } else {
+        $answerChar().hide().text("");
+      }
+
+      // 解説表示
+      $kaisetsuTitle().show();
+      $kaisetsu().removeClass("displayNone").show().html(data.explanation_html || "解説は未登録です。");
+
+      // 次へ表示
+      $nextBtn().show();
+
+      scrollToKaisetsu();
+
+    } catch (err) {
+      console.error(err);
+      toast('<i class="caution"></i> 正解の取得に失敗しました', 5000);
+    } finally {
+      b.prop ? b.prop("disabled", false) : (b.disabled = false);
+    }
+  }, true);
+
   // =========================
   // クリック：選択肢 → 採点 → 演出 → 解説表示
   // =========================
   document.addEventListener("click", async function (e) {
     const btn = e.target.closest("#selectList .selectBtn");
     if (!btn) return;
-
+  
     // 既に解答済み / 演出中は無視
     if (!window.doujouFirst) return;
     if (window.doujouInAnimation) return;
-
-    // 他JSと衝突しにくくする（先取り）
+  
     e.preventDefault();
     e.stopPropagation();
     e.stopImmediatePropagation();
-
+  
     const qid = $selectList().data("qid");
     const selected = btn.dataset.selected;
     const judgeUrl = $selectList().data("judge-url");
@@ -431,23 +543,28 @@
       toast('<i class="caution"></i> judge-url / qid が見つかりません', 4000);
       return;
     }
-
+  
     markSelected(selected);
     setChoicesDisabled(true);
-
+  
     try {
-      // 例：{ ok:true, judged:true, selected:"ア", correct_label:"ア", explanation_html:"..." }
       const data = await postJson(judgeUrl, { qid: Number(qid), selected });
-
       if (data.ok === false) throw new Error(data.error || "judge failed");
-
-      window.animateResult(!!data.judged);
-
+    
+      // ✅ views.py は correct を返すので、judged/ correct どっちでも動くように
+      const isCorrect =
+        (data.correct != null) ? !!data.correct :
+        (data.judged != null) ? !!data.judged :
+        false;
+    
+      window.animateResult(isCorrect);
+    
       // 表示用の値が欠けてたら補完
       data.selected = data.selected ?? selected;
-
+        
+      // 既存のUI更新（judgeText / nextBtn など）も使うならそのまま
       showExplainUI(data);
-
+    
     } catch (err) {
       console.error(err);
       setChoicesDisabled(false);

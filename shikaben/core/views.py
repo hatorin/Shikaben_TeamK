@@ -33,6 +33,20 @@ SESSION_IDS = "dojo_question_ids"
 SESSION_IDX = "dojo_index"
 SESSION_ANS = "dojo_answers"  # {question_id: {"selected": "ア", "correct": True}}
 
+def _build_category_path(cat):
+    """
+    Category を親方向に辿って ["テクノロジ系", "ネットワーク", "通信プロトコル"] のような配列を作る。
+    念のため循環参照ガード付き。
+    """
+    path = []
+    seen = set()
+    while cat is not None and getattr(cat, "id", None) not in seen:
+        if getattr(cat, "id", None) is not None:
+            seen.add(cat.id)
+        path.append(cat.name)
+        cat = cat.parent
+    return list(reversed(path))  # root -> leaf
+
 def _get_state(request):
     """
     セッションから (ids, idx, current_qid) を安全に取り出す。
@@ -62,6 +76,11 @@ def _serialize_question(q: Question, idx: int, total: int) -> dict:
     ※ 正解情報は絶対に入れない（答えが覗けるため）
     """
     choices = list(q.choice_set.order_by("label").values("label", "text"))
+
+    category_path = []
+    if q.category_id:
+        category_path = _build_category_path(q.category)
+
     return {
         "qid": q.id,
         "qno": idx + 1,
@@ -69,6 +88,11 @@ def _serialize_question(q: Question, idx: int, total: int) -> dict:
         "body": q.body,
         "choices": choices,
         "is_calculation": bool(q.is_calculation),
+        # ★追加（JSのメタ表示用）
+        "year": q.year,
+        "source": q.source,
+        # ★追加：分類表示用
+        "category_path": category_path,
     }
 
 @require_http_methods(["GET", "POST"])
@@ -207,6 +231,37 @@ def api_doujou_next(request):
         "question": _serialize_question(q, nxt, len(ids)),
     })
 
+@require_POST
+def api_doujou_reveal(request):
+    ids, idx, current_qid = _get_state(request)
+    if not ids:
+        return JsonResponse({"ok": False, "error": "no_session"}, status=400)
+
+    # JSONボディはあってもなくてもOK（qid指定されても現在表示中だけ許可）
+    qid = current_qid
+    try:
+        if request.body:
+            data = json.loads(request.body.decode("utf-8"))
+            if data.get("qid") is not None:
+                qid = int(data.get("qid"))
+    except Exception:
+        pass
+
+    if qid != current_qid:
+        return JsonResponse({"ok": False, "error": "qid_mismatch"}, status=400)
+
+    q = get_object_or_404(Question, id=qid)
+    correct_choice = q.choice_set.filter(is_correct=True).first()
+    correct_label = correct_choice.label if correct_choice else None
+
+    return JsonResponse({
+        "ok": True,
+        "correct_label": correct_label,
+        "explanation_html": _get_explanation_html(q),
+        "qno": idx + 1,
+        "total": len(ids),
+    })
+
 @require_http_methods(["GET"])
 def fekakomon_question(request):
     """
@@ -223,12 +278,18 @@ def fekakomon_question(request):
     q = get_object_or_404(Question, id=int(ids[idx]))
     choices = list(q.choice_set.order_by("label"))
 
+    category_path = []
+    if q.category_id:
+        category_path = _build_category_path(q.category)
+
     context = {
         "qno": idx + 1,
         "total": len(ids),
         "question": q,
         "choices": choices,
         "qid": q.id,  # JSがAPIに投げる用
+        # ★追加：分類表示用
+        "category_path": category_path,
     }
     return render(request, "core/fekakomon_question.html", context)
 
