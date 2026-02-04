@@ -6,9 +6,6 @@
   // DOM参照
   // =========================
   const $selectList = () => $("#selectList");
-  const $ans = () => $("#ans");
-  const $judgeText = () => $("#judgeText strong");
-  const $answerMeta = () => $("#answerMeta");
   const $kaisetsuTitle = () => $("#kaisetsuTitle");
   const $kaisetsu = () => $("#kaisetsu");
   const $nextBtn = () => $("#nextBtn");
@@ -16,6 +13,7 @@
   const $questionBody = () => $("#questionBody");
   const $anslink = () => $(".anslink");
   const $qnoText = () => $("#qnoText");
+  const $answerCite = () => $("#answerCite");
 
   // =========================
   // Cookie/CSRF
@@ -139,7 +137,6 @@
     resetAnswerBoxUI();
 
     // 解説系を隠す
-    $ans().hide();
     $kaisetsuTitle().hide();
     $kaisetsu().hide().empty().addClass("displayNone");
     $nextBtn().hide();
@@ -159,6 +156,7 @@
   function resetAnswerBoxUI() {
     $showAnswerBtn().show().prop("disabled", false);
     $answerChar().hide().text("");
+    $answerCite().hide().text("");
     $("#popup").empty(); // 使ってないなら不要
   }
 
@@ -361,16 +359,18 @@
     // views.py は correct を返すので judgedが無いとき補完
     if (data.judged == null && data.correct != null) data.judged = !!data.correct;
 
-    $ans().show();
-    $judgeText().text(data.judged ? "〇 正解！" : "✕ 残念…");
-    $answerMeta().text(`あなたの解答：${data.selected} ／ 正解：${data.correct_label}`);
-
     // ★採点したら、正解ボタンは不要なので隠して正解文字を出す
     $showAnswerBtn().hide();
     if (data.correct_label) {
       $answerChar().text(data.correct_label).show();
     } else {
       $answerChar().hide().text("");
+    }
+
+    if (data.selected) {
+      $answerCite().text(`あなたの解答：${data.selected}`).show();
+    } else {
+      $answerCite().hide().text("");
     }
 
     $kaisetsuTitle().show();
@@ -483,8 +483,8 @@
       window.doujouFirst = false;
       setChoicesDisabled(true);
 
-      // 〇✕領域は出さない（公式っぽく）
-      $ans().hide();
+      // ✅「正解を表示する」で見た場合は、あなたの解答は出さない
+      $answerCite().hide().text("");
 
       // 正解文字表示＆ボタン非表示
       $showAnswerBtn().hide();
