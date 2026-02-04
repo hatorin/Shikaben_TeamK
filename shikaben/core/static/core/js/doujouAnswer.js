@@ -15,6 +15,7 @@
   const $qno = () => $(".qno");
   const $questionBody = () => $("#questionBody");
   const $anslink = () => $(".anslink");
+  const $qnoText = () => $("#qnoText");
 
   // =========================
   // Cookie/CSRF
@@ -409,8 +410,6 @@
     // qid（qid / id のどちらでも受けられるように）
     const qid = (q.qid != null) ? q.qid : q.id;
     $selectList().attr("data-qid", qid).data("qid", qid);
-
-    const $qnoText = () => $("#qnoText");
 
     // renderQuestion内
     if (q.qno != null) $qnoText().text(`第${q.qno}問`);
