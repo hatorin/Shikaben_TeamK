@@ -30,15 +30,6 @@
     alert(String(html).replace(/<[^>]*>/g, ""));
   }
 
-  // スクロール（fe.js の pageScroll があれば使う）
-  function scrollToAns() {
-    if (typeof window.pageScroll === "function" && $("#ans").offset()) {
-      window.pageScroll($("#ans").offset().top - 5, 650);
-    } else {
-      document.getElementById("ans")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }
-
   function setChoicesDisabled(disabled) {
     $("#selectList .selectBtn").prop("disabled", !!disabled);
   }
@@ -385,7 +376,7 @@
     $kaisetsu().removeClass("displayNone").show().html(data.explanation_html || "解説は未登録です。");
 
     $nextBtn().show();
-    scrollToAns();
+    scrollToAnswerBox();
   }
 
   function renderCategory(path) {
@@ -461,8 +452,8 @@
     }
   }
 
-  function scrollToKaisetsu() {
-    const el = document.getElementById("kaisetsuTitle") || document.getElementById("kaisetsu");
+  function scrollToAnswerBox() {
+    const el = document.getElementById("answerTitle") || document.getElementById("showAnswerBtn");
     if (!el) return;
     el.scrollIntoView({ behavior: "smooth", block: "start" });
   }
@@ -511,7 +502,7 @@
       // 次へ表示
       $nextBtn().show();
 
-      scrollToKaisetsu();
+      scrollToAnswerBox();
 
     } catch (err) {
       console.error(err);
@@ -612,7 +603,7 @@
       renderQuestion(data.question);
 
       // 先頭付近へ（任意）
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 51, behavior: "smooth" });
 
     } catch (err) {
       console.error(err);

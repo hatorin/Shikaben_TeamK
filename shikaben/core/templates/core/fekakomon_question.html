@@ -223,7 +223,7 @@ if (typeof localStorage !== undefined) {
         {# --- 分類ここまで --- #}
         
         {# --- 正解（公式風） --- #}
-        <h3>正解 :</h3>
+        <h3 id="answerTitle">正解 :</h3>
         <div class="answerBox">
           <button type="button" id="showAnswerBtn">正解を表示する</button>
           <span id="answerChar" style="display:none;"></span>
@@ -310,7 +310,7 @@ if (typeof localStorage !== undefined) {
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="{% static 'core/js/fe.js' %}"></script>
 <script src="{% static 'core/js/kakomonApp.js' %}"></script>
-<script src="{% static 'core/js/doujouAnswer.js' %}?v=20260203"></script>
+<script src="{% static 'core/js/doujouAnswer.js' %}?v=20260204"></script>
 <!-- SCRIPT END -->
 
 {% if messages %}
