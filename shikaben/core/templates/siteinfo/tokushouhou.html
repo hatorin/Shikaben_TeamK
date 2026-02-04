@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=960,user-scalable=yes" />
-    <title>このサイトの利用について</title>
+    <title>特定商取引法に基づく表記</title>
 
     <!-- 共通CSS（core/static/core/css/style.css） -->
     <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
@@ -17,6 +17,31 @@
         #drawer_btn {
             top: 6px;/* 下へ */
             right: 25px;/* 数値を増すと左へ */
+        }
+
+
+        /* 共通：ぶら下げインデントの設定（普段の設定を活用） */
+        .terms p {
+            padding-left: 1em;     /* 2行目以降の開始位置 */
+            text-indent: 0em;     /* 1行目だけ少しずらすに戻す */
+            line-height: 1.8;
+            margin-bottom: 1.2em;  /* 項目間の余白 */
+        }
+
+        /* 特定商取引法などの見出し用カラー設定 */
+        .terms .green-label {
+            color: rgb(0, 162, 0);        /* 2枚目の画像にあった緑色 */
+            font-weight: bold;
+            display: block;
+            margin-top: 1.5em;
+            padding-left: 0;       /* ラベルはインデントしない */
+            text-indent: 0;
+        }
+
+        /* リンクの色（メールアドレスなど） */
+        .terms a {
+            color: inherit;
+            text-decoration: underline;
         }
     </style>
 
@@ -44,7 +69,7 @@
                     <li>
                         <a href="/fekakomon.html" title="Webアプリ過去問道場">過去問道場</a>
                         <ul>
-                            <li><a href="/fekakomon.html">過去問道場（科目A）</a></li>
+                            <li><a href="/fekakomon.html" title="Webアプリ過去問道場">過去問道場</a></li>
                             <li><a href="/fekakomon_pm.php">過去問道場（旧・午後試験）</a></li>
                         </ul>
                     </li>
@@ -90,13 +115,73 @@
 
                 <!-- パンくず（CSSは .pan を想定） -->
                 <div class="pan">
-                    <a href="/">HOME</a><b>»</b><span>このサイトの利用について</span>
+                    <a href="/">HOME</a><b>»</b><span>特定商取引法に基づく表記</span>
                 </div>
 
-                <h2>このサイトの利用について</h2>
+                <h2>特定商取引法に基づく表記</h2>
 
-                <p>ここに本文を入れてください。</p>
+                <p>「特定商取引に関する法律」第11条に基づき、以下のとおり記載します。</p>
 
+                <div class="terms">
+                    <span class="green-label">販売事業者の名称</span>
+                    <p>株式会社スタディワークス</p>
+                </div>
+                
+                <div class="terms">
+                    <span class="green-label">所在地</span>
+                    <p>〒150-0043　東京都渋谷区道玄坂1丁目10番8号渋谷道玄坂東急ビル2F－C</p>
+                </div>
+
+                <div class="terms">
+                    <span class="green-label">運営統括責任者</span>
+                    <p>皆川 淳</p>
+                </div>
+
+                <div class="terms">
+                    <span class="green-label">電話番号</span>
+                    <p>090-1822-2984<br>
+                        土日祝及び休業日を除く 10:00〜17:00<br>
+                        ※当サイトに関するお問い合わせは、下記のメールアドレス宛てにお願い申し上げます。</p>
+                </div>
+
+                <div class="terms">
+                    <span class="green-label">メールアドレス</span>
+                    <p>webmaster@fe-siken.com<br>
+                    ※当メールアドレス宛への特定電子メール（広告・宣伝を目的とするメール）の送信はお断りいたします。</p>
+                </div>
+
+                <div class="terms">
+                    <span class="green-label">販売価格</span>
+                    <p>商品・サービスごとに記載。購入手続きの際に画面に表示されます。</p>
+                </div>
+
+                <div class="terms">
+                    <span class="green-label">商品代金以外の必要料金</span>
+                    <p>なし</p>
+                </div>
+
+                <div class="terms">
+                    <span class="green-label">お支払い方法</span>
+                    <p>クレジットカード、デビットカード（一部を除く）、Apple Pay、Google Pay<br>
+                    ※Apple Pay、Google Payは、ウォレットにクレジットカードが登録されている場合に限ります。</p>
+                </div>
+
+                <div class="terms">
+                    <span class="green-label">お支払い時期</span>
+                    <p>お申込み完了後、直ちにお支払いが確定します。</p>
+                </div>
+
+                <div class="terms">
+                    <span class="green-label">引渡し時期</span>
+                    <p>お申込み完了後、直ちにご利用いただけます。</p>
+                </div>
+
+                <div class="terms">
+                    <span class="green-label">交換・返品について</span>
+                    <p>もしサービス内容にご満足いただけなかった場合、初回の申込みから7日間は、理由を問わず全額返金を承ります。それ以降は、商品・サービスの性質上、お客様のご都合による交換・キャンセル・返金には応じかねます。</p>
+                </div>
+
+                <p>※上記以外の事項に関しましては、お取引の際に請求があれば遅滞なく提示いたします。</p>
             </div>
         </div>
     </main>
@@ -113,11 +198,11 @@
                 <a href="/privacypolicy.html">プライバシーポリシー</a>
                 <a href="/tokushouhou.html">特商法に基づく表記</a>
                 <a href="/contact.html">お問い合わせ</a>
-                <a href="/config.html">表示設定</a>
+                <a href="#">表示設定</a>
                 <br>
-                <a href="/sitemap.html">サイトマップ</a>
-                <a href="/link.html">リンク</a>
-                <a href="/ads.html">広告の掲載について</a>
+                <a href="#">サイトマップ</a>
+                <a href="#">リンク</a>
+                <a href="#">広告の掲載について</a>
                 <a href="/contact_faq.html">よくある質問（FAQ）</a>
             </div>
 
