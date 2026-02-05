@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=960,user-scalable=yes" />
-    <title>このサイトの利用について</title>
+    <title>プライバシーポリシー</title>
 
     <!-- 共通CSS（core/static/core/css/style.css） -->
     <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
@@ -18,6 +18,17 @@
             top: 6px;/* 下へ */
             right: 25px;/* 数値を増すと左へ */
         }
+
+        .terms {
+            padding-left: 0;
+        }
+
+        .terms p {
+            padding-left: 2em;     /* 2行目以降の開始位置 */
+            text-indent: -2em;     /* 1行目だけ左に戻す */
+            line-height: 1.8;
+        }
+
     </style>
 
     <!-- =======================
@@ -44,7 +55,7 @@
                     <li>
                         <a href="/fekakomon.html" title="Webアプリ過去問道場">過去問道場</a>
                         <ul>
-                            <li><a href="/fekakomon.html">過去問道場（科目A）</a></li>
+                            <li><a href="/fekakomon.html" title="Webアプリ過去問道場">過去問道場</a></li>
                             <li><a href="/fekakomon_pm.php">過去問道場（旧・午後試験）</a></li>
                         </ul>
                     </li>
@@ -90,13 +101,19 @@
 
                 <!-- パンくず（CSSは .pan を想定） -->
                 <div class="pan">
-                    <a href="/">HOME</a><b>»</b><span>このサイトの利用について</span>
+                    <a href="/">HOME</a><b>»</b><span>プライバシーポリシー</span>
                 </div>
 
-                <h2>このサイトの利用について</h2>
+                <h2>プライバシーポリシー（個人情報保護方針）</h2>
 
-                <p>ここに本文を入れてください。</p>
-
+                <div class="terms">
+                    <p>1. 当サイトでは、ユーザーがページを閲覧する際にユーザーに関する情報（IPアドレスを含む）を自動的に取得することがあります。</p>
+                    <p>2. 当サイトで取得するユーザー情報は、広告が配信される過程においてクッキーや Web ビーコンなどを用いて収集されることがあります。</p>
+                    <p>3. 当サイトで取得するユーザー情報は、情報収集目的、Web サイトの適切な管理および適切な広告の配信を行うためのみに収集され、それ以外の用途には使用いたしません（クッキーとして送るテキストファイルには、個人を特定するような情報は含んでいません）。ユーザーは、プライバシー保護のため、クッキーの取得を拒否することができます。クッキーの取得を拒否したい場合には、
+                        お使いのブラウザの「ヘルプ」メニューをご覧になり、クッキーの送受信に関する設定を行ってください。</p>
+                    <p>4. 当サイトに表示されている広告の一部は第三者企業に配信を委託しています。第三者企業もクッキー・WEB ビーコンを利用する場合があります。また、当サイトは、利用者への適切な広告配信を目的に以下の行動ターゲティング広告を利用していますが、このサービスは無効にすることができます。サービスの無効化を希望される場合は、以下の各社のサイトにて手続きをお願いいたします。</p>
+                    <p>5. お問い合わせの際にご記入いただいたメールアドレスは、お問い合わせへの対応以外の目的で使用しません。</p>
+                </div>
             </div>
         </div>
     </main>
@@ -113,11 +130,11 @@
                 <a href="/privacypolicy.html">プライバシーポリシー</a>
                 <a href="/tokushouhou.html">特商法に基づく表記</a>
                 <a href="/contact.html">お問い合わせ</a>
-                <a href="/config.html">表示設定</a>
+                <a href="#">表示設定</a>
                 <br>
-                <a href="/sitemap.html">サイトマップ</a>
-                <a href="/link.html">リンク</a>
-                <a href="/ads.html">広告の掲載について</a>
+                <a href="#">サイトマップ</a>
+                <a href="#">リンク</a>
+                <a href="#">広告の掲載について</a>
                 <a href="/contact_faq.html">よくある質問（FAQ）</a>
             </div>
 

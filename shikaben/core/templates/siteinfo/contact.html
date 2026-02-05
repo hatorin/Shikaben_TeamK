@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=960,user-scalable=yes" />
-    <title>このサイトの利用について</title>
+    <title>お問い合わせ</title>
 
     <!-- 共通CSS（core/static/core/css/style.css） -->
     <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
@@ -17,6 +17,57 @@
         #drawer_btn {
             top: 6px;/* 下へ */
             right: 25px;/* 数値を増すと左へ */
+        }
+
+            /* 入力エリアのスタイル */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #4caf50; /* 見出しと同じ緑 */
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #555;
+            border-radius: 4px;
+            box-sizing: border-box; /* 幅を100%に合わせる */
+        }
+
+        /* ボタンを配置するエリアの設定 */
+        .button-container {
+            text-align: center; 
+            margin-top: 40px;
+            margin-bottom: 50px;
+        }
+
+        /* 送信ボタン本体 */
+        .submit-btn {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 15px 60px; /* 横幅を広めにとって押しやすく */
+            border-radius: 30px; /* 角を丸くしてモダンな印象に */
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s, transform 0.2s; /* ホバー時の動き */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .submit-btn:hover {
+            background-color: #66bb6a;
+            transform: translateY(-2px); /* 少し浮き上がる演出 */
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
         }
     </style>
 
@@ -44,7 +95,7 @@
                     <li>
                         <a href="/fekakomon.html" title="Webアプリ過去問道場">過去問道場</a>
                         <ul>
-                            <li><a href="/fekakomon.html">過去問道場（科目A）</a></li>
+                            <li><a href="/fekakomon.html" title="Webアプリ過去問道場">過去問道場</a></li>
                             <li><a href="/fekakomon_pm.php">過去問道場（旧・午後試験）</a></li>
                         </ul>
                     </li>
@@ -90,16 +141,82 @@
 
                 <!-- パンくず（CSSは .pan を想定） -->
                 <div class="pan">
-                    <a href="/">HOME</a><b>»</b><span>このサイトの利用について</span>
+                    <a href="/">HOME</a><b>»</b><span>お問い合わせ</span>
                 </div>
+                <div id="contact-area">
+                    <h2>お問い合わせフォーム</h2>
 
-                <h2>このサイトの利用について</h2>
+                    <p>下記フォームに必要事項を入力後、確認ボタンを押してください</p>
+                    <form onsubmit="return handleSubmit(event)" >
+            
+                        <div class="form-group">
+                            <label for="name">お名前</label>
+                            <input type="text" id="name" name="name" required placeholder="例：山田 太郎">
+                        </div>
 
-                <p>ここに本文を入れてください。</p>
+                        <div class="form-group">
+                            <label for="message">お問い合わせ内容</label>
+                            <textarea id="message" name="message" rows="6" required placeholder="こちらに内容をご記入ください"></textarea>
+                        </div>
 
+                        <div class="form-group">
+                            <label for="email">メールアドレス</label>
+                            <input type="email" id="email" name="email" required placeholder="例：example@mail.com">
+                        </div>
+                        
+                        <div class="button-container">
+                            <button type="submit" class="submit-btn">入力内容の確認</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </main>
+
+    <script>
+        function handleSubmit(event) {
+            // 1. 入力された値を取得する
+            const nameValue = document.getElementById('name').value;
+            const emailValue = document.getElementById('email').value;
+            const messageValue = document.getElementById('message').value;
+
+            // 2. 書き換え先の箱を取得
+            const contactArea = document.getElementById('contact-area');
+            
+            if (contactArea) {
+                // 3. 取得した値を埋め込んだHTMLを作成
+                //確認画面表示
+                contactArea.innerHTML = `
+                    <div style="text-align: left; padding: 20px; background: #fff; border-radius: 10px;">
+                        <h2 text-align: center; border-bottom:none;">入力内容の確認</h2>
+                        <p margin-bottom: 20px; text-align: center;">以下の内容で送信してもよろしいですか？</p>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <label style="color: #4caf50; font-weight: bold;">[お名前]</label>
+                            <div padding: 5px 0 10px 10px;">${nameValue}</div>
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="color: #4caf50; font-weight: bold;">[メールアドレス]</label>
+                            <div padding: 5px 0 10px 10px;">${emailValue}</div>
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="color: #4caf50; font-weight: bold;">[お問い合わせ内容]</label>
+                            <div padding: 5px 0 10px 10px; white-space: pre-wrap;">${messageValue}</div>
+                        </div>
+
+                        <div class="button-container" style="display: flex; justify-content: center; gap: 20px;">
+                            <button onclick="location.reload()" class="submit-btn" style="background-color: #666;">戻る</button>
+                            <button onclick="alert('送信しました'); location.reload();" class="submit-btn">送信する</button>
+                        </div>
+                    </div>
+                `;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            return false;
+        }
+    </script>
 
     <!-- =======================
         FOOTER
@@ -113,11 +230,11 @@
                 <a href="/privacypolicy.html">プライバシーポリシー</a>
                 <a href="/tokushouhou.html">特商法に基づく表記</a>
                 <a href="/contact.html">お問い合わせ</a>
-                <a href="/config.html">表示設定</a>
+                <a href="#">表示設定</a>
                 <br>
-                <a href="/sitemap.html">サイトマップ</a>
-                <a href="/link.html">リンク</a>
-                <a href="/ads.html">広告の掲載について</a>
+                <a href="#">サイトマップ</a>
+                <a href="#">リンク</a>
+                <a href="#">広告の掲載について</a>
                 <a href="/contact_faq.html">よくある質問（FAQ）</a>
             </div>
 
