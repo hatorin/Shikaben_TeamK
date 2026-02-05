@@ -27,7 +27,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
 from .models import Question
 import json
-from django.utils.html import escape
 
 SESSION_IDS = "dojo_question_ids"
 SESSION_IDX = "dojo_index"
@@ -63,11 +62,9 @@ def _get_state(request):
 
 def _get_explanation_html(q: Question) -> str:
     """
-    Question.explanation を HTML表示用に整形して返す。
-    （DBはプレーンテキスト前提 → escapeして改行だけ<br>に）
+    Question.explanation を HTML として返す（公式HTMLをそのまま表示したい場合）
     """
-    txt = q.explanation or ""
-    return escape(txt).replace("\n", "<br>")
+    return q.explanation or ""
 
 
 def _serialize_question(q: Question, idx: int, total: int) -> dict:

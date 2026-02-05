@@ -16,6 +16,45 @@
   const $answerCite = () => $("#answerCite");
 
   // =========================
+  // 解説に「選択肢本文（問題文）」を差し込む（公式寄せ）
+  // =========================
+  function getChoiceTextMap() {
+    const map = {};
+    document.querySelectorAll("#selectList li").forEach((li) => {
+      const label = li.querySelector(".selectBtn")?.dataset?.selected;
+      const text = li.querySelector("span")?.textContent?.trim() || "";
+      if (label) map[label] = text;
+    });
+    return map;
+  }
+  function injectChoiceTextIntoKaisetsu() {
+    const root = document.getElementById("kaisetsu");
+    if (!root) return;
+    const map = getChoiceTextMap();
+    const classToLabel = { lia: "ア", lii: "イ", liu: "ウ", lie: "エ" };
+    for (const [cls, label] of Object.entries(classToLabel)) {
+      root.querySelectorAll(`li.${cls}`).forEach((li) => {
+        // 二重挿入防止
+        if (li.querySelector(".doujou-choice-quote")) return;
+        const choiceText = map[label];
+        if (!choiceText) return;
+        // 既存のコメントHTMLを保持
+        const commentHtml = li.innerHTML;
+        li.innerHTML = "";
+        // 先頭に「“選択肢本文”」行を追加
+        const quote = document.createElement("div");
+        quote.className = "doujou-choice-quote cite"; 
+        quote.textContent = choiceText;                     
+        const comment = document.createElement("div");
+        comment.className = "doujou-choice-comment";
+        comment.innerHTML = commentHtml;
+        li.appendChild(quote);
+        li.appendChild(comment);
+      });
+    }
+  }
+
+  // =========================
   // Cookie/CSRF
   // =========================
   function getCookie(name) {
@@ -375,7 +414,8 @@
 
     $kaisetsuTitle().show();
     $kaisetsu().removeClass("displayNone").show().html(data.explanation_html || "解説は未登録です。");
-
+    injectChoiceTextIntoKaisetsu();    
+    
     $nextBtn().show();
     scrollToAnswerBox();
   }
@@ -497,6 +537,7 @@
       // 解説表示
       $kaisetsuTitle().show();
       $kaisetsu().removeClass("displayNone").show().html(data.explanation_html || "解説は未登録です。");
+      injectChoiceTextIntoKaisetsu();
 
       // 次へ表示
       $nextBtn().show();
