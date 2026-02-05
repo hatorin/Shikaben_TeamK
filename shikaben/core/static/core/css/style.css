@@ -831,3 +831,43 @@ body.modal .centeringBox{filter:blur(3px)}
 #pmResult em{font-size:1.7rem;font-family:"Times New Roman",serif;color:#e00}
 .pdflink{display:inline-block;border-radius:3px;border:1px solid var(--brand-bright);padding:1px 5px;margin:5px 2px;cursor:pointer;margin-bottom:2em}
 .pdflink.on{color:#eee;background:var(--brand-bright);border-color:var(--brand-bright)}
+/* 道場：次の問題ボタンを公式寄せ */
+#nextBtn.submit{
+  width:300px;
+  padding:0.6em 0;
+  font-size:17px;
+  color:var(--cta-text-color);
+  font-weight:bold;
+  text-align:center;
+  border-radius:2px;
+  background:var(--cta-color);
+  box-shadow:1px 1px 4px rgb(0 0 0 / 15%);
+  transition:transform 0.15s;
+  display:block;
+  margin:2em auto 0;
+}
+
+#nextBtn.submit:hover{
+  transform:scale(1.02);
+  background:var(--cta-color); /* button:hover の灰色化を抑止 */
+}
+
+#nextBtn.submit:active{
+  border-color:var(--input-border);
+}
+
+/* 右下の NEXT 表記（公式っぽい） */
+#nextBtn.submit::after{
+  content:attr(data-text);
+  position:absolute;
+  right:5px;
+  bottom:2px;
+  font-size:12px;
+  font-weight:normal;
+  color:rgb(255 255 255 / 40%);
+}
+
+/* ::after を出すため position:relative を付ける */
+#nextBtn.submit{ position:relative; }
+
+
