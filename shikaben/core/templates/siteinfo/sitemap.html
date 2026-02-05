@@ -5,19 +5,26 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=960,user-scalable=yes" />
-    <title>このサイトの利用について</title>
+    <title>サイトマップ</title>
 
     <!-- 共通CSS（core/static/core/css/style.css） -->
     <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
 </head>
 
 <body id="top">
+
     <style>
         /* ここにページ固有のCSSを記述してください */
         #drawer_btn {
             top: 6px;/* 下へ */
             right: 25px;/* 数値を増すと左へ */
         }
+
+            
+        .main .group{display:flex;flex-wrap:wrap;list-style:none;padding:10px 0;margin:0 5px 1em}
+        .group li{flex-basis:33.33%;box-sizing:border-box;padding-left:1em;border-left:1px dotted rgba(100,100,100,.5);margin:0}
+        .group li a{display:block;width:100%;color:inherit;padding:4px 10px;letter-spacing:0;background:url(/img/sprite.png) no-repeat -204px -152px}
+
     </style>
 
     <!-- =======================
@@ -93,9 +100,25 @@
                     <a href="/">HOME</a><b>»</b><span>このサイトの利用について</span>
                 </div>
 
-                <h2>このサイトの利用について</h2>
+                <h2>サイトマップ</h2>
 
-                <p>ここに本文を入れてください。</p>
+                <h3>学習支援サービス（Webアプリケーション）</h3>
+                <ul class="group">
+                    <li><a href="/fekakomon.html">過去問道場(科目A)</a></li>
+                    <li><a href="#">過去問道場(旧・午後試験)</a></li>
+                </ul>
+
+                <h3>その他サイト情報</h3>
+                <ul class="group">
+                    <li><a href="/contact.html">お問い合わせ</a></li>
+                    <li><a href="/contact_faq.html">よくある質問とその答え</a></li>
+                    <li><a href="/thissiteis.html">このサイトの利用について</a></li>
+                    <li><a href="/privacypolicy.html">プライバシーポリシー</a></li>
+                    <li><a href="/tokushouhou.html">特商法に基づく表記</a></li>
+                    <li><a href="#">広告の掲載について</a></li>
+                    <li><a href="#">リンク</a></li>
+                    <li><a href="#">サイトの表示設定</a></li>
+                </ul>
 
             </div>
         </div>
@@ -116,8 +139,8 @@
                 <a href="/config.html">表示設定</a>
                 <br>
                 <a href="/sitemap.html">サイトマップ</a>
-                <a href="/link.html">リンク</a>
-                <a href="/ads.html">広告の掲載について</a>
+                <a href="#">リンク</a>
+                <a href="#">広告の掲載について</a>
                 <a href="/contact_faq.html">よくある質問（FAQ）</a>
             </div>
 
