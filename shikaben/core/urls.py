@@ -17,6 +17,7 @@ urlpatterns = [
     path("membership/", views.membership, name="membership"),
     path("membership/month/", views.membership_month, name="membership_month"),
     path("membership/year/", views.membership_year, name="membership_year"),
+    path("membership/complete/", views.membership_complete, name="membership_complete"),
     path("thissiteis.html", views.thissiteis, name="thissiteis_html"),
     path("privacypolicy.html", views.privacypolicy, name="privacypolicy_html"),
     path("tokushouhou.html", views.tokushouhou, name="tokushouhou_html"),

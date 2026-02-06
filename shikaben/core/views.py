@@ -800,6 +800,8 @@ def membership_month(request):
     return render(request, "core/membership_month.html")  # 未作成なら後で
 def membership_year(request):
     return render(request, "core/membership_year.html")  # 未作成なら後で
+def membership_complete(request):
+    return render(request, "core/membership_complete.html")  
 
 #Fotterの各種リンク先
 def thissiteis(request):
