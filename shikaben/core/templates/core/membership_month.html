@@ -100,206 +100,209 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="w-full md:w-1/2 bg-white p-8 md:p-16 flex justify-start">
             <div class="w-full max-w-[440px]">
-                <h2 class="text-[17px] font-bold mb-4">連絡先情報</h2>
-                <div class="mb-8">
-                    <label class="block text-xs font-bold text-gray-600 mb-1.5">メールアドレス <span class="text-[#df1b41] float-right">必須</span></label>
-                    <input type="email" placeholder="email@example.com" class="w-full p-[11px] border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all shadow-sm">
-                </div>
+                <form method="post" style="display: contents;">
+                {% csrf_token %}
+                
+                    <h2 class="text-[17px] font-bold mb-4">連絡先情報</h2>
+                    <div class="mb-8">
+                        <label class="block text-xs font-bold text-gray-600 mb-1.5">メールアドレス <span class="text-[#df1b41] float-right">必須</span></label>
+                        <input type="email" name="email" placeholder="email@example.com" class="w-full p-[11px] border border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all shadow-sm">
+                    </div>
 
-                <h2 class="text-[17px] font-bold mb-4">支払い方法</h2>
-                <!-- カードの情報関連 -->
-                <div class="mb-4">
-                    <label class="block text-xs font-bold text-gray-600 mb-1.5">カード情報</label>
-                    <div class="border border-gray-300 rounded-lg overflow-hidden shadow-sm focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+                    <h2 class="text-[17px] font-bold mb-4">支払い方法</h2>
+                    <!-- カードの情報関連 -->
+                    <div class="mb-4">
+                        <label class="block text-xs font-bold text-gray-600 mb-1.5">カード情報</label>
+                        <div class="border border-gray-300 rounded-lg overflow-hidden shadow-sm focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500">
+                            <div class="relative">
+                                <input type="text" 
+                                    id="card-number"
+                                    name="card_number"
+                                    placeholder="1234 1234 1234 1234"
+                                    maxlength="19"
+                                    inputmode="numeric"
+                                    class="w-full p-[11px] text-sm outline-none border-b border-gray-200">
+
+
+                                <div class="absolute right-3 top-3 flex gap-1 opacity-70">
+                                    <div class="w-6 h-4 bg-blue-800 rounded-sm text-[8px] text-white flex items-center justify-center">VISA</div>
+                                    <div class="w-6 h-4 bg-red-500 rounded-sm text-[8px] text-white flex items-center justify-center">MC</div>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <input type="text" id="expiry" placeholder="MM (月) / YY (年)" maxlength="7" inputmode="numeric" class="w-1/2 p-[11px] text-sm outline-none border-r border-gray-200">
+                                <input type="text" placeholder="CVC" maxlength="4" inputmode="numeric" class="w-1/2 p-[11px] text-sm outline-none">
+                            </div>
+                            <!-- カード情報関連 -->
+                            <script>
+                                // --- カード番号 (4桁ごとのスペース) の処理 ---
+                                const cardInput = document.getElementById('card-number');
+                                cardInput.addEventListener('input', (e) => {
+                                    let value = e.target.value.replace(/\D/g, '');
+                                    let parts = value.match(/.{1,4}/g);
+                                    e.target.value = parts ? parts.join(' ') : '';
+                                });
+
+                                const expiryInput = document.getElementById('expiry');
+                                expiryInput.addEventListener('input', (e) => {
+                                    let value = e.target.value.replace(/\D/g, '');
+                                    if (value.length >= 2) {
+                                        // 2桁入力されたら自動で " / " を追加
+                                        e.target.value = value.substring(0, 2) + ' / ' + value.substring(2, 4);
+                                    } else {
+                                        e.target.value = value;
+                                    }
+                                });
+
+                                // 消すときの挙動調整
+                                expiryInput.addEventListener('keydown', (e) => {
+                                    if (e.key === 'Backspace' && expiryInput.value.length === 5) {
+                                        expiryInput.value = expiryInput.value.substring(0, 2);
+                                    }
+                                });
+                            </script>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-xs font-bold text-gray-600 mb-1.5">カード名義 (ローマ字)</label>
+                        <input type="text" 
+                                id="card-holder-name"
+                                placeholder="NIHON TAROU" 
+                                style="text-transform: uppercase;"
+                                class="w-full p-[11px] border border-gray-300 rounded-lg text-sm outline-none shadow-sm">
+                    </div>
+
+                    <!-- カード名義関連 -->
+                    <script>
+                        // --- カード名義 (英字とスペースのみ許可・大文字強制) ---
+                        const nameInput = document.getElementById('card-holder-name');
+
+                        nameInput.addEventListener('input', (e) => {
+                            // 1. 全て大文字に変換
+                            let value = e.target.value.toUpperCase();
+                            
+                            //英語以外入力不可
+                            value = value.replace(/[^A-Z\s]/g, '');
+                        
+                            e.target.value = value;
+                        });
+                    </script>
+
+                    <div class="mb-8">
+                        <label class="block text-xs font-bold text-gray-600 mb-1.5">国または地域</label>
                         <div class="relative">
-                            <input type="text" 
-                                id="card-number"
-                                name="card_number"
-                                placeholder="1234 1234 1234 1234"
-                                maxlength="19"
-                                inputmode="numeric"
-                                class="w-full p-[11px] text-sm outline-none border-b border-gray-200">
-
-
-                            <div class="absolute right-3 top-3 flex gap-1 opacity-70">
-                                <div class="w-6 h-4 bg-blue-800 rounded-sm text-[8px] text-white flex items-center justify-center">VISA</div>
-                                <div class="w-6 h-4 bg-red-500 rounded-sm text-[8px] text-white flex items-center justify-center">MC</div>
+                            <select class="w-full p-[11px] border border-gray-300 rounded-lg text-sm outline-none bg-white shadow-sm appearance-none">
+                                <option value="JP">日本</option>
+                                <option value="US">アメリカ合衆国</option>
+                                <option value="GB">イギリス</option>
+                                <option value="CN">中国</option>
+                                <option value="KR">韓国</option>
+                                <option value="CA">カナダ</option>
+                                <option value="AU">オーストラリア</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
                             </div>
                         </div>
-                        <div class="flex">
-                            <input type="text" id="expiry" placeholder="MM (月) / YY (年)" maxlength="7" inputmode="numeric" class="w-1/2 p-[11px] text-sm outline-none border-r border-gray-200">
-                            <input type="text" placeholder="CVC" maxlength="4" inputmode="numeric" class="w-1/2 p-[11px] text-sm outline-none">
-                        </div>
-                        <!-- カード情報関連 -->
-                        <script>
-                            // --- カード番号 (4桁ごとのスペース) の処理 ---
-                            const cardInput = document.getElementById('card-number');
-                            cardInput.addEventListener('input', (e) => {
-                                let value = e.target.value.replace(/\D/g, '');
-                                let parts = value.match(/.{1,4}/g);
-                                e.target.value = parts ? parts.join(' ') : '';
-                            });
-
-                            const expiryInput = document.getElementById('expiry');
-                            expiryInput.addEventListener('input', (e) => {
-                                let value = e.target.value.replace(/\D/g, '');
-                                if (value.length >= 2) {
-                                    // 2桁入力されたら自動で " / " を追加
-                                    e.target.value = value.substring(0, 2) + ' / ' + value.substring(2, 4);
-                                } else {
-                                    e.target.value = value;
-                                }
-                            });
-
-                            // 消すときの挙動調整
-                            expiryInput.addEventListener('keydown', (e) => {
-                                if (e.key === 'Backspace' && expiryInput.value.length === 5) {
-                                    expiryInput.value = expiryInput.value.substring(0, 2);
-                                }
-                            });
-                        </script>
                     </div>
-                </div>
 
-                <div class="mb-6">
-                    <label class="block text-xs font-bold text-gray-600 mb-1.5">カード名義 (ローマ字)</label>
-                    <input type="text" 
-                            id="card-holder-name"
-                            placeholder="NIHON TAROU" 
-                            style="text-transform: uppercase;"
-                            class="w-full p-[11px] border border-gray-300 rounded-lg text-sm outline-none shadow-sm">
-                </div>
+                    <div class="mb-6">
+                        <label class="flex items-start gap-3 cursor-pointer group">
+                            <input type="checkbox" class="mt-1 w-4 h-4 border-gray-300 rounded">
+                            <span class="text-[13px] text-gray-500 leading-snug">
+                                基本情報技術者試験ドットコムの <a href="{% url 'thissiteis_html' %}" class="text-gray-700 underline">利用規約</a> と <a href="{% url 'privacypolicy_html' %}" class="text-gray-700 underline">プライバシーポリシー</a> に同意します
+                            </span>
+                        </label>
+                    </div>
 
-                <!-- カード名義関連 -->
-                <script>
-                    // --- カード名義 (英字とスペースのみ許可・大文字強制) ---
-                    const nameInput = document.getElementById('card-holder-name');
-
-                    nameInput.addEventListener('input', (e) => {
-                        // 1. 全て大文字に変換
-                        let value = e.target.value.toUpperCase();
-                        
-                        //英語以外入力不可
-                        value = value.replace(/[^A-Z\s]/g, '');
+                    <div id="checkout-form">
+                        <a href="{% url 'membership_complete' %}" 
+                        class="inline-block w-full text-center bg-[#0073e6] text-white font-bold py-[12px] rounded-lg hover:bg-[#0061c2] transition-colors shadow-md text-[16px]">
+                            申し込む
+                        </a>
+                    </div>
                     
-                        e.target.value = value;
-                    });
-                </script>
+                    
+                    <!-- 入力フォームの必須処理 -->
+                    <script>
+                        document.addEventListener('DOMContentLoaded', () => {
+                            // 対象となる入力要素をすべて取得
+                            const emailInput = document.querySelector('input[type="email"]');
+                            const cardNumber = document.getElementById('card-number');
+                            const expiry = document.getElementById('expiry');
+                            const cvc = document.querySelector('input[placeholder="CVC"]');
+                            const cardHolder = document.getElementById('card-holder-name');
+                            const agreement = document.querySelector('input[type="checkbox"]');
+                            const submitBtn = document.querySelector('#checkout-form a');
 
-
-                <div class="mb-8">
-                    <label class="block text-xs font-bold text-gray-600 mb-1.5">国または地域</label>
-                    <div class="relative">
-                        <select class="w-full p-[11px] border border-gray-300 rounded-lg text-sm outline-none bg-white shadow-sm appearance-none">
-                            <option value="JP">日本</option>
-                            <option value="US">アメリカ合衆国</option>
-                            <option value="GB">イギリス</option>
-                            <option value="CN">中国</option>
-                            <option value="KR">韓国</option>
-                            <option value="CA">カナダ</option>
-                            <option value="AU">オーストラリア</option>
-                        </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-6">
-                    <label class="flex items-start gap-3 cursor-pointer group">
-                        <input type="checkbox" class="mt-1 w-4 h-4 border-gray-300 rounded">
-                        <span class="text-[13px] text-gray-500 leading-snug">
-                            基本情報技術者試験ドットコムの <a href="{% url 'thissiteis_html' %}" class="text-gray-700 underline">利用規約</a> と <a href="{% url 'privacypolicy_html' %}" class="text-gray-700 underline">プライバシーポリシー</a> に同意します
-                        </span>
-                    </label>
-                </div>
-
-                <div id="checkout-form">
-                    <a href="{% url 'membership_complete' %}" 
-                    class="inline-block w-full text-center bg-[#0073e6] text-white font-bold py-[12px] rounded-lg hover:bg-[#0061c2] transition-colors shadow-md text-[16px]">
-                        申し込む
-                    </a>
-                </div>
-
-                <!-- 入力フォームの必須処理 -->
-                <script>
-                    document.addEventListener('DOMContentLoaded', () => {
-                        // 対象となる入力要素をすべて取得
-                        const emailInput = document.querySelector('input[type="email"]');
-                        const cardNumber = document.getElementById('card-number');
-                        const expiry = document.getElementById('expiry');
-                        const cvc = document.querySelector('input[placeholder="CVC"]');
-                        const cardHolder = document.getElementById('card-holder-name');
-                        const agreement = document.querySelector('input[type="checkbox"]');
-                        const submitBtn = document.querySelector('#checkout-form a');
-
-                        // ボタンの初期状態を「無効」に設定
-                        function disableButton() {
-                            submitBtn.classList.add('pointer-events-none', 'opacity-50');
-                            submitBtn.style.cursor = 'not-allowed';
-                        }
-
-                        // ボタンを「有効」にする
-                        function enableButton() {
-                            submitBtn.classList.remove('pointer-events-none', 'opacity-50');
-                            submitBtn.style.cursor = 'pointer';
-                        }
-
-                        function checkForm() {
-                            // バリデーション条件
-                            const isEmailValid = emailInput.value.includes('@');
-                            const isCardValid = cardNumber.value.length >= 19; // スペース込み "1234 1234 1234 1234"
-                            const isExpiryValid = expiry.value.length === 7;   // "MM / YY"
-                            const isCvcValid = cvc.value.length >= 3;
-                            const isNameValid = cardHolder.value.trim().length > 0;
-                            const isAgreed = agreement.checked;
-
-                            if (isEmailValid && isCardValid && isExpiryValid && isCvcValid && isNameValid && isAgreed) {
-                                enableButton();
-                            } else {
-                                disableButton();
+                            // ボタンの初期状態を「無効」に設定
+                            function disableButton() {
+                                submitBtn.classList.add('pointer-events-none', 'opacity-50');
+                                submitBtn.style.cursor = 'not-allowed';
                             }
-                        }
 
-                        // 全ての入力イベントを監視
-                        [emailInput, cardNumber, expiry, cvc, cardHolder].forEach(el => {
-                            el.addEventListener('input', checkForm);
+                            // ボタンを「有効」にする
+                            function enableButton() {
+                                submitBtn.classList.remove('pointer-events-none', 'opacity-50');
+                                submitBtn.style.cursor = 'pointer';
+                            }
+
+                            function checkForm() {
+                                // バリデーション条件
+                                const isEmailValid = emailInput.value.includes('@');
+                                const isCardValid = cardNumber.value.length >= 19; // スペース込み "1234 1234 1234 1234"
+                                const isExpiryValid = expiry.value.length === 7;   // "MM / YY"
+                                const isCvcValid = cvc.value.length >= 3;
+                                const isNameValid = cardHolder.value.trim().length > 0;
+                                const isAgreed = agreement.checked;
+
+                                if (isEmailValid && isCardValid && isExpiryValid && isCvcValid && isNameValid && isAgreed) {
+                                    enableButton();
+                                } else {
+                                    disableButton();
+                                }
+                            }
+
+                            // 全ての入力イベントを監視
+                            [emailInput, cardNumber, expiry, cvc, cardHolder].forEach(el => {
+                                el.addEventListener('input', checkForm);
+                            });
+                            
+                            // チェックボックス用
+                            agreement.addEventListener('change', checkForm);
+
+                            // 初期実行（リロード対策）
+                            checkForm();
                         });
-                        
-                        // チェックボックス用
-                        agreement.addEventListener('change', checkForm);
+                    </script>
 
-                        // 初期実行（リロード対策）
-                        checkForm();
-                    });
-                </script>
-
-                <div id="membership-complete" class="hidden">
-                    <div class="w-full max-w-[440px] text-center animate-fadeIn">
-                        <h2 class="text-[56px] font-black text-[#e67e22] ...">THANK YOU</h2>
-                        </div>
-                </div>
-                
-                <p class="text-[11px] text-gray-400 mt-6 text-center leading-relaxed">
-                    解約されるまで、利用規約に基づき基本情報技術者試験ドットコムが請求を行うことに同意した上で、申し込んでください。
-                </p>
-
-                <div class="mt-10 pt-6 border-t border-gray-50 flex flex-col items-center gap-4">
-                    <p class="text-[11px] text-gray-400">Powered by <span class="font-bold text-gray-500">stripe</span></p>
-                    <div class="flex gap-4 text-[10px] text-gray-400">
-                        <a href="{% url 'tokushouhou_html' %}">特定商取引法に基づく表記</a>
-                        <a href="{% url 'thissiteis_html' %}">利用規約</a>
-                        <a href="{% url 'privacypolicy_html' %}">プライバシー</a>
+                    <div id="membership-complete" class="hidden">
+                        <div class="w-full max-w-[440px] text-center animate-fadeIn">
+                            <h2 class="text-[56px] font-black text-[#e67e22] ...">THANK YOU</h2>
+                            </div>
                     </div>
+                    
+                    <p class="text-[11px] text-gray-400 mt-6 text-center leading-relaxed">
+                        解約されるまで、利用規約に基づき基本情報技術者試験ドットコムが請求を行うことに同意した上で、申し込んでください。
+                    </p>
+
+                    <div class="mt-10 pt-6 border-t border-gray-50 flex flex-col items-center gap-4">
+                        <p class="text-[11px] text-gray-400">Powered by <span class="font-bold text-gray-500">stripe</span></p>
+                        <div class="flex gap-4 text-[10px] text-gray-400">
+                            <a href="{% url 'tokushouhou_html' %}">特定商取引法に基づく表記</a>
+                            <a href="{% url 'thissiteis_html' %}">利用規約</a>
+                            <a href="{% url 'privacypolicy_html' %}">プライバシー</a>
+                        </div>
+                    </div>
+                </form>
                 </div>
             </div>
-        </div>
-
     </div>
 
 </body>
