@@ -1,0 +1,102 @@
+<form action="{% url 'fekakomon' %}" method="POST" id="configform" style="margin:0 0 30px 0">
+{% csrf_token %}
+<div id="tabs">
+<ul><li class="active"><a href="#tab1">試験回を指定して出題</a><li><a href="#tab2">分野を指定して出題</a><li><a href="#tab3">模擬試験形式で出題</a></ul>
+<p class="error"></p>
+
+<div id="tab1">
+<label><input type="checkbox" name="times[]" value="06_menjo" checked><span>令和6年度</span></label><label><input type="checkbox" name="times[]" value="05_menjo" checked><span>令和5年度</span></label><label><input type="checkbox" name="times[]" value="04_menjo" checked><span>令和4年度</span></label><label><input type="checkbox" name="times[]" value="03_menjo" checked><span>令和3年度</span></label><label><input type="checkbox" name="times[]" value="02_menjo" checked><span>令和2年度</span></label><label><input type="checkbox" name="times[]" value="01_aki" checked><span>令和元年秋期</span></label><label><input type="checkbox" name="times[]" value="31_haru" checked><span>平成31年春期</span></label><label><input type="checkbox" name="times[]" value="30_aki" checked><span>平成30年秋期</span></label><label><input type="checkbox" name="times[]" value="30_haru" checked><span>平成30年春期</span></label><label><input type="checkbox" name="times[]" value="29_aki" checked><span>平成29年秋期</span></label><label><input type="checkbox" name="times[]" value="29_haru" checked><span>平成29年春期</span></label><label><input type="checkbox" name="times[]" value="28_aki" checked><span>平成28年秋期</span></label><label><input type="checkbox" name="times[]" value="28_haru" checked><span>平成28年春期</span></label><label><input type="checkbox" name="times[]" value="27_aki" checked><span>平成27年秋期</span></label><label><input type="checkbox" name="times[]" value="27_haru" checked><span>平成27年春期</span></label><label><input type="checkbox" name="times[]" value="26_aki" checked><span>平成26年秋期</span></label><label><input type="checkbox" name="times[]" value="26_haru" checked><span>平成26年春期</span></label><label><input type="checkbox" name="times[]" value="25_aki" checked><span>平成25年秋期</span></label><label><input type="checkbox" name="times[]" value="25_haru" checked><span>平成25年春期</span></label><label><input type="checkbox" name="times[]" value="24_aki" checked><span>平成24年秋期</span></label><label><input type="checkbox" name="times[]" value="24_haru" checked><span>平成24年春期</span></label><label><input type="checkbox" name="times[]" value="23_aki" checked><span>平成23年秋期</span></label><label><input type="checkbox" name="times[]" value="23_toku" checked><span>平成23年特別</span></label><label><input type="checkbox" name="times[]" value="22_aki" checked><span>平成22年秋期</span></label><label><input type="checkbox" name="times[]" value="22_haru" checked><span>平成22年春期</span></label><label><input type="checkbox" name="times[]" value="21_aki" checked><span>平成21年秋期</span></label><label><input type="checkbox" name="times[]" value="21_haru" checked><span>平成21年春期</span></label><label><input type="checkbox" name="times[]" value="20_aki" checked><span>平成20年秋期</span></label><label><input type="checkbox" name="times[]" value="20_haru" checked><span>平成20年春期</span></label><label><input type="checkbox" name="times[]" value="19_aki" checked><span>平成19年秋期</span></label><label><input type="checkbox" name="times[]" value="19_haru" checked><span>平成19年春期</span></label><label><input type="checkbox" name="times[]" value="18_aki" checked><span>平成18年秋期</span></label><label><input type="checkbox" name="times[]" value="18_haru" checked><span>平成18年春期</span></label><label><input type="checkbox" name="times[]" value="17_aki" checked><span>平成17年秋期</span></label><label><input type="checkbox" name="times[]" value="17_haru" checked><span>平成17年春期</span></label><label><input type="checkbox" name="times[]" value="16_aki" checked><span>平成16年秋期</span></label><label><input type="checkbox" name="times[]" value="16_haru" checked><span>平成16年春期</span></label>
+<div class="check_all_wrap">全項目チェック<button type="button" name="check_all">ON</button><button type="button" name="check_all">OFF</button><button type="button" name="recommend" style="line-height:1.2">★おすすめ</button></div>
+</div>
+
+<div id="tab2">
+<div id="bunya">
+<div>
+<h4><label class="h4"><input type="checkbox" name="fields[]" value="te_all" checked><span>テクノロジ系</span></label></h4><div id="te_all"><label><input type="checkbox" name="categories[]" value="1" checked><span>基礎理論<span class="category_count">169</span></span></label><label><input type="checkbox" name="categories[]" value="2" checked><span>アルゴリズムとプログラミング<span class="category_count">134</span></span></label><label><input type="checkbox" name="categories[]" value="3" checked><span>コンピュータ構成要素<span class="category_count">142</span></span></label><label><input type="checkbox" name="categories[]" value="4" checked><span>システム構成要素<span class="category_count">118</span></span></label><label><input type="checkbox" name="categories[]" value="5" checked><span>ソフトウェア<span class="category_count">128</span></span></label><label><input type="checkbox" name="categories[]" value="6" checked><span>ハードウェア<span class="category_count">44</span></span></label><label><input type="checkbox" name="categories[]" value="7" checked><span>ユーザーインタフェース<span class="category_count">21</span></span></label><label><input type="checkbox" name="categories[]" value="8" checked><span>情報メディア<span class="category_count">30</span></span></label><label><input type="checkbox" name="categories[]" value="9" checked><span>データベース<span class="category_count">150</span></span></label><label><input type="checkbox" name="categories[]" value="10" checked><span>ネットワーク<span class="category_count">138</span></span></label><label><input type="checkbox" name="categories[]" value="11" checked><span>セキュリティ<span class="category_count">202</span></span></label><label><input type="checkbox" name="categories[]" value="12" checked><span>システム開発技術<span class="category_count">125</span></span></label><label><input type="checkbox" name="categories[]" value="13" checked><span>ソフトウェア開発管理技術<span class="category_count">39</span></span></label></div></div><div><h4><label class="h4"><input type="checkbox" name="fields[]" value="ma_all" checked><span>マネジメント系</span></label></h4><div id="ma_all"><label><input type="checkbox" name="categories[]" value="14" checked><span>プロジェクトマネジメント<span class="category_count">84</span></span></label><label><input type="checkbox" name="categories[]" value="15" checked><span>サービスマネジメント<span class="category_count">76</span></span></label><label><input type="checkbox" name="categories[]" value="16" checked><span>システム監査<span class="category_count">56</span></span></label></div><h4><label class="h4"><input type="checkbox" name="fields[]" value="st_all" checked><span>ストラテジ系</span></label></h4><div id="st_all"><label><input type="checkbox" name="categories[]" value="17" checked><span>システム戦略<span class="category_count">70</span></span></label><label><input type="checkbox" name="categories[]" value="18" checked><span>システム企画<span class="category_count">38</span></span></label><label><input type="checkbox" name="categories[]" value="19" checked><span>経営戦略マネジメント<span class="category_count">74</span></span></label><label><input type="checkbox" name="categories[]" value="20" checked><span>技術戦略マネジメント<span class="category_count">10</span></span></label><label><input type="checkbox" name="categories[]" value="21" checked><span>ビジネスインダストリ<span class="category_count">69</span></span></label><label><input type="checkbox" name="categories[]" value="22" checked><span>企業活動<span class="category_count">147</span></span></label><label><input type="checkbox" name="categories[]" value="23" checked><span>法務<span class="category_count">71</span></span></label></div>
+</div>
+<div class="check_all_wrap">全項目チェック<button type="button" name="check_all">ON</button><button type="button" name="check_all">OFF</button></div>
+</div>
+<label class="h4"><input type="checkbox" name="options[]" value="timesFilter">試験回を指定して絞り込む</label>
+<div id="fs3">
+<label><input type="checkbox" name="times[]" value="06_menjo" checked><span>令和6年度</span></label><label><input type="checkbox" name="times[]" value="05_menjo" checked><span>令和5年度</span></label><label><input type="checkbox" name="times[]" value="04_menjo" checked><span>令和4年度</span></label><label><input type="checkbox" name="times[]" value="03_menjo" checked><span>令和3年度</span></label><label><input type="checkbox" name="times[]" value="02_menjo" checked><span>令和2年度</span></label><label><input type="checkbox" name="times[]" value="01_aki" checked><span>令和元年秋期</span></label><label><input type="checkbox" name="times[]" value="31_haru" checked><span>平成31年春期</span></label><label><input type="checkbox" name="times[]" value="30_aki" checked><span>平成30年秋期</span></label><label><input type="checkbox" name="times[]" value="30_haru" checked><span>平成30年春期</span></label><label><input type="checkbox" name="times[]" value="29_aki" checked><span>平成29年秋期</span></label><label><input type="checkbox" name="times[]" value="29_haru" checked><span>平成29年春期</span></label><label><input type="checkbox" name="times[]" value="28_aki" checked><span>平成28年秋期</span></label><label><input type="checkbox" name="times[]" value="28_haru" checked><span>平成28年春期</span></label><label><input type="checkbox" name="times[]" value="27_aki" checked><span>平成27年秋期</span></label><label><input type="checkbox" name="times[]" value="27_haru" checked><span>平成27年春期</span></label><label><input type="checkbox" name="times[]" value="26_aki" checked><span>平成26年秋期</span></label><label><input type="checkbox" name="times[]" value="26_haru" checked><span>平成26年春期</span></label><label><input type="checkbox" name="times[]" value="25_aki" checked><span>平成25年秋期</span></label><label><input type="checkbox" name="times[]" value="25_haru" checked><span>平成25年春期</span></label><label><input type="checkbox" name="times[]" value="24_aki" checked><span>平成24年秋期</span></label><label><input type="checkbox" name="times[]" value="24_haru" checked><span>平成24年春期</span></label><label><input type="checkbox" name="times[]" value="23_aki" checked><span>平成23年秋期</span></label><label><input type="checkbox" name="times[]" value="23_toku" checked><span>平成23年特別</span></label><label><input type="checkbox" name="times[]" value="22_aki" checked><span>平成22年秋期</span></label><label><input type="checkbox" name="times[]" value="22_haru" checked><span>平成22年春期</span></label><label><input type="checkbox" name="times[]" value="21_aki" checked><span>平成21年秋期</span></label><label><input type="checkbox" name="times[]" value="21_haru" checked><span>平成21年春期</span></label><label><input type="checkbox" name="times[]" value="20_aki" checked><span>平成20年秋期</span></label><label><input type="checkbox" name="times[]" value="20_haru" checked><span>平成20年春期</span></label><label><input type="checkbox" name="times[]" value="19_aki" checked><span>平成19年秋期</span></label><label><input type="checkbox" name="times[]" value="19_haru" checked><span>平成19年春期</span></label><label><input type="checkbox" name="times[]" value="18_aki" checked><span>平成18年秋期</span></label><label><input type="checkbox" name="times[]" value="18_haru" checked><span>平成18年春期</span></label><label><input type="checkbox" name="times[]" value="17_aki" checked><span>平成17年秋期</span></label><label><input type="checkbox" name="times[]" value="17_haru" checked><span>平成17年春期</span></label><label><input type="checkbox" name="times[]" value="16_aki" checked><span>平成16年秋期</span></label><label><input type="checkbox" name="times[]" value="16_haru" checked><span>平成16年春期</span></label>
+<div class="check_all_wrap">全項目チェック<button type="button" name="check_all">ON</button><button type="button" name="check_all">OFF</button><button type="button" name="recommend" style="line-height:1.2">★おすすめ</button></div>
+</div>
+</div>
+
+<div id="tab3">
+<h3 class="h4" style="margin-bottom:0">オリジナル模擬試験</h3>
+<label><input type="radio" name="moshi" value="mix_all" checked><span>全問題から作成</span></label><label><input type="radio" name="moshi" value="mix_10"><span>過去10回分から作成</span></label><label><input type="radio" name="moshi" value="mix_h21"><span>平成21年以降から作成</span></label><h3 class="h4">本試験問題</h3><label><input type="radio" name="moshi" value="06_menjo"><span>令和6年度</span></label><label><input type="radio" name="moshi" value="05_menjo"><span>令和5年度</span></label><label><input type="radio" name="moshi" value="04_menjo"><span>令和4年度</span></label><label><input type="radio" name="moshi" value="03_menjo"><span>令和3年度</span></label><label><input type="radio" name="moshi" value="02_menjo"><span>令和2年度</span></label><label><input type="radio" name="moshi" value="01_aki"><span>令和元年秋期</span></label><label><input type="radio" name="moshi" value="31_haru"><span>平成31年春期</span></label><label><input type="radio" name="moshi" value="30_aki"><span>平成30年秋期</span></label><label><input type="radio" name="moshi" value="30_haru"><span>平成30年春期</span></label><label><input type="radio" name="moshi" value="29_aki"><span>平成29年秋期</span></label><label><input type="radio" name="moshi" value="29_haru"><span>平成29年春期</span></label><label><input type="radio" name="moshi" value="28_aki"><span>平成28年秋期</span></label><label><input type="radio" name="moshi" value="28_haru"><span>平成28年春期</span></label><label><input type="radio" name="moshi" value="27_aki"><span>平成27年秋期</span></label><label><input type="radio" name="moshi" value="27_haru"><span>平成27年春期</span></label><label><input type="radio" name="moshi" value="26_aki"><span>平成26年秋期</span></label><label><input type="radio" name="moshi" value="26_haru"><span>平成26年春期</span></label><label><input type="radio" name="moshi" value="25_aki"><span>平成25年秋期</span></label><label><input type="radio" name="moshi" value="25_haru"><span>平成25年春期</span></label><label><input type="radio" name="moshi" value="24_aki"><span>平成24年秋期</span></label><label><input type="radio" name="moshi" value="24_haru"><span>平成24年春期</span></label><label><input type="radio" name="moshi" value="23_aki"><span>平成23年秋期</span></label><label><input type="radio" name="moshi" value="23_toku"><span>平成23年特別</span></label><label><input type="radio" name="moshi" value="22_aki"><span>平成22年秋期</span></label><label><input type="radio" name="moshi" value="22_haru"><span>平成22年春期</span></label><label><input type="radio" name="moshi" value="21_aki"><span>平成21年秋期</span></label><label><input type="radio" name="moshi" value="21_haru"><span>平成21年春期</span></label><h3 class="h4">旧試験制度</h3><label><input type="radio" name="moshi" value="20_aki"><span>平成20年秋期</span></label><label><input type="radio" name="moshi" value="20_haru"><span>平成20年春期</span></label><label><input type="radio" name="moshi" value="19_aki"><span>平成19年秋期</span></label><label><input type="radio" name="moshi" value="19_haru"><span>平成19年春期</span></label><label><input type="radio" name="moshi" value="18_aki"><span>平成18年秋期</span></label><label><input type="radio" name="moshi" value="18_haru"><span>平成18年春期</span></label><label><input type="radio" name="moshi" value="17_aki"><span>平成17年秋期</span></label><label><input type="radio" name="moshi" value="17_haru"><span>平成17年春期</span></label><label><input type="radio" name="moshi" value="16_aki"><span>平成16年秋期</span></label><label><input type="radio" name="moshi" value="16_haru"><span>平成16年春期</span></label>
+<!--<label class="moshi_option"><input type="checkbox" name="options[]" value="last2times">直近2回の試験問題を除外する</label>-->
+<label class="moshi_option"><input type="checkbox" name="options[]" value="moshi_harf">指定の問題数で実施する
+<select name="moshi_cnt"><option value="40" selected>40問<option value="30">30問<option value="20">20問<option value="10">10問</select>
+<small style="background:var(--brand-bright);color:var(--cta-text-color);font-size:80%;padding:1px 7px;border-radius:999px">メンバー限定</small></label>
+</div>
+
+</div>
+
+<fieldset id="options"><legend><h4 style="font-size:14px">オプション項目</h4></legend>
+<label><input type="checkbox" name="options[]" value="random">選択肢をランダムに並べ替える</label>
+<label><input type="checkbox" name="options[]" value="showComment">最初から解説文を表示する</label>
+<label><input type="checkbox" name="options[]" value="noCalc">計算問題を出題しない(β版)</label>
+<label><input type="checkbox" name="options[]" value="noQuestion">解説がない問題を出題しない</label>
+<label><input type="checkbox" name="options[]" value="onlyCalc">計算問題のみを出題する(β版)</label>
+</fieldset>
+<input type="hidden" name="addition" value="0">
+<input type="hidden" name="mode" value="1">
+<input type="hidden" name="qno" value="0">
+<input type="hidden" name="sid" value="b66e81abf391972dc327b18d03bf71309efeeace">
+<input type="hidden" name="_q">
+<input type="hidden" name="_r">
+<input type="hidden" name="_c">
+<input type="hidden" name="result" value="-1" id="result">
+<input type="hidden" name="startTime" value="">
+<div class="img_margin"><button type="submit" class="submit" data-text="START">出題開始</button></div>
+</form>
+
+{{ last_filter|json_script:"lastFilter" }}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const el = document.getElementById("lastFilter");
+  if (!el) return;
+
+  let f = {};
+  try { f = JSON.parse(el.textContent || "{}"); } catch (e) { return; }
+
+  const times = Array.isArray(f.times) ? f.times : null;
+  const categories = Array.isArray(f.categories) ? f.categories : null;
+  const options = Array.isArray(f.options) ? f.options : null;
+  const moshi = f.moshi || null;
+  const moshiCnt = f.moshi_cnt || null;
+
+  // times[]（tab1 と tab2(fs3) 両方まとめて復元）
+  if (times && times.length) {
+    document.querySelectorAll('input[type="checkbox"][name="times[]"]').forEach(cb => {
+      cb.checked = times.includes(cb.value);
+    });
+  }
+
+  // categories[]
+  if (categories && categories.length) {
+    document.querySelectorAll('input[type="checkbox"][name="categories[]"]').forEach(cb => {
+      cb.checked = categories.includes(cb.value);
+    });
+  }
+
+  // options[]
+  if (options && options.length) {
+    document.querySelectorAll('input[type="checkbox"][name="options[]"]').forEach(cb => {
+      cb.checked = options.includes(cb.value);
+    });
+  }
+
+  // tab3: moshi / moshi_cnt（あれば復元）
+  if (moshi) {
+    const r = document.querySelector(`input[type="radio"][name="moshi"][value="${CSS.escape(moshi)}"]`);
+    if (r) r.checked = true;
+  }
+  if (moshiCnt != null) {
+    const sel = document.querySelector('select[name="moshi_cnt"]');
+    if (sel) sel.value = String(moshiCnt);
+  }
+});
+</script>

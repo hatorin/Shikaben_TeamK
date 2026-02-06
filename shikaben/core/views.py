@@ -31,6 +31,9 @@ import json
 SESSION_IDS = "dojo_question_ids"
 SESSION_IDX = "dojo_index"
 SESSION_ANS = "dojo_answers"  # {question_id: {"selected": "ア", "correct": True}}
+SESSION_FINISHED = "dojo_finished"
+SESSION_RESULT = "dojo_result"   # {"total":..., "correct":..., "rate":..., "answered":...}
+SESSION_LAST_FILTER = "dojo_last_filter"  # 出題条件を完了画面で再表示したい場合
 
 def _build_category_path(cat):
     """
@@ -101,6 +104,7 @@ def fekakomon(request):
     if request.method == "GET":
         context = {
         "last_login_username": request.session.pop("last_login_username", ""),
+        "last_filter": request.session.get("dojo_last_filter", {}) 
         }
 
         return render(request, "core/fekakomon.html", context)
@@ -109,6 +113,18 @@ def fekakomon(request):
     times = request.POST.getlist("times[]")          # 例: ["06_menjo", "05_menjo", ...]
     categories = request.POST.getlist("categories[]")# 例: ["1", "2", ...]
     options = set(request.POST.getlist("options[]")) # 例: ["random", "noCalc", ...]
+
+    moshi = (request.POST.get("moshi") or "").strip()
+    moshi_cnt = (request.POST.get("moshi_cnt") or "").strip()
+
+    request.session["dojo_last_filter"] = {
+        "times": times,
+        "categories": categories,
+        "options": list(options),
+        "moshi": moshi,
+        "moshi_cnt": moshi_cnt,
+    }
+    request.session.modified = True
 
     qs = Question.objects.all()
 
@@ -216,8 +232,29 @@ def api_doujou_next(request):
 
     nxt = idx + 1
     if nxt >= len(ids):
-        return JsonResponse({"ok": True, "finished": True})
+        # ===== 完了処理 =====
+        answers = request.session.get(SESSION_ANS, {}) or {}
+        total = len(ids)
+        correct = sum(1 for v in answers.values() if v.get("correct") is True)
+        answered = len(answers)
+        rate = (correct / total * 100) if total else 0.0
 
+        request.session[SESSION_FINISHED] = True
+        request.session[SESSION_RESULT] = {
+            "total": total,
+            "correct": correct,
+            "answered": answered,
+            "rate": rate,
+        }
+        request.session.modified = True
+
+        return JsonResponse({
+            "ok": True,
+            "finished": True,
+            "redirect_url": reverse("doujou_complete"),
+        })
+
+    # 次の問題がある
     request.session[SESSION_IDX] = nxt
     request.session.modified = True
 
@@ -226,6 +263,33 @@ def api_doujou_next(request):
         "ok": True,
         "finished": False,
         "question": _serialize_question(q, nxt, len(ids)),
+    })
+
+@require_http_methods(["GET"])
+def doujou_complete(request):
+    ids = request.session.get(SESSION_IDS)
+    if not ids:
+        return redirect("fekakomon")
+
+    # まだ完了してないのに直アクセスされたら問題画面へ戻す（保険）
+    if not request.session.get(SESSION_FINISHED):
+        return redirect("fekakomon_question")
+
+    result = request.session.get(SESSION_RESULT) or {}
+    total = int(result.get("total", len(ids)))
+    correct = int(result.get("correct", 0))
+    answered = int(result.get("answered", 0))
+    rate = float(result.get("rate", (correct / total * 100) if total else 0.0))
+
+    # 出題条件を完了画面で再表示したい場合（任意）
+    last_filter = request.session.get(SESSION_LAST_FILTER) or {"times": [], "categories": [], "options": []}
+
+    return render(request, "core/doujou_complete.html", {
+        "total": total,
+        "correct": correct,
+        "answered": answered,
+        "rate": rate,
+        "last_filter": request.session.get("dojo_last_filter", {}),
     })
 
 @require_POST

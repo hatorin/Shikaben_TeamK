@@ -629,10 +629,8 @@
       if (data.ok === false) throw new Error(data.error || "next failed");
 
       if (data.finished) {
-        toast('<i class="ok"></i> 全問終了！お疲れさまでした！', 5000);
-        // 終了画面があるならここで遷移
-        // location.href = "/fekakomon.html";
-        nb.style.display = "none";
+        const url = data.redirect_url || "/doujou/complete/";
+        window.location.href = url;
         return;
       }
 

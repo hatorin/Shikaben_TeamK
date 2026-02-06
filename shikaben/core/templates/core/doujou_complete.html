@@ -10,6 +10,7 @@
   gtag('js', new Date());
   gtag('config', 'G-2TKTF90HZ0');
 </script>
+
 <meta name="viewport" content="width=960,user-scalable=yes">
 <link rel="alternate" media="only screen and (max-width:640px)" href="https://www.fe-siken.com/s/fekakomon.html">
 <link rel="canonical" href="https://www.fe-siken.com/fekakomon.html">
@@ -22,9 +23,13 @@
 <meta property="og:type" content="article">
 <meta property="og:image" content="https://www.fe-siken.com/img/ogimage_doujou.png">
 <meta property="og:url" content="https://www.fe-siken.com/fekakomon.html">
+
+<!-- 完了画面は検索に載せない想定（必要なら削除） -->
+<meta name="robots" content="noindex,nofollow">
+
 <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
 <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
-<title>基本情報技術者過去問道場🥋｜基本情報技術者試験.com</title>
+<title>選択範囲を一巡しました｜基本情報技術者過去問道場🥋</title>
 </head>
 <body>
 
@@ -71,173 +76,112 @@ if (typeof localStorage !== 'undefined') {
 <!-- CONTENT START -->
 <div id="contentWrap" class="centeringBox">
 <div id="content" class="centeringContent">
+
 <a href="/membership/"><img src="/membership/img/member_banner.png?20231128" class="banner" alt="メンバーシップ制度の紹介" style="display:block;max-width:100%;margin:1em auto;aspect-ratio:32/5;border-radius:5px;filter:none;" decoding="sync" fetchpriority="high" loading="eager"></a>
+
 <!-- MAINCOL START -->
 <main id="mainCol">
-<div class="pan"><a href="/">HOME</a>&raquo;<b>基本情報技術者過去問道場（登録者数<b>368,000</b>人突破）</b></div>
 
-<style>
-.rankingGraph{position:relative}
-.rankingGraph .balloon{position:absolute;color:var(--color-444);background:var(--main-bg);border:1px solid var(--dark-border);border-radius:3px;padding:5px;box-shadow:2px 2px 5px var(--dark-border);z-index:1}
-.rankingGraph .arrow{position:absolute;z-index:2}
-.rankingGraph .arrow::before,.rankingGraph .arrow::after{content:"";width:0;height:0;position:absolute;border:solid transparent;border-width:0 7px 8px;border-bottom-color:var(--dark-border);left:0;top:-2px}
-.rankingGraph .arrow::after{border-bottom-color:var(--main-bg);top:0}
-[name="moshi_cnt"]{padding-left:0;padding-right:0;max-width:0;visibility:hidden;font-size:inherit;transition:0.25s ease-out}
-[value="moshi_harf"]:checked ~ [name="moshi_cnt"]{max-width:80px;padding-left:4px;padding-right:20px;visibility:visible}
-</style>
-<div class="main kako doujou">
-<h2 style="position:relative;">
-  基本情報技術者過去問道場🥋
+  <div class="pan"><a href="/">HOME</a>&raquo;<a href="/fekakomon.html">基本情報技術者過去問道場</a>&raquo;<b>出題条件の再選択</b></div>
 
-  <button type="button" id="userBtn" class="{% if user.is_authenticated %}login{% endif %}">
-    <i class="user"></i>
-    <span id="userid"  data-userid="{% if user.is_authenticated %}{{ user.username }}{% endif %}">
-      {% if user.is_authenticated %}{{ user.username }}さん{% else %}ログイン・ユーザー登録{% endif %}
-    </span>
-  </button>
+  <!-- fekakomon.html内のCSS（フォーム表示に必要なので残す） -->
+  <style>
+  .rankingGraph{position:relative}
+  .rankingGraph .balloon{position:absolute;color:var(--color-444);background:var(--main-bg);border:1px solid var(--dark-border);border-radius:3px;padding:5px;box-shadow:2px 2px 5px var(--dark-border);z-index:1}
+  .rankingGraph .arrow{position:absolute;z-index:2}
+  .rankingGraph .arrow::before,.rankingGraph .arrow::after{content:"";width:0;height:0;position:absolute;border:solid transparent;border-width:0 7px 8px;border-bottom-color:var(--dark-border);left:0;top:-2px}
+  .rankingGraph .arrow::after{border-bottom-color:var(--main-bg);top:0}
+  [name="moshi_cnt"]{padding-left:0;padding-right:0;max-width:0;visibility:hidden;font-size:inherit;transition:0.25s ease-out}
+  [value="moshi_harf"]:checked ~ [name="moshi_cnt"]{max-width:80px;padding-left:4px;padding-right:20px;visibility:visible}
+  </style>
 
-<div id="userPanel" class="{% if messages %} show{% endif %}">
-  {% if user.is_authenticated %}
-    <form id="adminForm" method="post" action="{% url 'logout' %}">
-      {% csrf_token %}
-      <button type="submit">ログアウト</button>
-    </form>
-  {% else %}
-    <form id="loginForm" method="post" action="{% url 'login' %}" autocomplete="on">
-      {% csrf_token %}
+  <!-- ★ここから：完了画面の中身 -->
+  <div class="main kako doujou" id="errorPage" style="height:auto !important;">
 
-      <div class="inputWrap">
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const btn = document.getElementById("userBtn");
+      const panel = document.getElementById("userPanel");
+      if (!btn || !panel) return;
+
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        panel.classList.toggle("show");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!panel.classList.contains("show")) return;
+        if (panel.contains(e.target) || btn.contains(e.target)) return;
+        panel.classList.remove("show");
+      });
+    });
+    </script>
+
+    <h2 style="margin-top:10px;">
+        選択範囲を一巡しました
+
+      <button type="button" id="userBtn" class="{% if user.is_authenticated %}login{% endif %}">
         <i class="user"></i>
-        <input type="text" name="username" autocomplete="username" required
-               value="{{ last_login_username|default:'' }}">
-        <label>ユーザーID</label>
+        <span id="userid" data-userid="{% if user.is_authenticated %}{{ user.username }}{% endif %}">
+          {% if user.is_authenticated %}{{ user.username }}さん{% else %}ログイン・ユーザー登録{% endif %}
+        </span>
+      </button>
+
+      <div id="userPanel" class="{% if messages %} show{% endif %}">
+        {% if user.is_authenticated %}
+          <form id="adminForm" method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">ログアウト</button>
+          </form>
+        {% else %}
+          <form id="loginForm" method="post" action="{% url 'login' %}" autocomplete="on">
+            {% csrf_token %}
+
+            <div class="inputWrap">
+              <i class="user"></i>
+              <input type="text" name="username" autocomplete="username" required
+                     value="{{ last_login_username|default:'' }}">
+              <label>ユーザーID</label>
+            </div>
+
+            <div class="inputWrap">
+              <i class="password"></i>
+              <input type="password" name="password" autocomplete="current-password" required>
+              <label>パスワード</label>
+              <i class="eye togglePassword"></i>
+            </div>
+
+            <div><button type="submit" name="login">ログイン</button></div>
+            <a href="{% url 'signup' %}" id="register">+新規登録</a>
+          </form>
+        {% endif %}
       </div>
 
-      <div class="inputWrap">
-        <i class="password"></i>
-        <input type="password" name="password" autocomplete="current-password" required>
-        <label>パスワード</label>
-        <i class="eye togglePassword"></i>
-      </div>
+    </h2>
 
-      <div><button type="submit" name="login">ログイン</button></div>
-      <a href="{% url 'signup' %}" id="register">+新規登録</a>
-    </form>
-  {% endif %}
-</div>
-</h2>
+    <div id="resultmes">
+      正解数 {{ correct }} / {{ total }} 問中
+      {% if rate is not None %}
+        正答率: {{ rate|floatformat:1 }}%
+      {% endif %}
+    </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("userBtn");
-  const panel = document.getElementById("userPanel");
-  if (!btn || !panel) return;
+    <div class="img_margin">
+      <img src="{% static 'core/img/ext/31.png' %}" height="220" alt="" decoding="sync" fetchpriority="high" loading="eager" style="filter:none">
+    </div>
 
-  btn.addEventListener("click", (e) => {
-    e.preventDefault();
-    panel.classList.toggle("show");
-  });
+    <div style="margin:20px 15px;">
+      選択範囲の問題すべてを一巡しました。<br>
+      続けて別分野の問題にも挑戦してみましょう。もちろん同じ範囲を再出題することもできます。
+    </div>
 
-  document.addEventListener("click", (e) => {
-    if (!panel.classList.contains("show")) return;
-    if (panel.contains(e.target) || btn.contains(e.target)) return;
-    panel.classList.remove("show");
-  });
-});
-</script>
+    <!-- ★ホームと同じ「出題条件フォーム」をここに表示 -->
+    {# すでに作ってある include を使う（テンプレ継承ではなく部分テンプレの再利用） #}
+    {% include "core/_fekakomon_configform.html" %}
 
-<div class="img_margin"><img src="img/doujoulogo.png" width="344" height="58" alt="過去問道場" id="doujoulogo"></div>
-<p>「基本情報技術者試験過去問道場」は、基本情報技術者試験過去問題(2,920問)の中からランダムに出題する完全解説付きのWeb問題集です。PC/スマホ/タブレットを使って、スキマ時間を活用して無料で過去問演習に取り組むことができ、学習履歴を管理することも可能です。試験対策としてご活用ください。</p>
-<div class="anslink"><i class="help"></i><a href="doujouManual.html">過去問道場の利用方法</a></div>
+  </div>
+  <!-- ★ここまで：完了画面の中身 -->
 
-{% include "core/_fekakomon_configform.html" %}
-
-<div class="ads_wrap">
-<div class="ads_content" id="t69684e5c9aac819577275311"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5061380080248584" crossorigin="anonymous"></script>
-<!-- Responsive FE -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-5061380080248584"
-     data-ad-slot="3746070658"
-     data-ad-format="rectangle"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script></div>
-<div class="ads_content" id="t69684e5c9aac819577275312"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5061380080248584" crossorigin="anonymous"></script>
-<!-- Responsive FE -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-5061380080248584"
-     data-ad-slot="3746070658"
-     data-ad-format="rectangle"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script></div>
-</div>
-
-<h2>段級位認定者数</h2>
-<div class="img_margin rankingGraph"><img src="https://quickchart.io/chart?c={type%3A%27bar%27%2Cdata%3A%7Blabels%3A%5B%27%E5%9B%9B%E7%B4%9A%27%2C%27%E4%B8%89%E7%B4%9A%27%2C%27%E4%BA%8C%E7%B4%9A%27%2C%27%E4%B8%80%E7%B4%9A%27%2C%27%E5%88%9D%E6%AE%B5%27%2C%27%E4%BA%8C%E6%AE%B5%27%2C%27%E4%B8%89%E6%AE%B5%27%2C%27%E5%9B%9B%E6%AE%B5%27%2C%27%E4%BA%94%E6%AE%B5%27%2C%27%E5%85%AD%E6%AE%B5%27%2C%27%E4%B8%83%E6%AE%B5%27%2C%27%E5%85%AB%E6%AE%B5%27%2C%27%E4%B9%9D%E6%AE%B5%27%2C%27%E5%8D%81%E6%AE%B5%27%2C%27%E5%90%8D%E4%BA%BA%27%5D%2Cdatasets%3A%5B%7Blabel%3A%27dummy%27%2Cdata%3A%5B26973%2C22364%2C18588%2C25823%2C16994%2C11894%2C7132%2C5100%2C3159%2C2019%2C1101%2C1223%2C278%2C112%2C124%5D%2CbackgroundColor%3AgetGradientFillHelper%28%27vertical%27%2C%5B%27%2336a2eb%27%2C%27%23127ac1%27%5D%29%7D%5D%7D%2Coptions%3A%7Btitle%3A%7Bdisplay%3Atrue%2Ctext%3A%272026%E5%B9%B41%E6%9C%8815%E6%97%A5+11%E6%99%82%E6%99%82%E7%82%B9%E3%80%80%E8%A8%81142%2C884%E5%90%8D%27%7D%2Cscales%3A%7BxAxes%3A%5B%7Bticks%3A%7BfontSize%3A11%7D%2CgridLines%3A%7Bdisplay%3Afalse%7D%7D%5D%2CyAxes%3A%5B%7Bticks%3A%7BfontSize%3A11%7D%7D%5D%7D%2Clegend%3A%7Bdisplay%3Afalse%7D%7D}" style="max-width:100%;height:auto;min-height:300px" alt="段級位認定者数"></div>
-<h2>更新履歴</h2>
-<dl class="tbl2 appInfo">
-<dt>'25.9.19<dd>令和6年度分の60問（公式20問＋免除試験から40問）を組み込みました。
-<dt>'24.5.19<dd>令和5年度分の60問（公式20問＋免除試験から40問）を組み込みました。
-<dt>'24.5.4<dd>模擬試験モードの問題数について、半数以外に10問/20問などから選択できるようになりました。
-<dt>'24.1.7<dd>令和4年分の午前免除試験問題集を組み込みました。
-<dt>'23.8.11<dd>有料のメンバーシップ制度（広告非表示プラン）に対応しました。
-<dt>'23.6.16<dd>令和2年分と令和3年分の午前免除試験問題集を組み込みました。
-<dt>'21.8.23<dd>学習履歴の自動バックアップ機能＆過去10日分のバックアップから復元できる機能を追加しました。
-<dt>'20.10.10<dd>出題設定のUIをタブ形式に変更しました。
-<dt>'20.4.9<dd><s>模擬試験モードに直近2回の試験問題を除外するオプションを追加しました。</s>問題があったため機能提供を停止しています。
-<dt>'20.2.23<dd>模擬試験と見直しモードで選択肢ランダムのオプションを選択できるようにしました。
-<dt>'20.2.19<dd>試験回選択のおすすめボタン、模擬試験モードで直近5年内とH21以降の問題に絞る機能を追加しました。
-<dt>'19.10.22<dd>令和元年秋期の問題を追加しました。
-<dt>'19.10.5<dd>学習成績をSNSでシェアできる機能を追加しました。
-<dt>'19.7.19<dd>CSVファイルに学習日のデータを追加しました。
-<dt>'19.6.21<dd>一部のUIアイコンを変更しました。
-<dt>'19.6.17<dd>続きから再開する機能を変更しました。
-<dt>'19.4.22<dd>31年春期の問題を追加しました。
-<dt>'18.12.22<dd>タイトルロゴの横に登録ユーザ数を表示するようにしました。
-<dt>'18.10.23<dd>30年秋期の問題を追加しました。
-<dt>'18.9.3<dd>学習履歴にて中分類毎の分野成績を確認できるようにしました。
-<dt>'18.4.16<dd>30年春期の問題を追加しました。
-<dt>'17.12.25<dd>「今回 間違えた問題のみを出題する」オプションの機能を「今回の見直しをする」タブ内に移行しました。模擬試験モードのリファクタリングを実施しました。
-<dt>'17.10.17<dd>29年秋期の問題を追加しました。
-<dt>'17.10.11<dd>学習履歴のメニューに試験回ごとの成績を確認できる機能を追加しました。
-<dt>'17.9.25<dd>学習履歴で月間合計を参照できるようにし、棒グラフがアニメーション表示されるよう改善しました。
-<dt>'17.6.14<dd>未回答モードと復習モードに出題回で絞る機能を追加しました。またトップページにアカウント登録者の段級一覧が表示されるようにしました。
-<dt>'17.4.17<dd>29年春期の問題を追加しました。
-<dt>'16.12.22<dd>問題チェック機能、アカウント管理機能などを追加しました。
-<dt>'16.10.17<dd>28年秋期の問題を追加しました。
-<dt>'16.6.19<dd>模擬試験モードとパスワード入力のマスク表示の切替え機能を追加しました。
-<dt>'16.4.17<dd>28年春期の問題を追加しました。
-<dt>'15.10.19<dd>27年秋期の問題を追加しました。
-<dt>'15.10.11<dd>学習履歴の機能として回答歴のない問題のみを出題するオプションを追加しました。
-<dt>'15.9.19<dd>過去問道場の説明を別ページとして独立させました。
-<dt>'15.7.10<dd>今回の出題中で不正解だった問題のみを出題するオプション「今回 間違えた問題のみを出題する」を復活させました。
-<dt>'15.4.20<dd>27年春期の問題を追加しました。
-<dt>'15.1.24<dd>学習履歴機能を追加しました
-<dt>'14.10.20<dd>26年秋期の問題を追加しました。
-<dt>'14.8.23<dd>2つのオプション機能、「計算問題のみを出題する」「問1から順番に出題する」を追加しました。
-<dt>'14.8.2<dd>各機能の説明文を追加しました。
-<dt>'14.4.22<dd>26年春期の問題を追加しました。
-<dt>'14.3.30<dd>間違えた問題のみを復習できる機能を追加しました。
-<dt>'14.3.12<dd>開催回と分野の両方を指定して問題を絞り込みできるように改善しました。
-<dt>'13.10.21<dd>25年秋期の問題を追加しました。
-<dt>'13.10.13<dd>過去問道場に詳細レポートを別ウィンドウで表示する機能とレポートをCSV形式でダウンロードできる機能を追加しました。
-<dt>'13.4.22<dd>25年春期の問題を追加しました。
-<dt>'13.4.18<dd>分野別の問題データベースのうち重複してる問題(別の開催期の同題)を除外しました。
-<dt>'13.3.10<dd>選択範囲2周目以降も重複なく各問題が順に出題されるように出題アルゴリズムを改善しました。加えて2周目以後は以前の正誤履歴が表示されるようにしました。
-<dt>'13.2.9<dd>計算問題を出題しないオプション項目(β版)を追加しました。
-<dt>'13.2.5<dd>詳細レポートの画面を新デザインにしました。
-<dt>'13.2.3<dd>同じ問題が出題されないように出題選択アルゴリズムの改善を行いました。
-<dt>'12.10.27<dd>問題データベースに24年秋期を追加しました。
-<dt>'12.10.8<dd>オプション項目として「解説がない問題の出題を制御する機能」と「選択肢をランダムに並べ替える機能」を追加しました。
-<dt>'12.10.3<dd>問題データに16年春期～19年秋期(計640問)を追加しました。
-<dt>'12.9.22<dd>公開しました。
-</dl>
-</div>
 </main>
 <!-- MAINCOL END -->
 
@@ -412,6 +356,7 @@ CBT 公開問題</a>
 <a href="https://twitter.com/kakomon_doujou?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-lang="ja" data-show-count="false">Follow @kakomon_doujou</a><script async src="https://platform.twitter.com/widgets.js"></script>
 
 </nav>
+
 <a href="#header" id="toTop"><span>&#9650;</span><br>Pagetop</a>
 
 <div id="canvas_answer_back"></div>
@@ -464,32 +409,28 @@ function getCookie(name) {
 
 document.addEventListener("submit", function(e) {
   const src = e.target;
-  if (!src || src.id !== "loginForm") return;   // kakomonApp.js側のフォームだけ対象
+  if (!src || src.id !== "loginForm") return;
 
-  // kakomonApp.js の submit/AJAX を止める
   e.preventDefault();
   e.stopPropagation();
   e.stopImmediatePropagation();
 
-  // 入力値を取得（kakomonApp.jsは userid）
   const userid =
-  src.querySelector('[name="userid"]')?.value ||
-  src.querySelector('[name="username"]')?.value ||
-  "";
-  const pass   = src.querySelector('[name="password"]')?.value || "";
+    src.querySelector('[name="userid"]')?.value ||
+    src.querySelector('[name="username"]')?.value ||
+    "";
+  const pass = src.querySelector('[name="password"]')?.value || "";
 
-  // Django 標準ログインへ流し込む（Djangoは username）
   const f = document.getElementById("djangoLoginForm");
   f.querySelector('[name="username"]').value = userid;
   f.querySelector('[name="password"]').value = pass;
 
-  // CSRFトークンは cookie の最新値に合わせる（ログイン前後で変わることがあるため）
   const token = getCookie("csrftoken");
   const csrfInput = f.querySelector('input[name="csrfmiddlewaretoken"]');
   if (csrfInput && token) csrfInput.value = token;
 
   f.submit();
-}, true); // ← capture が重要
+}, true);
 </script>
 
 <script>
@@ -512,27 +453,24 @@ document.addEventListener("click", function(e) {
   const logoutLink = e.target.closest("#logout");
   if (!logoutLink) return;
 
-  // kakomonApp.js を止める
   e.preventDefault();
   e.stopPropagation();
   e.stopImmediatePropagation();
 
   const csrftoken = getCookie("csrftoken");
 
-  fetch("{% url 'logout' %}", {   // ここが /accounts/logout/ でもOK
+  fetch("{% url 'logout' %}", {
     method: "POST",
     headers: { "X-CSRFToken": csrftoken },
     mode: "same-origin",
     credentials: "same-origin",
   }).then(() => {
-    // ログアウト後の見た目更新
     window.location.reload();
   });
 }, true);
 </script>
 
 <script>
-  // 公式っぽい通知関数の代替（グローバル）
   window.b = function(html, timeout=5000){
     const box = document.getElementById("stateMessage");
     if(!box) return;
