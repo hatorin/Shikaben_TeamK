@@ -349,12 +349,11 @@ $(function() {
             dataType: "json"
         }).done(function(e) {
             if ("success" == e.status) {
-                var a = '<h2>ユーザー登録が完了しました</h2><div class="img_margin"><img src="/img/ext/12.png" style="max-height:160px" alt="ユーザー登録ありがとう"></div><div class="message">今後とも当サイトをよろしくお願い申し上げます！<br>パスワードリセットに備えてアカウント設定からメールアドレスを登録することをおすすめします。<br><br><div style="font-size:110%"><b>ユーザーID</b>：' + (p = e.uid) + '<br><b>パスワード</b>：<input type="password" readonly value="' + i.password + '" style="border:0;padding:0;font-size:inherit;padding-left:4px;outline:0;width:auto;background:transparent"><i class="eye togglePassword"></i><div></div>';
+                var a = '<h2>ユーザー登録が完了しました</h2><div class="img_margin"><img src="static/core/img/ext/12.png" style="max-height:160px" alt="ユーザー登録ありがとう"></div><div class="message">今後とも当サイトをよろしくお願い申し上げます！<br>パスワードリセットに備えてアカウント設定からメールアドレスを登録することをおすすめします。<br><br><div style="font-size:110%"><b>ユーザーID</b>：' + (p = e.uid) + '<br><b>パスワード</b>：<input type="password" readonly value="' + i.password + '" style="border:0;padding:0;font-size:inherit;padding-left:4px;outline:0;width:auto;background:transparent"><i class="eye togglePassword"></i><div></div>';
                 $(s).html(a),
                 $("#formTitle").html("学習履歴管理"),
                 $("#userBtn").addClass("login"),
                 $("#userid").html(p + "さん")
-                window.location.reload();
             } else if ("error" == e.status)
                 switch (t.prop("disabled", !1).removeClass("disabled"),
                 e.errorcode) {
@@ -2462,12 +2461,24 @@ function getCookie(name) {
   return "";
 }
 
-const csrftoken = getCookie("csrftoken");
+function syncCsrfTokenToForms() {
+  const token = getCookie("csrftoken");
+  if (!token) return;
+
+  document.querySelectorAll('input[name="csrfmiddlewaretoken"]').forEach(el => {
+    el.value = token;
+  });
+}
+
+$(document).on("submit", "#configform", function () {
+  syncCsrfTokenToForms();
+});
 
 $.ajaxSetup({
   beforeSend: function (xhr, settings) {
     if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
-      xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      const token = getCookie("csrftoken");
+      if (token) xhr.setRequestHeader("X-CSRFToken", token);
     }
   }
 });
