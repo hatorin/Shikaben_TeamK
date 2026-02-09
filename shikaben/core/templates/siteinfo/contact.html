@@ -13,64 +13,63 @@
 
 <body id="top">
     <style>
-        /* ここにページ固有のCSSを記述してください */
-        #drawer_btn {
-            top: 6px;/* 下へ */
-            right: 25px;/* 数値を増すと左へ */
-        }
+      /* ここにページ固有のCSSを記述してください */
+      #drawer_btn {
+        top: 6px; /* 下へ */
+        right: 25px; /* 数値を増すと左へ */
+      }
 
-            /* 入力エリアのスタイル */
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            color: #4caf50; /* 見出しと同じ緑 */
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
+      /* 入力エリアのスタイル */
+      .form-group {
+        margin-bottom: 20px;
+      }
 
-        .form-group input, 
-        .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #555;
-            border-radius: 4px;
-            box-sizing: border-box; /* 幅を100%に合わせる */
-        }
+      .form-group label {
+        display: block;
+        color: var(--link-color); /* ← 緑固定をやめて青基調へ */
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
 
-        /* ボタンを配置するエリアの設定 */
-        .button-container {
-            text-align: center; 
-            margin-top: 40px;
-            margin-bottom: 50px;
-        }
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #555;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
 
-        /* 送信ボタン本体 */
-        .submit-btn {
-            background-color: #4caf50;
-            color: #fff;
-            border: none;
-            padding: 15px 60px; /* 横幅を広めにとって押しやすく */
-            border-radius: 30px; /* 角を丸くしてモダンな印象に */
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 18px;
-            transition: background-color 0.3s, transform 0.2s; /* ホバー時の動き */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
+      /* ボタンを配置するエリアの設定 */
+      .button-container {
+        text-align: center;
+        margin-top: 40px;
+        margin-bottom: 50px;
+      }
 
-        .submit-btn:hover {
-            background-color: #66bb6a;
-            transform: translateY(-2px); /* 少し浮き上がる演出 */
-        }
+      /* 送信ボタン本体 */
+      .submit-btn {
+        background-color: var(--brand-bright); /* ← 青 */
+        color: var(--cta-text-color);         /* ← 既存変数に合わせる */
+        border: none;
+        padding: 15px 60px;
+        border-radius: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 18px;
+        transition: background-color 0.3s, transform 0.2s;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      }
 
-        .submit-btn:active {
-            transform: translateY(0);
-        }
+      .submit-btn:hover {
+        background-color: var(--brand); /* ← 少し濃い青 */
+        transform: translateY(-2px);
+      }
+
+      .submit-btn:active {
+        transform: translateY(0);
+      }
     </style>
-
     <!-- =======================
         HEADER
   ======================= -->
@@ -187,31 +186,31 @@
                 // 3. 取得した値を埋め込んだHTMLを作成
                 //確認画面表示
                 contactArea.innerHTML = `
-                    <div style="text-align: left; padding: 20px; background: #fff; border-radius: 10px;">
-                        <h2 text-align: center; border-bottom:none;">入力内容の確認</h2>
-                        <p margin-bottom: 20px; text-align: center;">以下の内容で送信してもよろしいですか？</p>
-                        
-                        <div style="margin-bottom: 15px;">
-                            <label style="color: #4caf50; font-weight: bold;">[お名前]</label>
-                            <div padding: 5px 0 10px 10px;">${nameValue}</div>
-                        </div>
+                  <div style="text-align:left; padding:20px; background: var(--main-bg); border-radius:10px;">
+                    <h2 style="text-align:center; border-bottom:none; margin-bottom:10px;">入力内容の確認</h2>
+                    <p style="margin-bottom:20px; text-align:center;">以下の内容で送信してもよろしいですか？</p>
 
-                        <div style="margin-bottom: 15px;">
-                            <label style="color: #4caf50; font-weight: bold;">[メールアドレス]</label>
-                            <div padding: 5px 0 10px 10px;">${emailValue}</div>
-                        </div>
-
-                        <div style="margin-bottom: 15px;">
-                            <label style="color: #4caf50; font-weight: bold;">[お問い合わせ内容]</label>
-                            <div padding: 5px 0 10px 10px; white-space: pre-wrap;">${messageValue}</div>
-                        </div>
-
-                        <div class="button-container" style="display: flex; justify-content: center; gap: 20px;">
-                            <button onclick="location.reload()" class="submit-btn" style="background-color: #666;">戻る</button>
-                            <button onclick="alert('送信しました'); location.reload();" class="submit-btn">送信する</button>
-                        </div>
+                    <div style="margin-bottom:15px;">
+                      <label style="color: var(--link-color); font-weight:bold;">[お名前]</label>
+                      <div style="padding:5px 0 10px 10px;">${nameValue}</div>
                     </div>
-                `;
+
+                    <div style="margin-bottom:15px;">
+                      <label style="color: var(--link-color); font-weight:bold;">[メールアドレス]</label>
+                      <div style="padding:5px 0 10px 10px;">${emailValue}</div>
+                    </div>
+
+                    <div style="margin-bottom:15px;">
+                      <label style="color: var(--link-color); font-weight:bold;">[お問い合わせ内容]</label>
+                      <div style="padding:5px 0 10px 10px; white-space: pre-wrap;">${messageValue}</div>
+                    </div>
+
+                    <div class="button-container" style="display:flex; justify-content:center; gap:20px;">
+                      <button onclick="location.reload()" class="submit-btn" style="background-color:#666;">戻る</button>
+                      <button onclick="alert('送信しました'); location.reload();" class="submit-btn">送信する</button>
+                    </div>
+                  </div>
+                `;                
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
             return false;
