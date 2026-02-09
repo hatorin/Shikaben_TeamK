@@ -22,8 +22,8 @@ touch-action:manipulation;
 --dark-border:rgb(0 0 0 / 10%);
 --input-border:rgb(0 0 0 / 30%);
 --input-bg:#fff;
---cta-color:rgb(255 168 55);
---cta-sub-color:rgb(255 131 110);
+--cta-color:rgb(35 114 255);      /* 旧: 255 168 55 */
+--cta-sub-color:rgb(90 155 255);  /* 旧: 255 131 110 */
 --cta-text-color:#f9f9f9;
 --checkbox-bg:#666;
 --brand:hsl(210deg 70% 20%);
@@ -101,7 +101,7 @@ img{vertical-align:middle}
 .img_margin.left{text-align:left;padding-left:1em}
 em{font-style:normal}
 em.r{color:#d52a2a;font-weight:bold;font-size:105%}
-em.g{color:#259c25}
+em.g{color:var(--link-color)}
 em.b{color:#3855db}
 em.m{font-weight:bold;text-decoration:underline;text-decoration-color:rgb(255 210 81 / 80%);text-decoration-thickness:4px}
 th,td{vertical-align:top}
@@ -204,7 +204,7 @@ i.kao14{background-position:-192px -32px}
 i.nusi,i.shusei,i.bbsnew,i.bbsup{border-radius:4px;line-height:1;font-size:10px;color:#FFF;width:auto;height:auto}
 i.nusi{padding:4px 6px;background:#338cdf}
 i.nusi::before{content:"スレ主"}
-i.shusei{padding:4px;background:#4cb012}
+i.shusei{padding:4px;background:var(--brand-bright)}
 i.shusei::before{content:"修正依頼"}
 i.bbsnew{padding:2px;background:#ff9800;border-radius:2px}
 i.bbsnew::before{content:"new"}
@@ -571,8 +571,8 @@ li[class^="maru"]::before{counter-increment:marucount;content:counter(marucount)
 span[class^="check"]{display:inline-block;position:relative;width:22px;height:22px;border-radius:2px;color:transparent;margin-right:12px;cursor:pointer;user-select:none}
 span[class^="check"]::before{content:"";position:absolute;top:4px;left:3px;width:10px;height:4px;border:solid var(--dark-border);border-width:0 0 2px 2px;transform:rotate(-45deg)}
 span[class^="check"].checked::before{border-color:#fff}
-.checkG{border:2px solid #8CBC08}
-.checkG.checked{background:#8CBC08}
+.checkG{border:2px solid var(--brand-bright)}
+.checkG.checked{background:var(--brand-bright)}
 .checkY{border:2px solid #DC9A1B}
 .checkY.checked{background:#DC9A1B}
 .checkP{border:2px solid #DA4F66}
@@ -677,8 +677,20 @@ i.maru{border:3px solid #54BB5A;border-radius:50%}
 /* ログインパネル */
 #loginForm{margin-top:20px}
 #loginForm > div{margin-bottom:20px}
-#register{position:absolute;bottom:15px;right:15px;display:inline-block;color:#57a711;border:1px solid #57a711;border-radius:3px;padding:2px 6px}
-#register:active{color:#FFF;background:#7ac33a;top:auto}
+#register{
+  position:absolute;
+  bottom:15px;right:15px;
+  display:inline-block;
+  color:var(--link-color);
+  border:1px solid var(--link-color);
+  border-radius:3px;
+  padding:2px 6px
+}
+#register:active{
+  color:#FFF;
+  background:var(--brand-bright);
+  top:auto
+}
 
 /* 管理パネル */
 #adminForm>ul{margin:-5px 0 0 0}
@@ -726,7 +738,7 @@ body.modal .centeringBox{filter:blur(3px)}
 #overLayer dd p{text-align:center;font-size:11px;width:100%;height:100%;top:0;left:0;position:absolute;z-index:1;line-height:20px;text-shadow:0 0 8px rgb(var(--pure-white))}
 #overLayer dd p.big{font-size:105%;text-shadow:rgb(var(--pure-white)) 1px 0 2px}
 #overLayer dd p.big span{font-size:26px;font-weight:bold;letter-spacing:-1px}
-#overLayer dd div{height:100%;top:0;left:0;position:absolute;border-radius:2px;background:#8be34b;transition:1.5s cubic-bezier(0.215,0.61,0.355,1);transform:scaleX(0);transform-origin:left top}
+#overLayer dd div{height:100%;top:0;left:0;position:absolute;border-radius:2px;background:var(--brand-bright);transition:1.5s cubic-bezier(0.215,0.61,0.355,1);transform:scaleX(0);transform-origin:left top}
 #overLayer dd div.show{transform:scaleX(1)}
 #overLayer .historyTableWrap{overflow-y:scroll;height:680px}
 #overLayer .historyTableWrap tr:nth-child(n+103){display:none}
@@ -787,7 +799,7 @@ body.modal .centeringBox{filter:blur(3px)}
 #overLayer .qtable.coverage a{display:inline-block;width:16px;height:16px;text-align:center;text-decoration:inherit;font-weight:bold;color:transparent;transition:0.2s;user-select:none}
 #overLayer .qtable.coverage a.checked{transform:rotate(1turn) scale(1.5)}
 #tabY, #tabP{display:none}
-#overLayer #tabG a.checked{color:#8CBC08}
+#overLayer #tabG a.checked{color:var(--brand-bright)}
 #overLayer #tabY a.checked{color:#DC9A1B}
 #overLayer #tabP a.checked{color:#DA4F66}
 .edit .qtable{background:var(--color-ddd)}
