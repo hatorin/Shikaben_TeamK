@@ -11,8 +11,8 @@ touch-action:manipulation;
 --pure-white:255 255 255;
 --pure-black:0 0 0;
 --pure-gray:128 128 128;
---link-color:#0f8702;
---dt-color:#1e6510;
+--link-color:#1a63d6;
+--dt-color:#1b4fa8;
 --color-eee:#eee;
 --color-ddd:#ddd;
 --color-ccc:#ccc;
@@ -26,14 +26,14 @@ touch-action:manipulation;
 --cta-sub-color:rgb(255 131 110);
 --cta-text-color:#f9f9f9;
 --checkbox-bg:#666;
---brand:hsl(100deg 70% 20%);
---brand-dark:hsl(100deg 70% 17%);
---brand-bright:hsl(100deg 70% 30%);
---brand-light:hsl(100deg 70% 86%);
---brand-pale:hsl(100deg 70% 98%);
+--brand:hsl(210deg 70% 20%);
+--brand-dark:hsl(210deg 70% 17%);
+--brand-bright:hsl(210deg 70% 30%);
+--brand-light:hsl(210deg 70% 86%);
+--brand-pale:hsl(210deg 70% 98%);
 --brand-accent:hsl(29deg 73% 51%);
 --sprite-doujou-url:url(img/sprite_doujou.png);
---selection-bg:hsl(100deg 50% 70%);
+--selection-bg:hsl(210deg 50% 70%);
 --menu-width:330px;
 --headermenu-bg:0deg 0% 29%;
 --headermenu-border-color:hsl(0deg 0% 45%);
@@ -46,8 +46,8 @@ body.night{
 --main-bg-diff:#2e2e2e;
 --pure-white:0 0 0;
 --pure-black:255 255 255;
---link-color:#5bab3f;
---dt-color:#26b54d;
+--link-color:#73a9ff;     /* 旧 #5bab3f */
+--dt-color:#7fb3ff;       /* 旧 #26b54d */
 --color-eee:#393939;
 --color-ddd:#414141;
 --color-ccc:#555;
@@ -56,13 +56,13 @@ body.night{
 --color-444:#ddd;
 --dark-border:rgb(0 0 0 / 30%);
 --input-bg:#2d2e2e;
---brand:hsl(100deg 60% 18%);
---brand-dark:hsl(100deg 60% 16%);
---brand-bright:hsl(100deg 60% 23%);
---brand-light:hsl(100deg 14% 22%);
---brand-pale:hsl(100deg 4% 18%);
+--brand:hsl(210deg 60% 18%);
+--brand-dark:hsl(210deg 60% 16%);
+--brand-bright:hsl(210deg 60% 23%);
+--brand-light:hsl(210deg 14% 22%);
+--brand-pale:hsl(210deg 4% 18%);
 --sprite-doujou-url:url(img/sprite_doujou_night.png);
---selection-bg:hsl(100deg 15% 40%);
+--selection-bg:hsl(210deg 15% 40%);
 --headermenu-bg:0deg 0% 17%;
 --headermenu-border-color:hsl(0deg 0% 21%);
 }
@@ -79,11 +79,11 @@ body.beige{
 --color-ccc:color-mix(in srgb, #ccc var(--mix-ratio), var(--beige));
 --input-bg:color-mix(in srgb, #fff 65%, var(--beige));
 --checkbox-bg:color-mix(in srgb, #666 var(--mix-ratio-brand), var(--beige));
---brand:color-mix(in srgb, hsl(100deg 75% 20%) var(--mix-ratio-brand), var(--beige));
---brand-dark:color-mix(in srgb, hsl(100deg 75% 17%) var(--mix-ratio-brand), var(--beige));
---brand-bright:color-mix(in srgb, hsl(100deg 75% 25%) var(--mix-ratio-brand), var(--beige));
---brand-light:color-mix(in srgb, hsl(100deg 75% 85%) var(--mix-ratio-brand), var(--beige));
---brand-pale:color-mix(in srgb, hsl(100deg 75% 97%) var(--mix-ratio-brand), var(--beige));
+--brand:color-mix(in srgb, hsl(210deg 75% 20%) var(--mix-ratio-brand), var(--beige));
+--brand-dark:color-mix(in srgb, hsl(210deg 75% 17%) var(--mix-ratio-brand), var(--beige));
+--brand-bright:color-mix(in srgb, hsl(210deg 75% 25%) var(--mix-ratio-brand), var(--beige));
+--brand-light:color-mix(in srgb, hsl(210deg 75% 85%) var(--mix-ratio-brand), var(--beige));
+--brand-pale:color-mix(in srgb, hsl(210deg 75% 97%) var(--mix-ratio-brand), var(--beige));
 }
 
 .night .kako img{filter:invert(1) hue-rotate(180deg)}
