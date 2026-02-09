@@ -504,7 +504,7 @@ $(function() {
             dataType: "json"
         }).done(function(e) {
             if ("success" == e.status)
-                $(a).html('<h2>パスワードをリセットしました</h2><div class="img_margin"><img src="/img/ext/mail.png" style="max-height:170px;"></div><div class="message">仮パスワードを記載したメールを送信しました。メールに記載された手順に従ってアカウントへのアクセスを回復させてください。</div>');
+                $(a).html('<h2>パスワードをリセットしました</h2><div class="img_margin"><img src="/static/core/img/ext/mail.png" style="max-height:170px;"></div><div class="message">仮パスワードを記載したメールを送信しました。メールに記載された手順に従ってアカウントへのアクセスを回復させてください。</div>');
             else if ("error" == e.status)
                 switch (s.prop("disabled", !1).removeClass("disabled"),
                 e.errorcode) {
@@ -1954,7 +1954,7 @@ $(function() {
         }).done(function(e) {
             if ("success" == e.status) {
                 delete k.email;
-                var a = '<div class="img_margin"><img src="/img/ext/mail.png" style="max-height:170px;"><div class="message-headline"><u>"' + r.email + '"に<br>本人確認用のメールを送信しました</u></div><div class="message-detail">メール本文中の認証用URLにアクセスして登録を完了させてください。</div><button id="edit_ok" data-flag="2">戻る</button></div>';
+                var a = '<div class="img_margin"><img src="/static/core/img/ext/mail.png" style="max-height:170px;"><div class="message-headline"><u>"' + r.email + '"に<br>本人確認用のメールを送信しました</u></div><div class="message-detail">メール本文中の認証用URLにアクセスして登録を完了させてください。</div><button id="edit_ok" data-flag="2">戻る</button></div>';
                 $("#overLayer h2").html($("#overLayer h2").html() + " &raquo; 仮登録完了"),
                 $("#slider>div").eq(2).html(a),
                 $("#slider").animate({

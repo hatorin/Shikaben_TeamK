@@ -25,9 +25,9 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-secret-key-for-local')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '10.250.159.177']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '10.250.157.164']
 
-SITE_URL = "http://10.250.159.177:8000"
+SITE_URL = "http://10.250.157.164:8000"
 
 # Application definition
 
