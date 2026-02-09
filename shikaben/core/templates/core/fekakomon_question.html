@@ -22,7 +22,7 @@
 <meta name="keywords" content="基本情報技術者,過去問題">
 
 <meta property="og:site_name" content="基本情報技術者試験ドットコム">
-<meta property="og:title" content="基本情報技術者試験過去問道場　第{{ qno }}問">
+<meta property="og:title" content="シカベン　第{{ qno }}問">
 <meta property="og:type" content="article">
 <meta property="og:image" content="https://www.fe-siken.com/img/ogimage_doujou.png">
 <meta property="og:url" content="https://www.fe-siken.com/fekakomon.html">
@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="{% static 'core/css/style.css' %}?20260202">
 <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
 
-<title>基本情報技術者試験過去問道場　第{{ qno }}問｜基本情報技術者試験.com</title>
+<title>シカベン　第{{ qno }}問｜基本情報技術者試験.com</title>
 </head>
 
 <body>
@@ -57,10 +57,10 @@ if (typeof localStorage !== undefined) {
       <ul>
         <li id="fastMenuBtn"><a href="/kakomon/07_haru/" title="過去問題解説">過去問題解説</a>
         <li><a href="/feis.html" title="基本情報技術者とは">基本情報技術者とは</a>
-        <li><a href="/fekakomon.html" title="Webアプリ過去問道場">過去問道場</a>
+        <li><a href="/fekakomon.html" title="Webアプリシカベン">シカベン</a>
           <ul>
-            <li><a href="/fekakomon.html">過去問道場（科目A）</a>
-            <li><a href="/fekakomon_pm.php">過去問道場（旧・午後試験）</a>
+            <li><a href="/fekakomon.html">シカベン（科目A）</a>
+            <li><a href="/fekakomon_pm.php">シカベン（旧・午後試験）</a>
           </ul>
         <li><a href="/febbs.php" title="基本情報技術者掲示板">掲示板</a>
         <li><a href="/keyword/" title="シラバス用語集">用語集</a>
@@ -91,13 +91,13 @@ if (typeof localStorage !== undefined) {
 
       <div class="pan">
         <a href="/">HOME</a>&raquo;
-        <a href="/fekakomon.html">基本情報技術者過去問道場</a>&raquo;
+        <a href="/fekakomon.html">シカベン</a>&raquo;
         <b>{{ qno }}問目</b>
       </div>
 
       <div class="main kako doujou">
         <h2>
-          基本情報技術者試験 過去問道場
+          シカベン
 
           <button type="button" id="userBtn" class="{% if user.is_authenticated %}login{% endif %}">
             <i class="user"></i>
@@ -277,13 +277,13 @@ if (typeof localStorage !== undefined) {
 
   <div class="drawer_header">学習支援ツール</div>
   <ul>
-    <li><a href="/fekakomon.html" title="過去問道場(科目A)" data-tip="人気">
+    <li><a href="/fekakomon.html" title="シカベン(科目A)" data-tip="人気">
       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M798.85-272.69 719.31-353l22.54-22.54 80.3 79.54-23.3 23.31ZM685-690.08l-22.54-21.54L742-791.15l23.31 22.53L685-690.08Zm-410 .77-79.54-80.31L218-792.15l80.31 79.53L275-689.31ZM160.38-272.69 137.85-296l79.53-78.54L240.69-353l-80.31 80.31Zm156.24 21L480-348.46l165.15 97.54-43.23-183.23 141.77-121.16-187.77-16.84L480-746.08l-75.15 173.93-187.77 16.07 142.77 121.93-43.23 182.46Zm-49 66.69 56.84-236L136-580.77l246.77-20.92L480-825l98 224.31 246.77 19.92L636.31-421l56.84 236L480-310.62 267.62-185Zm213.15-314Z"/></svg>
-      過去問道場(科目A)</a></li>
+      シカベン(科目A)</a></li>
 
-    <li><a href="/fekakomon_pm.php" title="過去問道場(旧・午後試験)">
+    <li><a href="/fekakomon_pm.php" title="シカベン(旧・午後試験)">
       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="m397-428.92 31.15-103.23-82-60.16h102.47L480-696.62l31.38 104.31h102.47l-82.23 60.16 31.15 103.23L480-493l-83 64.08ZM280-101.54v-263.61q-38-37.39-59-87.54-21-50.16-21-107.31 0-117.08 81.46-198.54T480-840q117.08 0 198.54 81.46T760-560q0 57.15-21 107.31-21 50.15-59 87.54v263.61l-200-60-200 60ZM480-320q100 0 170-70t70-170q0-100-70-170t-170-70q-100 0-170 70t-70 170q0 100 70 170t170 70ZM320-158.23l160-44.85 160 44.85v-173.23q-33.46 24.61-74.35 38.04Q524.77-280 480-280t-85.65-13.42q-40.89-13.43-74.35-38.04v173.23Zm160-86.62Z"/></svg>
-      過去問道場(旧・午後試験)</a></li>
+      シカベン(旧・午後試験)</a></li>
 
     <li><a href="/febbs.php" title="掲示板" data-tip="質問・相談">
       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M260-404h296v-32H260v32Zm0-132h440v-32H260v32Zm0-132h440v-32H260v32ZM136-172.92v-594.46q0-24.32 16.15-40.47T192.62-824h574.76q24.32 0 40.47 16.15T824-767.38v430.76q0 24.32-16.15 40.47T767.38-280h-524.3L136-172.92ZM230-312h537.38q9.24 0 16.93-7.69 7.69-7.69 7.69-16.93v-430.76q0-9.24-7.69-16.93-7.69-7.69-16.93-7.69H192.62q-9.24 0-16.93 7.69-7.69 7.69-7.69 16.93v518.15L230-312Zm-62 0v-480 480Z"/></svg>

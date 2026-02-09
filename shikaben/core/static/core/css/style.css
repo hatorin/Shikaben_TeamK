@@ -562,7 +562,7 @@ li[class^="maru"]::before{counter-increment:marucount;content:counter(marucount)
 100%{left:-1em;top:-1em;opacity:0}
 }
 
-/* 過去問道場 */
+/* シカベン */
 .bonusMessage{background:#f9f9f9;border:2px dotted #aaa;font-size:15px;padding:5px;margin-bottom:1em}
 #configform .bottomBtns{position:relative;text-align:center;margin:40px 0}
 .bottomBtns .btn{position:absolute;top:auto;bottom:0}
