@@ -133,10 +133,7 @@ if (typeof localStorage !== 'undefined') {
       <p id="mes"></p>
       <img id="statusImage" alt="">
       <p id="submes"></p>
-
-      <div class="img_margin">
-        <button type="button" id="backBtn" class="resultBtn">戻る</button>
-      </div>
+      
     </div>
   </div>
 </main>
@@ -211,9 +208,9 @@ if (typeof localStorage !== 'undefined') {
   const sub = document.getElementById("submes");
   const img = document.getElementById("statusImage");
 
-  const successImage = "/img/ext/22.png";
-  const errorImage   = "/img/ext/error.png";
-  const mailImage    = "/img/ext/mail.png";
+  const successImage = "{% static 'core/img/ext/22.png' %}";
+  const errorImage   = "{% static 'core/img/ext/error.png' %}";
+  const mailImage    = "{% static 'core/img/ext/mail.png' %}";
 
   // デフォルト（不正/未指定）
   let m = "認証に失敗しました。";
